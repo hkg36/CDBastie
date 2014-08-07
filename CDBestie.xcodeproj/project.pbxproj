@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17387A46199323220049B1A2 /* Merchandise.m in Sources */ = {isa = PBXBuildFile; fileRef = 17387A45199323220049B1A2 /* Merchandise.m */; };
 		863E51471986172800753B80 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 863E51181986172800753B80 /* AFHTTPRequestOperation.m */; };
 		863E51481986172800753B80 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 863E511A1986172800753B80 /* AFHTTPRequestOperationManager.m */; };
 		863E51491986172800753B80 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 863E511C1986172800753B80 /* AFHTTPSessionManager.m */; };
@@ -110,6 +111,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		17387A44199323220049B1A2 /* Merchandise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Merchandise.h; sourceTree = "<group>"; };
+		17387A45199323220049B1A2 /* Merchandise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Merchandise.m; sourceTree = "<group>"; };
 		863E510619860D8700753B80 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		863E510719860D8800753B80 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		863E51171986172800753B80 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -693,6 +696,8 @@
 				86B7F756198F32EF00749659 /* Message.m */,
 				86B7F757198F32EF00749659 /* User.h */,
 				86B7F758198F32EF00749659 /* User.m */,
+				17387A44199323220049B1A2 /* Merchandise.h */,
+				17387A45199323220049B1A2 /* Merchandise.m */,
 			);
 			path = ProtoType;
 			sourceTree = "<group>";
@@ -838,6 +843,7 @@
 				865610F319907B7300E2AC47 /* CDBBangCell.m in Sources */,
 				863E517B1986244000753B80 /* CDBMainLoginViewController.m in Sources */,
 				8653DBB31985F66600A8EE47 /* CDBAppDelegate.m in Sources */,
+				17387A46199323220049B1A2 /* Merchandise.m in Sources */,
 				86B33345198FB424004D86BD /* CDBChangeBirthNaviController.m in Sources */,
 				863E51481986172800753B80 /* AFHTTPRequestOperationManager.m in Sources */,
 				86A0C5BD1991214F0091462B /* ablmCell.m in Sources */,

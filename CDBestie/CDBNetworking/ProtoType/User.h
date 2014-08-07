@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Merchandise.h"
 
 @interface User : NSObject
 @property (nonatomic) long long uid;
@@ -43,8 +44,26 @@
 -(id)initWithJson:(NSDictionary*) data;
 @end
 
+@interface Endorsement : NSObject
+@property (nonatomic) int level;
+@property (nonatomic) long long endorsement_point;
+@property (nonatomic) int create_time;
+@property (nonatomic) int endorsement_type;
+@property (nonatomic) long long consumer_point;
+@property (nonatomic,strong) NSArray* type;
+-(id)initWithJson:(NSDictionary*) data;
+@end
+
+@interface EndorsList : NSObject
+@property (nonatomic) int create_time;
+@property (strong,nonatomic) NSString *slogan;
+@property (strong,nonatomic) Merchandise *merchandise;
+-(id)initWithJson:(NSDictionary*) data;
+@end
+
 @interface UserInfo2:NSObject
 @property (nonatomic,strong) User *user;
 @property (nonatomic,strong) NSArray *circles;
+@property (nonatomic,strong) Endorsement* endorsement;
 -(id)initWithJson:(NSDictionary*) data;
 @end

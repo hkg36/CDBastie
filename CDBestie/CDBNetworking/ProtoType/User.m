@@ -51,9 +51,41 @@
 }
 @end
 
+@implementation Endorsement
+-(id)initWithJson:(NSDictionary*) data
+{
+    if(self==nil)
+        return nil;
+    self.level=IntFromJson([data valueForKey:@"level"]);
+    self.endorsement_point=LongFromJson([data valueForKey:@"endorsement_point"]);
+    self.create_time=IntFromJson([data valueForKey:@"create_time"]);
+    self.endorsement_type=IntFromJson([data valueForKey:@"endorsement_type"]);
+    self.consumer_point=LongFromJson([data valueForKey:@"consumer_point"]);
+    self.type=[data valueForKey:@"type"];
+    return self;
+}
+@end
+
+@implementation EndorsList
+-(id)initWithJson:(NSDictionary*) data
+{
+    if(self==nil)
+        return nil;
+    
+    self.create_time=IntFromJson([data valueForKey:@"create_time"]);
+    self.slogan=StringFromJson([data valueForKey:@"slogan"]);
+    self.merchandise=[[Merchandise alloc] initWithJson:[data valueForKeyPath:@"merchandise"]];
+    
+    return self;
+}
+@end
+
 @implementation UserInfo2
 -(id)initWithJson:(NSDictionary*) data
 {
+    if(self==nil)
+        return nil;
+    
     NSDictionary *node_user=[data objectForKey:@"user"];
     if(node_user)
         self.user=[[User alloc] initWithJson:node_user];
@@ -67,6 +99,19 @@
             [cs addObject:info];
         }
         self.circles=cs;
+    }
+    NSDictionary *node_endorsement=[data valueForKeyPath:@"endorsement"];
+    if(node_endorsement)
+        self.endorsement=[[Endorsement alloc] initWithJson:node_endorsement];
+    
+    NSArray *endors_list=[data valueForKey:@"endors_list"];
+    if(endors_list)
+    {
+        NSMutableArray *elist=[NSMutableArray new];
+        for(NSDictionary *one_line in endors_list)
+        {
+            [elist addObject:[[EndorsList alloc] initWithJson:one_line]];
+        }
     }
     return self;
 }
