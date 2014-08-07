@@ -203,7 +203,7 @@
         [alert show];
         return;
     }
-    NSString * requestString = [NSString stringWithFormat:@"%@/PhoneLogin?phone=%@&code=%@&cryptsession=1",CDBestieURLString,phone,identCode];
+    NSString * requestString = [NSString stringWithFormat:@"%@PhoneLogin?phone=%@&code=%@&cryptsession=1",CDBestieURLString,phone,identCode];
     NSError *error;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestString]];
     [request setTimeoutInterval:3.0];
