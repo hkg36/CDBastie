@@ -1068,10 +1068,10 @@
             </objects>
             <point key="canvasLocation" x="758" y="17"/>
         </scene>
-        <!--Table View Controller - 个人信息-->
+        <!--Endorse Info Controller - 个人信息-->
         <scene sceneID="BzB-3o-w9w">
             <objects>
-                <tableViewController restorationIdentifier="ACDBEndorseInfoController" storyboardIdentifier="ACDBEndorseInfoController" hidesBottomBarWhenPushed="YES" id="mdH-49-yqH" sceneMemberID="viewController">
+                <tableViewController restorationIdentifier="ACDBEndorseInfoController" storyboardIdentifier="ACDBEndorseInfoController" hidesBottomBarWhenPushed="YES" id="mdH-49-yqH" customClass="ACDBEndorseInfoController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="tIl-Dz-Kwz">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
