@@ -65,5 +65,6 @@
 @property (nonatomic,strong) User *user;
 @property (nonatomic,strong) NSArray *circles;
 @property (nonatomic,strong) Endorsement* endorsement;
+@property (nonatomic,strong) NSArray *endors_list;
 -(id)initWithJson:(NSDictionary*) data;
 @end
