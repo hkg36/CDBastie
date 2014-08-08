@@ -365,7 +365,7 @@
          [cell.userNick sizeToFit];
          [cell.userInfo sizeToFit];
          cell.userLevel.userInteractionEnabled = NO;
-         int value = arc4random()%99;
+         int value = userInfo.endorsement.level;
          if (value == 0) {
              [cell.userLevel setBackgroundImage:[UIImage imageNamed:@"daiyan_liebiao_lingjiicon"] forState:UIControlStateNormal];
           [cell.userLevel setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
@@ -382,6 +382,36 @@
          NSLog(@"levelText = %@",[NSString stringWithFormat:@"LV%d",value]);
          [cell.userLevel.titleLabel sizeToFit];
          cell.userLevel.titleLabel.textAlignment = NSTextAlignmentCenter;
+         
+         if(userInfo.endors_list){
+             
+             NSString *cs=[[userInfo.endors_list[0] valueForKey:@"merchandise"]valueForKey:@"productname"];
+             int i;
+             for(i=1;i < [userInfo.endors_list count];i++)
+             {
+                 NSDictionary *temp = userInfo.endors_list[i];
+                 
+                 cs =[NSString stringWithFormat:@"%@ | %@",cs,[[temp valueForKey:@"merchandise"]valueForKey:@"productname"]];
+             }
+             cell.userGoods.text = cs;
+         }
+         
+         //以下方法 当icol_url为空会crash
+         /*
+         if(userInfo.endors_list){
+             Merchandise *ct =[[Merchandise alloc]initWithJson:userInfo.endors_list[0]];
+             NSString *cs=ct.productname;
+             int i;
+             for(i=1;i < [userInfo.endors_list count];i++)
+             {
+                 ct =[[Merchandise alloc]initWithJson:userInfo.endors_list[i]];
+                 NSString *temp =ct.productname;
+                 
+                 cs =[NSString stringWithFormat:@"%@ | %@",cs,temp];
+             }
+             cell.userGoods.text = cs;
+         }
+          */
      }];
     return cell;
 }
