@@ -112,6 +112,7 @@
         {
             [elist addObject:[[EndorsList alloc] initWithJson:one_line]];
         }
+        self.endors_list=elist;
     }
     return self;
 }
