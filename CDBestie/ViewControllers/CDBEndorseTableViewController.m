@@ -127,14 +127,17 @@
 -(void)initHomeData
 {
     [SVProgressHUD show];
-    NSDictionary * parames = @{@"uid":[USER_DEFAULT objectForKey:@"USERINFO_UID"],@"pos":@0,@"count":@1000};
-    [[WebSocketManager instance]sendWithAction:@"user.friend_list" parameters:parames callback:^(WSRequest *request, NSDictionary *result){
+    NSDictionary * parames = @{};
+    [[WebSocketManager instance]sendWithAction:@"endorsement.list_user" parameters:parames callback:^(WSRequest *request, NSDictionary *result){
         if(request.error_code!=0)
         {
             [SVProgressHUD dismiss];
+            //_picHint.hidden = NO;
+            //_picHint.text = @"加载失败,请检查网络";
             return;
         }
-        friend_list = result[@"friend_id"];
+        NSLog(@"%@",result);
+        friend_list = result[@"users"];
         [SVProgressHUD dismiss];
         [self.tableView reloadData];
     }];
