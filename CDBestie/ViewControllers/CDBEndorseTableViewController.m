@@ -337,22 +337,42 @@
              user_JOB = @"保密";
          }
          
-         NSTimeInterval birth = userInfo.user.birthday;
-         NSLog(@"birth = %f",birth);
 
-         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-         NSDate *date = [NSDate dateWithTimeIntervalSince1970:birth];
-         
-         NSTimeInterval dateDiff = [date timeIntervalSinceNow];
-         
-         int age=trunc(dateDiff/(60*60*24))/365;
-         if (age<0) {
-             age = abs(age);
+         NSString *infoString = nil;
+         if(userInfo.user.birthday)
+         {
+             NSTimeInterval birth = userInfo.user.birthday;
+             NSLog(@"birth = %f",birth);
+
+             NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+             NSDate *now;
+             NSDateComponents *comps = [[NSDateComponents alloc] init];
+             NSInteger unitFlags =  NSYearCalendarUnit |
+             NSMonthCalendarUnit |
+             NSDayCalendarUnit |
+             NSWeekdayCalendarUnit |
+             NSHourCalendarUnit |
+             NSMinuteCalendarUnit |
+             NSSecondCalendarUnit;
+             now=[NSDate date];
+             comps = [calendar components:unitFlags fromDate:now];
+             
+             NSInteger year = [comps year];
+             
+             int age=year - birth;
+             
+             if (age<0) {
+                 age = abs(age);
+             }
+             NSLog(@"age = %d",age);
+             NSLog(@"birth = %ld",(long)birth);
+             infoString = [NSString stringWithFormat:@"%@ | %@ | %d岁",user_SEX,user_JOB,age];
          }
-         NSLog(@"age = %d",age);
-         NSLog(@"birth = %ld",(long)birth);
-         NSString *infoString = [NSString stringWithFormat:@"%@ | %@ | %d岁",user_SEX,user_JOB,age];
+         else
+         {
+             infoString = [NSString stringWithFormat:@"%@ | %@ | 保密",user_SEX,user_JOB];
+         }
+
          CGSize StringSize = [infoString
                      sizeWithFont:[UIFont systemFontOfSize:15.0f]
                           constrainedToSize:cell.userNick.frame.size
