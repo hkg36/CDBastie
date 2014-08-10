@@ -304,7 +304,14 @@
                 {
                     [defaults setObject:@"" forKey:@"USERINFO_HEADPIC"];
                 }
-                
+                if(myUserInfo.job)
+                {
+                    [defaults setObject:myUserInfo.job forKey:@"USERINFO_JOB"];
+                }
+                else
+                {
+                    [defaults setObject:@"" forKey:@"USERINFO_JOB"];
+                }
                 [defaults synchronize];
                 NSLog(@"%@",myUserInfo.nick);
                 [SVProgressHUD dismiss];
