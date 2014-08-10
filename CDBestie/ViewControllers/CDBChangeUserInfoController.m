@@ -131,21 +131,30 @@
                 }
                 else
                 {
-                    NSTimeInterval birth = self.birth;
-                    NSLog(@"birth = %f",birth);
+                    int birth = self.birth;
+                    NSLog(@"birth = %d",birth);
                     NSLog(@"self.birth = %d",self.birth);
-                    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-                    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:self.birth];
+                    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+                    NSDate *now;
+                    NSDateComponents *comps = [[NSDateComponents alloc] init];
+                    NSInteger unitFlags =  NSYearCalendarUnit |
+                    NSMonthCalendarUnit |
+                    NSDayCalendarUnit |
+                    NSWeekdayCalendarUnit |
+                    NSHourCalendarUnit |
+                    NSMinuteCalendarUnit |
+                    NSSecondCalendarUnit;
+                    now=[NSDate date];
+                    comps = [calendar components:unitFlags fromDate:now];
+                    
+                    NSInteger year = [comps year];
 
-                    NSTimeInterval dateDiff = [date timeIntervalSinceNow];
-
-                    int age=trunc(dateDiff/(60*60*24))/365;
+                    int age=year - birth;
                     if (age<0) {
                         age = abs(age);
                     }
                     NSLog(@"age = %d",age);
-                    NSLog(@"birth = %ld",(long)birth);
+                    NSLog(@"birth = %d",birth);
                     [USER_DEFAULT setInteger:age forKey:@"USERINFO_AGE"];
                     self.Label_age.text =[NSString stringWithFormat:@"%d",age];
                 }
