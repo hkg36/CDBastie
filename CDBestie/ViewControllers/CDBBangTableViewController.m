@@ -17,7 +17,10 @@
 #import "UIImageView+AFNetworking.h"
 #import "SVProgressHUD.h"
 #import "ACDBEndorseInfoController.h"
-#import "CDBEndorseCell.h"
+
+#import "AFHTTPRequestOperationManager.h"
+#define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
+
 
 @interface CDBBangTableViewController ()
 {
@@ -40,14 +43,12 @@
 {
     self = [super initWithStyle:style];
     if (self) {
-        // Custom initialization
     }
     return self;
 }
 
 - (void)viewDidLoad
 {
-
     [self initHomeData];
     
     
@@ -60,15 +61,24 @@
     self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height + 44);
     titleLabImage.hidden = NO;
     titlelab.hidden = NO;
+    if (!friend_list) {
         [self initHomeData];
+    }
+    else
+    {
+        [self.tableView reloadData];
+    }
     
 }
 
 -(void)viewDidDisappear:(BOOL)animated
 {
+    
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
+
+    
 }
 
 -(void)initHomeData
@@ -79,11 +89,8 @@
         if(request.error_code!=0)
         {
             [SVProgressHUD dismiss];
-            //_picHint.hidden = NO;
-            //_picHint.text = @"加载失败,请检查网络";
             return;
         }
-        NSLog(@"%@",result);
         friend_list = result[@"users"];
         [SVProgressHUD dismiss];
         [self.tableView reloadData];
@@ -111,22 +118,17 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
-    // Return the number of rows in the section.
     [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     if (friend_list) {
         if ([friend_list count]<10) {
@@ -141,20 +143,15 @@
 
 - (CGFloat)tableView:(__unused UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
     return 80.0f;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ACDBEndorseInfoController  * navi = [self.storyboard instantiateViewControllerWithIdentifier:@"ACDBEndorseInfoController"];
     navi.userUid = [[[friend_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
-    CDBEndorseCell *cell =(CDBEndorseCell*) [self.tableView cellForRowAtIndexPath:indexPath];
-    navi.title = cell.userNick.text;
     [self.navigationController pushViewController:navi animated:YES];
-
 }
 
 
@@ -166,14 +163,14 @@
     }
     
     cell.celluid = [[[friend_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
-    
-    // Configure the cell...
     NSString* cell_uid = [[friend_list objectAtIndex:indexPath.row] objectForKey:@"uid"];
     NSLog(@"cell_uid = %@",cell_uid);
     NSDictionary * parames = @{@"uid":cell_uid};
     
     [[WebSocketManager instance]sendWithAction:@"user.info2" parameters:parames callback:^(WSRequest *request, NSDictionary *result)
      {
+         
+         NSLog(@"result = %@",result);
          if ([[request.parm valueForKey:@"uid"] longLongValue]!=cell.celluid) {
              return;
          }
@@ -185,7 +182,6 @@
          NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
          NSURL *imageURL = [NSURL URLWithString:imageString];
          [cell.userIcon setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
-         
          NSString *user_SEX;
          NSString *user_JOB;
          if (userInfo.user.sex == 1) {
@@ -217,19 +213,10 @@
          NSLog(@"age = %d",age);
          NSLog(@"birth = %ld",(long)birth);
          NSString *infoString = [NSString stringWithFormat:@"%@ | %@ | %d岁",user_SEX,user_JOB,age];
-         //cell.userInfo.text = infoString;
-         
-         
          CGSize StringSize = [infoString
                               sizeWithFont:[UIFont systemFontOfSize:18.0f]
                               constrainedToSize:cell.userNick.frame.size
                               lineBreakMode:cell.userNick.lineBreakMode];
-         
-         
-         
-         
-         //Adjust the size of the UILable
-         
          
          cell.userNick.frame = CGRectMake(cell.userNick.frame.origin.x,
                                           cell.userNick.frame.origin.y,
@@ -240,7 +227,7 @@
          [cell.userInfo sizeToFit];
          
          cell.userLevel.userInteractionEnabled = NO;
-         int value = arc4random()%99;
+         int value = userInfo.endorsement.level;
          if (value == 0) {
              [cell.userLevel setBackgroundImage:[UIImage imageNamed:@"daiyan_liebiao_lingjiicon"] forState:UIControlStateNormal];
              [cell.userLevel setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
@@ -257,9 +244,13 @@
          NSLog(@"levelText = %@",[NSString stringWithFormat:@"LV%d",value]);
          [cell.userLevel.titleLabel sizeToFit];
          cell.userLevel.titleLabel.textAlignment = NSTextAlignmentCenter;
-     }];
+         
+         cell.userGoods.text = [NSString stringWithFormat:@"我的积分:%lld",userInfo.endorsement.endorsement_point];;
+        }];
+
     return cell;
 }
+
 
 
 @end
