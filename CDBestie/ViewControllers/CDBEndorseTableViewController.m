@@ -21,7 +21,7 @@
 #import "SVProgressHUD.h"
 #import "CDBBangNaviController.h"
 #import "CDBBangTableViewController.h"
-
+#import "ACDBEndorseInfoController.h"
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
 
 
@@ -288,6 +288,12 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    ACDBEndorseInfoController  * navi = [self.storyboard instantiateViewControllerWithIdentifier:@"ACDBEndorseInfoController"];
+    navi.userUid = [[[friend_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
+    CDBEndorseCell *cell =(CDBEndorseCell*) [self.tableView cellForRowAtIndexPath:indexPath];
+    navi.title = cell.userNick.text;
+    [self.navigationController pushViewController:navi animated:YES];
 }
 
 

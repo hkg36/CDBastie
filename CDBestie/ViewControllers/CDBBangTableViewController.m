@@ -16,7 +16,8 @@
 #import "tools.h"
 #import "UIImageView+AFNetworking.h"
 #import "SVProgressHUD.h"
-
+#import "ACDBEndorseInfoController.h"
+#import "CDBEndorseCell.h"
 
 @interface CDBBangTableViewController ()
 {
@@ -147,6 +148,12 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    ACDBEndorseInfoController  * navi = [self.storyboard instantiateViewControllerWithIdentifier:@"ACDBEndorseInfoController"];
+    navi.userUid = [[[friend_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
+    CDBEndorseCell *cell =(CDBEndorseCell*) [self.tableView cellForRowAtIndexPath:indexPath];
+    navi.title = cell.userNick.text;
+    [self.navigationController pushViewController:navi animated:YES];
 
 }
 
