@@ -116,6 +116,12 @@
     [SVProgressHUD show];
     
     {
+        if ([self.NickText.text isEqualToString:@""]) {
+            [SVProgressHUD dismiss];
+            UIAlertView  * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"昵称不能为空" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            [alert show];
+            return;
+        }
         int sex = 0;
         if (self.NickText.text.length > 1) {
             
