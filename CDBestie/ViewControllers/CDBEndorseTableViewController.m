@@ -55,11 +55,11 @@
         CGSize navSize = CGSizeMake(20 , 20);
         UIImage *menuImage = [self scaleToSize:[UIImage imageNamed:@"daiyan_list"] size:navSize];
         ;
-        //UIImage *searchImage = [self scaleToSize:[UIImage imageNamed:@"composeIcon"] size:navSize];
+        UIImage *searchImage = [self scaleToSize:[UIImage imageNamed:@"composeIcon"] size:navSize];
         ;
         UIBarButtonItem * menubar = [[UIBarButtonItem alloc] initWithImage:menuImage style:UIBarButtonItemStyleDone target:self action:@selector(menubarClick)];
-        //UIBarButtonItem * mySearchbar = [[UIBarButtonItem alloc] initWithImage:searchImage style:UIBarButtonItemStyleDone target:self action:@selector(mySearchbarClick)];
-        self.navigationItem.rightBarButtonItems = @[menubar];
+        UIBarButtonItem * mySearchbar = [[UIBarButtonItem alloc] initWithImage:searchImage style:UIBarButtonItemStyleDone target:self action:@selector(mySearchbarClick)];
+        self.navigationItem.rightBarButtonItems = @[menubar,mySearchbar];
         UIImageView *tempLabImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"daiyan_logo"]];
         titleLabImage = tempLabImage;
         UILabel *templab = [[UILabel alloc]init];
@@ -80,41 +80,27 @@
         NSString *sessionid = [defaults objectForKey:@"SESSION_ID"];
         
         
-       // NSString *user_nick = [defaults objectForKey:@"USERINFO_NICK"];
+        NSString *user_nick = [defaults objectForKey:@"USERINFO_NICK"];
         
         
         
         NSLog(@"sessionid = %@",sessionid);
-        //NSLog(@"nick = %@",user_nick);
+        NSLog(@"nick = %@",user_nick);
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             if (!sessionid) {
                 [self OpenLoginview:nil];
             }else{
-                if ([USER_DEFAULT integerForKey:@"USERINFO_UID"]) {
-                    NSDictionary * parames = @{@"uid":@([USER_DEFAULT integerForKey:@"USERINFO_UID"])};
-                    [[WebSocketManager instance]sendWithAction:@"user.info2" parameters:parames callback:^(WSRequest *request, NSDictionary *result)
-                     {
-                          NSLog(@"result = %@",result);
-                         UserInfo2 *myuserInfo = [[UserInfo2 alloc]initWithJson:result];
-                         NSLog(@"nick = %@",myuserInfo.user.nick);
-                         if(!myuserInfo.user.nick)
-                         {
-                             [self completeUserInfoview:nil];
-                         }
-                         else
-                         {
-                          [self initHomeData];
-                            
-                         }
-                         
-                     }];
+                if(!user_nick||[user_nick isEqual:@""])
+                {
+                    [self completeUserInfoview:nil];
                 }
-               
+                
+                [self initHomeData];
                 
             }
         });
-
+        
     }
     if([self.title isEqual:@"排行榜"])
     {
@@ -240,10 +226,15 @@
 }
 -(void)mySearchbarClick
 {
+    /*
     CDBChangeUserInfoController *navi = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBChangeUserInfoController"];
     navi.title = @"个人资料";
     [self hiddenMenu];
-    
+     */
+
+    [USER_DEFAULT setObject:@"" forKey:@"USERINFO_NICK"];
+    UIAlertView  * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"注销成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    [alert show];
 }
 
 - (IBAction)myInfoShow:(id)sender {
