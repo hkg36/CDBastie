@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "idiom" : "iphone",
+      "idiom" : "universal",
       "scale" : "1x",
       "filename" : "daiyan_liebiao_lingjiicon.png"
     },
     {
-      "idiom" : "iphone",
+      "idiom" : "universal",
       "scale" : "2x",
       "filename" : "daiyan_liebiao_lingjiicon@2x.png"
     }

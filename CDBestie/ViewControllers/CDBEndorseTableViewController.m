@@ -53,13 +53,13 @@
 {
     if (![self.title isEqual:@"排行榜"]) {
         CGSize navSize = CGSizeMake(20 , 20);
-        UIImage *menuImage = [self scaleToSize:[UIImage imageNamed:@"composeIcon"] size:navSize];
+        UIImage *menuImage = [self scaleToSize:[UIImage imageNamed:@"daiyan_list"] size:navSize];
         ;
-        UIImage *searchImage = [self scaleToSize:[UIImage imageNamed:@"composeIcon"] size:navSize];
+        //UIImage *searchImage = [self scaleToSize:[UIImage imageNamed:@"composeIcon"] size:navSize];
         ;
         UIBarButtonItem * menubar = [[UIBarButtonItem alloc] initWithImage:menuImage style:UIBarButtonItemStyleDone target:self action:@selector(menubarClick)];
-        UIBarButtonItem * mySearchbar = [[UIBarButtonItem alloc] initWithImage:searchImage style:UIBarButtonItemStyleDone target:self action:@selector(mySearchbarClick)];
-        self.navigationItem.rightBarButtonItems = @[menubar,mySearchbar];
+        //UIBarButtonItem * mySearchbar = [[UIBarButtonItem alloc] initWithImage:searchImage style:UIBarButtonItemStyleDone target:self action:@selector(mySearchbarClick)];
+        self.navigationItem.rightBarButtonItems = @[menubar];
         UIImageView *tempLabImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"daiyan_logo"]];
         titleLabImage = tempLabImage;
         UILabel *templab = [[UILabel alloc]init];
@@ -191,8 +191,8 @@
              [clientview.btn1 addTarget:self action:@selector(hiddenMenu) forControlEvents:UIControlEventTouchDown];
             [clientview.btn2 addTarget:self action:@selector(hiddenMenu) forControlEvents:UIControlEventTouchDown];
             [clientview.btn3 addTarget:self action:@selector(hiddenMenu) forControlEvents:UIControlEventTouchDown];
-        [clientview.myBtn setBackgroundImage:[UIImage imageNamed:@"top_list_geren.png"] forState:UIControlStateNormal];
-        [clientview.myBtn setBackgroundImage:[UIImage imageNamed:@"top_list_geren_selected.png"] forState:UIControlStateSelected];
+        [clientview.myBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_geren"] forState:UIControlStateNormal];
+        [clientview.myBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_paihang"] forState:UIControlStateSelected];
         [clientview.myBtn addTarget:self action:@selector(myInfoShow:) forControlEvents:UIControlEventTouchUpInside];
         
         
