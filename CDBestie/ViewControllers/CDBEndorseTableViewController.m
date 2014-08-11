@@ -78,20 +78,39 @@
         
         NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
         NSString *sessionid = [defaults objectForKey:@"SESSION_ID"];
-        NSString *user_nick = [defaults objectForKey:@"USERINFO_NICK"];
+        
+        
+       // NSString *user_nick = [defaults objectForKey:@"USERINFO_NICK"];
+        
+        
+        
         NSLog(@"sessionid = %@",sessionid);
-        NSLog(@"nick = %@",user_nick);
+        //NSLog(@"nick = %@",user_nick);
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             if (!sessionid) {
                 [self OpenLoginview:nil];
             }else{
-                if(!user_nick)
-                {
-                    [self completeUserInfoview:nil];
+                if ([USER_DEFAULT integerForKey:@"USERINFO_UID"]) {
+                    NSDictionary * parames = @{@"uid":@([USER_DEFAULT integerForKey:@"USERINFO_UID"])};
+                    [[WebSocketManager instance]sendWithAction:@"user.info2" parameters:parames callback:^(WSRequest *request, NSDictionary *result)
+                     {
+                          NSLog(@"result = %@",result);
+                         UserInfo2 *myuserInfo = [[UserInfo2 alloc]initWithJson:result];
+                         NSLog(@"nick = %@",myuserInfo.user.nick);
+                         if(!myuserInfo.user.nick)
+                         {
+                             [self completeUserInfoview:nil];
+                         }
+                         else
+                         {
+                          [self initHomeData];
+                            
+                         }
+                         
+                     }];
                 }
-                
-                [self initHomeData];
+               
                 
             }
         });
@@ -192,12 +211,12 @@
             [clientview.btn2 addTarget:self action:@selector(hiddenMenu) forControlEvents:UIControlEventTouchDown];
             [clientview.btn3 addTarget:self action:@selector(hiddenMenu) forControlEvents:UIControlEventTouchDown];
         [clientview.myBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_geren"] forState:UIControlStateNormal];
-        [clientview.myBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_paihang"] forState:UIControlStateSelected];
+        [clientview.myBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_geren"] forState:UIControlStateSelected];
         [clientview.myBtn addTarget:self action:@selector(myInfoShow:) forControlEvents:UIControlEventTouchUpInside];
         
         
-        [clientview.bangBtn setBackgroundImage:[UIImage imageNamed:@"top_list_paihang.png"] forState:UIControlStateNormal];
-        [clientview.bangBtn setBackgroundImage:[UIImage imageNamed:@"top_list_paihang_selected.png"] forState:UIControlStateSelected];
+        [clientview.bangBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_paihang"] forState:UIControlStateNormal];
+        [clientview.bangBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_paihang"] forState:UIControlStateSelected];
         [clientview.bangBtn addTarget:self action:@selector(bangInfoShow:) forControlEvents:UIControlEventTouchUpInside];
         
     }else
