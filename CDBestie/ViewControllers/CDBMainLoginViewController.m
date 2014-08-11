@@ -47,7 +47,7 @@
     [super viewDidLoad];
     [phoneNumberText setDelegate:self];
     [identCodeText setDelegate:self];
-    [appName setText:@"川妹妹"];
+    //[appName setText:@"川妹妹"];
     [appName sizeToFit];
     UITapGestureRecognizer * tapges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [self.view addGestureRecognizer:tapges];

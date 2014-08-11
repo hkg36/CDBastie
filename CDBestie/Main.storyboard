@@ -240,7 +240,7 @@
                                             <action selector="getCode:" destination="kJU-wV-UNR" eventType="touchUpInside" id="nIN-Yx-79O"/>
                                         </connections>
                                     </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="成都闺蜜" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lNF-bw-BgL">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="lNF-bw-BgL">
                                         <rect key="frame" x="110" y="19" width="100" height="79"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="25"/>
@@ -279,7 +279,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" id="tJa-tr-9Cq">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_register" id="tJa-tr-9Cq">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
@@ -1038,7 +1038,7 @@
                                             <rect key="frame" x="180" y="18" width="30" height="15"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                            <state key="normal" title="LV3" backgroundImage="daiyan_liebiao_dengjiicon">
+                                            <state key="normal" backgroundImage="daiyan_liebiao_dengjiicon">
                                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -1260,6 +1260,7 @@
     </scenes>
     <resources>
         <image name="background" width="640" height="960"/>
+        <image name="background_register" width="320" height="568"/>
         <image name="daiyan_liebiao_daiyanicon" width="30" height="24"/>
         <image name="daiyan_liebiao_dengjiicon" width="30" height="15"/>
         <image name="fbc_TextEntryField_light_0_6_0_6" width="13" height="28"/>
