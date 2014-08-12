@@ -376,7 +376,7 @@
     if (indexPath.section == 1) {
         {
             NSArray *cs=[userInfo.endors_list[indexPath.row] valueForKey:@"merchandise"];
-            DZWebBrowser *webBrowser = [[DZWebBrowser alloc] initWebBrowserWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@sessionid=%@",[cs valueForKey:@"show_post_url"],[[NSUserDefaults standardUserDefaults] objectForKey:@"SESSION_ID"]]]];
+            DZWebBrowser *webBrowser = [[DZWebBrowser alloc] initWebBrowserWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?sessionid=%@",[cs valueForKey:@"show_post_url"],[[NSUserDefaults standardUserDefaults] objectForKey:@"SESSION_ID"]]]];
             webBrowser.showProgress = YES;
             webBrowser.allowOrder = YES;
             webBrowser.allowtoolbar = NO;
