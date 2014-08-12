@@ -59,7 +59,8 @@
         ;
         UIBarButtonItem * menubar = [[UIBarButtonItem alloc] initWithImage:menuImage style:UIBarButtonItemStyleDone target:self action:@selector(menubarClick)];
         UIBarButtonItem * mySearchbar = [[UIBarButtonItem alloc] initWithImage:searchImage style:UIBarButtonItemStyleDone target:self action:@selector(mySearchbarClick)];
-        self.navigationItem.rightBarButtonItems = @[menubar,mySearchbar];
+        UIBarButtonItem * loginoutBar = [[UIBarButtonItem alloc] initWithImage:searchImage style:UIBarButtonItemStyleDone target:self action:@selector(loginOut)];
+        self.navigationItem.rightBarButtonItems = @[menubar,mySearchbar,loginoutBar];
         UIImageView *tempLabImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"daiyan_logo"]];
         titleLabImage = tempLabImage;
         UILabel *templab = [[UILabel alloc]init];
@@ -88,7 +89,7 @@
         NSLog(@"nick = %@",user_nick);
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
-            if (!sessionid) {
+            if (!sessionid||[sessionid isEqualToString:@""]) {
                 [self OpenLoginview:nil];
             }else{
                 if(!user_nick||[user_nick isEqual:@""])
@@ -233,7 +234,20 @@
      */
 
     [USER_DEFAULT setObject:@"" forKey:@"USERINFO_NICK"];
-    UIAlertView  * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"注销成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    UIAlertView  * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"清除昵称成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    [alert show];
+}
+
+-(void)loginOut
+{
+    /*
+     CDBChangeUserInfoController *navi = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBChangeUserInfoController"];
+     navi.title = @"个人资料";
+     [self hiddenMenu];
+     */
+
+    [USER_DEFAULT setObject:@"" forKey:@"SESSION_ID"];
+    UIAlertView  * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"退出成功(未清除昵称)" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
     [alert show];
 }
 
