@@ -191,6 +191,7 @@
 -(void)showAlbm
 {
     NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
+    NSLog(@"%@",[defaults objectForKey:@"USERINFO_UID"]);
     [[WebSocketManager instance]sendWithAction:@"album.read" parameters:@{@"uid":[defaults objectForKey:@"USERINFO_UID"],@"count":@"4"} callback:^(WSRequest *request, NSDictionary *result) {
         NSLog(@"error_code = %d",request.error_code);
         NSLog(@"error = %@",request.error);
