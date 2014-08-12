@@ -60,7 +60,7 @@
         UIBarButtonItem * menubar = [[UIBarButtonItem alloc] initWithImage:menuImage style:UIBarButtonItemStyleDone target:self action:@selector(menubarClick)];
         UIBarButtonItem * mySearchbar = [[UIBarButtonItem alloc] initWithImage:searchImage style:UIBarButtonItemStyleDone target:self action:@selector(mySearchbarClick)];
         UIBarButtonItem * loginoutBar = [[UIBarButtonItem alloc] initWithImage:searchImage style:UIBarButtonItemStyleDone target:self action:@selector(loginOut)];
-        self.navigationItem.rightBarButtonItems = @[menubar,mySearchbar,loginoutBar];
+        self.navigationItem.rightBarButtonItems = @[menubar];
         UIImageView *tempLabImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"daiyan_logo"]];
         titleLabImage = tempLabImage;
         UILabel *templab = [[UILabel alloc]init];
