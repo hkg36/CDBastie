@@ -16,7 +16,7 @@
     UIDatePicker *datePicker;
     UITextField *dateTextField;
     NSLocale *datelocale;
-    NSString *myBirthdate;
+    int myBirthdate;
 
 }
 @property(nonatomic) int birth;
@@ -57,7 +57,7 @@
     
     if (![birthText.text isEqualToString:@""]) {
         [SVProgressHUD show];
-        NSDictionary * parames = @{@"birthday":myBirthdate};
+        NSDictionary * parames = @{@"birthday":@(myBirthdate)};
         //nick, signature,sex, birthday, marriage, height
         [[WebSocketManager instance]sendWithAction:@"user.update" parameters:parames callback:^(WSRequest *request, NSDictionary *result) {
             [USER_DEFAULT synchronize];
@@ -97,16 +97,47 @@
         NSTimeInterval dateDiff = [datePicker.date timeIntervalSinceNow];
         NSTimeInterval interval =  [datePicker.date timeIntervalSince1970];
         NSInteger birth = interval;
-        myBirthdate = [NSString stringWithFormat:@"%@",[formatter stringFromDate:datePicker.date]];
+        //myBirthdate = [NSString stringWithFormat:@"%@",[formatter stringFromDate:datePicker.date]];
         int age=trunc(dateDiff/(60*60*24))/365;
         if (age<0) {
-            age = abs(age);
+            age = 0;
         }
         NSLog(@"age = %d",age);
         NSLog(@"birth = %ld",(long)birth);
         self.birth = birth;
+        
+        NSDateFormatter *formatteryear = [[NSDateFormatter alloc] init];
+        NSString *dateFormatyear = [NSDateFormatter dateFormatFromTemplate:@"yyyy" options:0 locale:datelocale];
+        [formatteryear setDateFormat:dateFormatyear];
+        [formatteryear setLocale:datelocale];
+        myBirthdate = [[NSString stringWithFormat:@"%@",[formatteryear stringFromDate:datePicker.date]] intValue];
+        birth = myBirthdate;
+        
+        
+        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDate *now;
+        NSDateComponents *comps = [[NSDateComponents alloc] init];
+        NSInteger unitFlags =  NSYearCalendarUnit |
+        NSMonthCalendarUnit |
+        NSDayCalendarUnit |
+        NSWeekdayCalendarUnit |
+        NSHourCalendarUnit |
+        NSMinuteCalendarUnit |
+        NSSecondCalendarUnit;
+        now=[NSDate date];
+        comps = [calendar components:unitFlags fromDate:now];
+        
+        NSInteger year = [comps year];
+        age = year - birth;
+        if (age<0) {
+            age = 0;
+        }
+        NSLog(@"age = %d",age);
+        
+        
         [USER_DEFAULT setInteger:age forKey:@"USERINFO_AGE"];
         [USER_DEFAULT setInteger:birth forKey:@"USERINFO_BIRTH"];
+        [USER_DEFAULT synchronize];
     }
 }
 

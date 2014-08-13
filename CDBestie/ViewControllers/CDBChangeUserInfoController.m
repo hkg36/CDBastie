@@ -120,7 +120,7 @@
             }
             else
             {
-                self.Label_sex.text = @"待定";
+                self.Label_sex.text = @"保密";
             }
 
             if (self.birth!=0)
@@ -150,7 +150,7 @@
 
                     int age=year - birth;
                     if (age<0) {
-                        age = abs(age);
+                        age = 0;
                     }
                     NSLog(@"age = %d",age);
                     NSLog(@"birth = %d",birth);
@@ -160,7 +160,7 @@
             }
             else
             {
-                self.Label_age.text =@"你来问我呀";
+                self.Label_age.text =@"保密";
                 
             }
         
@@ -168,7 +168,7 @@
             self.Label_job.text =self.job;
         }
         else{
-            self.Label_job.text =@"专职闺蜜";
+            self.Label_job.text =@"保密";
             [defaults setObject:self.Label_job.text forKey:@"USERINFO_JOB"];
         }
         
