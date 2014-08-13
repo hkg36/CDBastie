@@ -18,9 +18,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
    
-    if ([USER_DEFAULT objectForKey:@"SESSION_ID"]&&[USER_DEFAULT objectForKey:@"SERVER_URL"]) {
-        [[WebSocketManager instance] open:[USER_DEFAULT objectForKey:@"SERVER_URL"] withsessionid:[USER_DEFAULT objectForKey:@"SESSION_ID"]];
-    }
+
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveLogin:)
                                                  name:NotifyUserLogin
@@ -81,6 +79,9 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    if ([USER_DEFAULT objectForKey:@"SESSION_ID"]&&[USER_DEFAULT objectForKey:@"SERVER_URL"]) {
+        [[WebSocketManager instance] open:[USER_DEFAULT objectForKey:@"SERVER_URL"] withsessionid:[USER_DEFAULT objectForKey:@"SESSION_ID"]];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
