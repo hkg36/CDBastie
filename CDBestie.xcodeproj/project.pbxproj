@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1702C12F199B56A300290CE0 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1702C12E199B56A300290CE0 /* ImageDownloader.m */; };
 		17387A46199323220049B1A2 /* Merchandise.m in Sources */ = {isa = PBXBuildFile; fileRef = 17387A45199323220049B1A2 /* Merchandise.m */; };
 		86078D79199327B9005BDD8B /* ACDBEndorseInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86078D78199327B9005BDD8B /* ACDBEndorseInfoController.m */; };
 		863E51471986172800753B80 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 863E51181986172800753B80 /* AFHTTPRequestOperation.m */; };
@@ -106,6 +107,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1702C12D199B56A300290CE0 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
+		1702C12E199B56A300290CE0 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
 		17387A44199323220049B1A2 /* Merchandise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Merchandise.h; sourceTree = "<group>"; };
 		17387A45199323220049B1A2 /* Merchandise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Merchandise.m; sourceTree = "<group>"; };
 		86078D77199327B9005BDD8B /* ACDBEndorseInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACDBEndorseInfoController.h; sourceTree = "<group>"; };
@@ -641,6 +644,8 @@
 		86B7F727198F2F1100749659 /* WebSocketRequest */ = {
 			isa = PBXGroup;
 			children = (
+				1702C12D199B56A300290CE0 /* ImageDownloader.h */,
+				1702C12E199B56A300290CE0 /* ImageDownloader.m */,
 				86B7F728198F2F1100749659 /* leveldb */,
 				86B7F736198F2F1100749659 /* LevelDB.h */,
 				86B7F737198F2F1100749659 /* LevelDB.mm */,
@@ -825,6 +830,7 @@
 				865610F319907B7300E2AC47 /* CDBBangCell.m in Sources */,
 				863E517B1986244000753B80 /* CDBMainLoginViewController.m in Sources */,
 				8653DBB31985F66600A8EE47 /* CDBAppDelegate.m in Sources */,
+				1702C12F199B56A300290CE0 /* ImageDownloader.m in Sources */,
 				17387A46199323220049B1A2 /* Merchandise.m in Sources */,
 				86B33345198FB424004D86BD /* CDBChangeBirthNaviController.m in Sources */,
 				863E51481986172800753B80 /* AFHTTPRequestOperationManager.m in Sources */,
