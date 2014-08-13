@@ -348,8 +348,10 @@
          cell.iconLayer.hidden =YES;
          UserInfo2 *userInfo =[[UserInfo2 alloc]initWithJson:result];
          cell.userNick.text = userInfo.user.nick;
-         NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
+         //NSString *imageString = [NSString stringWithFormat:@"http://laixinle.qiniudn.com/FjJHS3LxIfYSlN2XSfnvdVv4qbNR\?imageView2/1/w/%i/h/%i/format/jpg",(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
+          NSString *imageString = [NSString stringWithFormat:@"%@?imageView2/1/w/%i/h/%i/format/jpg",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
          NSURL *imageURL = [NSURL URLWithString:imageString];
+         NSLog(@"%@",imageURL);
          [cell.userIcon setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
          
          NSString *user_SEX;

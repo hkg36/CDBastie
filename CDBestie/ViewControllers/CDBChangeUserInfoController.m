@@ -25,7 +25,6 @@
 //#import "XCJErWeiCodeViewController.h"
 //#import "XCJChangeNickNaviController.h"
 //#import "XCJChangeSignNaviController.h"
-#import "UIImage+WebP.h"
 #import "CDBChangeNickNaviController.h"
 #import "CDBChangeNickViewController.h"
 #import "CDBChangeSignNaviController.h"
@@ -78,7 +77,7 @@
     [super viewDidLoad];
     self.Label_nick.text =    [USER_DEFAULT objectForKey:@"USERINFO_NICK"];
     self.label_sign.text =    [USER_DEFAULT objectForKey:@"USERINFO_SIGNATURE"];
-     NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[NSString stringWithFormat:@"%@",[USER_DEFAULT objectForKey:@"USERINFO_HEADPIC"]],(int)self.Image_userIcon.frame.size.width,(int)self.Image_userIcon.frame.size.height];
+     NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[NSString stringWithFormat:@"%@",[USER_DEFAULT objectForKey:@"USERINFO_HEADPIC"]],(int)self.Image_userIcon.frame.size.width,(int)self.Image_userIcon.frame.size.height];
    [self.Image_userIcon setImageWithURL:[NSURL URLWithString:imageString ]  placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
     [self.Image_userIcon.layer setCornerRadius:CGRectGetHeight([self.Image_userIcon bounds]) / 2];
     self.Image_userIcon.layer.masksToBounds = YES;
@@ -121,7 +120,7 @@
             }
             else
             {
-                self.Label_sex.text = @"待定";
+                self.Label_sex.text = @"保密";
             }
 
             if (self.birth!=0)
@@ -151,7 +150,7 @@
 
                     int age=year - birth;
                     if (age<0) {
-                        age = abs(age);
+                        age = 0;
                     }
                     NSLog(@"age = %d",age);
                     NSLog(@"birth = %d",birth);
@@ -161,7 +160,7 @@
             }
             else
             {
-                self.Label_age.text =@"你来问我呀";
+                self.Label_age.text =@"保密";
                 
             }
         
@@ -169,7 +168,7 @@
             self.Label_job.text =self.job;
         }
         else{
-            self.Label_job.text =@"专职闺蜜";
+            self.Label_job.text =@"保密";
             [defaults setObject:self.Label_job.text forKey:@"USERINFO_JOB"];
         }
         
@@ -212,7 +211,7 @@
             NSLog(@"%@",dataSource);
             
             _firPic.hidden = NO;
-            NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[dataSource[0] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
+            NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[dataSource[0] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
             NSURL *imageURL = [NSURL URLWithString:imageString];
 
             [_firPic setImageWithURL:imageURL];
@@ -221,7 +220,7 @@
             if( [dataSource count] >1)
             {
                 _secPic.hidden = NO;
-                NSString *imageString1 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[dataSource[1] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
+                NSString *imageString1 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[dataSource[1] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
                 NSURL *imageURL1 = [NSURL URLWithString:imageString1];
                 NSLog(@"imageURL1 = %@",imageURL1);
                 [_secPic setImageWithURL:imageURL1];
@@ -230,7 +229,7 @@
             if( [dataSource count] > 2)
             {
                 _thrPic.hidden = NO;
-                NSString *imageString2 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[dataSource[2] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
+                NSString *imageString2 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[dataSource[2] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
                 NSURL *imageURL2 = [NSURL URLWithString:imageString2];
                 [_thrPic setImageWithURL:imageURL2];
             }
@@ -454,7 +453,7 @@
     NSString * requestString = [NSString stringWithFormat:@"%@upload/HeadImg?sessionid=%@",CDBestieURLString,[defaults objectForKey:@"SESSION_ID"]];
     NSError *error;
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestString]];
-    [request setTimeoutInterval:3.0];
+    //[request setTimeoutInterval:3.0];
     NSLog(@"%@\n",requestString);
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
 
@@ -480,9 +479,11 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     NSMutableDictionary *parameters=[[NSMutableDictionary alloc] init];
     [parameters setValue:token forKey:@"token"];
-    NSData * formDataddd = [UIImage imageToWebP:filePath quality:75];
+    NSData * formDataddd =  UIImageJPEGRepresentation(filePath, 75);
+    
+    //[UIImage imageToWebP:filePath quality:75];
     operation  = [manager POST:@"http://up.qiniu.com" parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileData:formDataddd name:@"file" fileName:@"file" mimeType:@"image/jpeg"];
+        [formData appendPartWithFileData:formDataddd name:@"file" fileName:@"file" mimeType:@"image/png"];
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         SLLog(@"responseObject %@",responseObject);
         if (responseObject) {
