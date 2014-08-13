@@ -163,7 +163,7 @@
         cell.name.text = [cs valueForKey:@"productname"];
         cell.Introduction.text =[userInfo.endors_list[indexPath.row] valueForKey:@"slogan"];
         
-        NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[cs valueForKey:@"icon_url"],(int)cell.Icon.frame.size.width,(int)cell.Icon.frame.size.height];
+        NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[cs valueForKey:@"icon_url"],(int)cell.Icon.frame.size.width,(int)cell.Icon.frame.size.height];
         NSURL *imageURL = [NSURL URLWithString:imageString];
         [cell.Icon setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"shangping_morentu"]];
     }
@@ -182,7 +182,7 @@
                 cell.userLayerIcon.hidden =YES;
                 
                 cell.userNickname.text = userInfo.user.nick;
-                NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
+                NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
                 NSURL *imageURL = [NSURL URLWithString:imageString];
                 [cell.userIcon setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
                 
@@ -300,7 +300,7 @@
                 
                 if ([AblmdataSource count]> 0) {
                     NSLog(@"%@",AblmdataSource);
-                    NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[AblmdataSource[0] objectForKey:@"picture"],(int)cell.firPic.frame.size.width,(int)cell.firPic.frame.size.height];
+                    NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[AblmdataSource[0] objectForKey:@"picture"],(int)cell.firPic.frame.size.width,(int)cell.firPic.frame.size.height];
                     NSURL *imageURL = [NSURL URLWithString:imageString];
                     
                     [cell.firPic setImageWithURL:imageURL];
@@ -316,7 +316,7 @@
                     if( [AblmdataSource count] > 2)
                     {
                         cell.thirPic.hidden = NO;
-                        NSString *imageString2 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[AblmdataSource[2] objectForKey:@"picture"],(int)cell.thirPic.frame.size.width,(int)cell.thirPic.frame.size.height];
+                        NSString *imageString2 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[AblmdataSource[2] objectForKey:@"picture"],(int)cell.thirPic.frame.size.width,(int)cell.thirPic.frame.size.height];
                         NSURL *imageURL2 = [NSURL URLWithString:imageString2];
                         [cell.thirPic setImageWithURL:imageURL2];
                     }

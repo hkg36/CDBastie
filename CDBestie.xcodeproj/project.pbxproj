@@ -91,8 +91,6 @@
 		86B7F75E198F34E200749659 /* libleveldb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 86B7F75D198F34E200749659 /* libleveldb.a */; };
 		86E3EB5B198665AE00A5B496 /* tools.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E3EB5A198665AE00A5B496 /* tools.m */; };
 		86EF026F198875310031E732 /* CDBChangeUserInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF026E198875310031E732 /* CDBChangeUserInfoController.m */; };
-		86EF027719887E410031E732 /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EF027519887E410031E732 /* UIImage+WebP.m */; };
-		86EF027819887E410031E732 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86EF027619887E410031E732 /* WebP.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -273,9 +271,6 @@
 		86E3EB5A198665AE00A5B496 /* tools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tools.m; sourceTree = "<group>"; };
 		86EF026D198875310031E732 /* CDBChangeUserInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDBChangeUserInfoController.h; sourceTree = "<group>"; };
 		86EF026E198875310031E732 /* CDBChangeUserInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDBChangeUserInfoController.m; sourceTree = "<group>"; };
-		86EF027419887E410031E732 /* UIImage+WebP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+WebP.h"; sourceTree = "<group>"; };
-		86EF027519887E410031E732 /* UIImage+WebP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+WebP.m"; sourceTree = "<group>"; };
-		86EF027619887E410031E732 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WebP.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -284,7 +279,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				86B7F75E198F34E200749659 /* libleveldb.a in Frameworks */,
-				86EF027819887E410031E732 /* WebP.framework in Frameworks */,
 				863E517519861F6D00753B80 /* libicucore.dylib in Frameworks */,
 				863E517319861F0100753B80 /* CoreText.framework in Frameworks */,
 				863E517119861E2300753B80 /* libz.dylib in Frameworks */,
@@ -390,7 +384,6 @@
 		863E51601986182600753B80 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				86EF027319887E410031E732 /* iOS-WebP */,
 				86893D4C1987914A00CFC166 /* SVProgressHUD */,
 				86E3EB59198665AE00A5B496 /* tools.h */,
 				86E3EB5A198665AE00A5B496 /* tools.m */,
@@ -698,16 +691,6 @@
 			name = CDBMyInfoViewController;
 			sourceTree = "<group>";
 		};
-		86EF027319887E410031E732 /* iOS-WebP */ = {
-			isa = PBXGroup;
-			children = (
-				86EF027419887E410031E732 /* UIImage+WebP.h */,
-				86EF027519887E410031E732 /* UIImage+WebP.m */,
-				86EF027619887E410031E732 /* WebP.framework */,
-			);
-			path = "iOS-WebP";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -873,7 +856,6 @@
 				863E514F1986172800753B80 /* AFURLSessionManager.m in Sources */,
 				86A0C5B019911BA10091462B /* GoodsCell.m in Sources */,
 				86B7F740198F2F1100749659 /* LevelDB.mm in Sources */,
-				86EF027719887E410031E732 /* UIImage+WebP.m in Sources */,
 				864067F2198BCEDD0032E693 /* Reachability.m in Sources */,
 				864067F8198BCFC20032E693 /* UINavigationSample.m in Sources */,
 				86B33339198F96CA004D86BD /* CDBChangeNickNaviController.m in Sources */,
