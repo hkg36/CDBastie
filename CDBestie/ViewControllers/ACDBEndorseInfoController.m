@@ -379,7 +379,7 @@
         {
             NSArray *cs=[userInfo.endors_list[indexPath.row] valueForKey:@"merchandise"];
             DZWebBrowser *webBrowser = [[DZWebBrowser alloc] initWebBrowserWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?sessionid=%@&sid=%lld",[cs valueForKey:@"show_post_url"],[[NSUserDefaults standardUserDefaults] objectForKey:@"SESSION_ID"],self.userUid]]];
-            webBrowser.showProgress = YES;
+            //webBrowser.showProgress = YES;
             webBrowser.allowOrder = YES;
             webBrowser.allowtoolbar = NO;
             UINavigationSample *webBrowserNC = [self.storyboard instantiateViewControllerWithIdentifier:@"UINavigationSample"];
