@@ -718,7 +718,7 @@
             </objects>
             <point key="canvasLocation" x="1271" y="1560"/>
         </scene>
-        <!--Change Sign View Controller - 个性签名-->
+        <!--Change Sign View Controller - 自我介绍-->
         <scene sceneID="h1j-kJ-gNn">
             <objects>
                 <viewController restorationIdentifier="CDBChangeSignViewController" storyboardIdentifier="CDBChangeSignViewController" id="lxl-aa-9cw" customClass="CDBChangeSignViewController" sceneMemberID="viewController">
@@ -751,7 +751,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="个性签名" id="hhd-4b-ATE">
+                    <navigationItem key="navigationItem" title="自我介绍" id="hhd-4b-ATE">
                         <barButtonItem key="leftBarButtonItem" title="取消" style="plain" id="Okf-9v-eDf">
                             <connections>
                                 <action selector="dismissThisNavi:" destination="lxl-aa-9cw" id="gGg-vF-Z1C"/>
