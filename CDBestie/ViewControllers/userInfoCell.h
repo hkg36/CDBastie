@@ -19,5 +19,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *userLayerIcon;
 @property (weak, nonatomic) IBOutlet UIButton *userLevel;
 @property (weak, nonatomic) IBOutlet UILabel *userInfo;
-
+@property (strong,nonatomic) NSString *userIconUrl;
 @end

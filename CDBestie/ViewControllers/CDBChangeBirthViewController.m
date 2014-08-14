@@ -40,7 +40,7 @@
     
     birthText.delegate = self;
     [birthText becomeFirstResponder];
-    NSLog(@"%i",[USER_DEFAULT objectForKey:@"USERINFO_BIRTH"]);
+    NSLog(@"%i",[USER_DEFAULT integerForKey:@"USERINFO_BIRTH"]);
     [self initDataPicker];
 }
 

@@ -185,7 +185,7 @@
                 NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
                 NSURL *imageURL = [NSURL URLWithString:imageString];
                 [cell.userIcon setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
-                
+                cell.userIconUrl = [NSString stringWithFormat:@"%@?imageView2/1/format/jpg",userInfo.user.headpic];
                 NSString *user_SEX;
                 NSString *user_JOB;
                 if (userInfo.user.sex == 1) {
