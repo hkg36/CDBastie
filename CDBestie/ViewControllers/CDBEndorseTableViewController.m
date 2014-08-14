@@ -22,6 +22,8 @@
 #import "CDBBangNaviController.h"
 #import "CDBBangTableViewController.h"
 #import "ACDBEndorseInfoController.h"
+#import "DataTools.h"
+
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
 
 
@@ -336,7 +338,7 @@
     NSLog(@"cell_uid = %@",cell_uid);
     NSDictionary * parames = @{@"uid":cell_uid};
     
-    [[WebSocketManager instance]sendWithAction:@"user.info2" parameters:parames callback:^(WSRequest *request, NSDictionary *result)
+    [[WebSocketManager instance] sendWithAction:@"user.info2" parameters:parames cdata:GenCdata(12) callback:^(WSRequest *request, NSDictionary *result)
      {
          if ([[request.parm valueForKey:@"uid"] longLongValue]!=cell.celluid) {
              return;
@@ -464,7 +466,7 @@
              cell.userGoods.text = cs;
          }
           */
-     }];
+     }timeout:UserInfo2_TimeOut];
     return cell;
 }
 

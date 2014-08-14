@@ -19,7 +19,7 @@
 #import "SVProgressHUD.h"
 #import "DZWebBrowser.h"
 #import "UINavigationSample.h"
-
+#import "DataTools.h"
 
 //#import "AFHTTPRequestOperationManager.h"
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
@@ -65,8 +65,10 @@
 {   [SVProgressHUD show];
     [super viewDidLoad];
     UrlArray = @[GOODS_LEBAIHUI_NEW,GOODS_HOTEL_NEW,GOODS_WINE_NEW,GOODS_TRAVEL_NEW,GOODS_CAVALRY_NEW];
+    
     NSDictionary * parames = @{@"uid":@(self.userUid)};
-    [[WebSocketManager instance]sendWithAction:@"user.info2" parameters:parames callback:^(WSRequest *request, NSDictionary *result)
+    //[[WebSocketManager instance]sendWithAction:@"user.info2" parameters:parames callback:^(WSRequest *request, NSDictionary *result)
+     [[WebSocketManager instance] sendWithAction:@"user.info2" parameters:parames cdata:GenCdata(12) callback:^(WSRequest *request, NSDictionary *result)
      {
          
          
@@ -74,7 +76,7 @@
          NSLog(@"result = %@",result);
          userInfo = [[UserInfo2 alloc]initWithJson:result];
          [self.tableView reloadData];
-     }];
+     }timeout:UserInfo2_TimeOut];
 }
 
 - (void)didReceiveMemoryWarning
