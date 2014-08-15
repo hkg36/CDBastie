@@ -31,7 +31,7 @@
 #import "CDBChangeSignViewController.h"
 #import "CDBChangeBirthNaviController.h"
 #import "CDBChangeJobNaviController.h"
-
+#import "CDBSelfPhotoViewController.h"
 
 //
 //
@@ -290,9 +290,10 @@
 
 -(void)SeePrivateGalleryClick
 {
-//    XCJSelfPrivatePhotoViewController * viewss = [self.storyboard instantiateViewControllerWithIdentifier:@"XCJSelfPrivatePhotoViewController"];
-//    viewss.privateUID = [USER_DEFAULT stringForKey:KeyChain_Laixin_account_user_id];
-//    [self.navigationController pushViewController:viewss animated:YES];
+    CDBSelfPhotoViewController * viewss = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBSelfPhotoViewController"];
+    viewss.privateUID = [USER_DEFAULT integerForKey:@"USERINFO_UID"];
+    viewss.title = @"我的相册";
+    [self.navigationController pushViewController:viewss animated:YES];
 }
 
 

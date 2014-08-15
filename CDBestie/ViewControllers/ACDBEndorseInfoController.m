@@ -20,7 +20,7 @@
 #import "DZWebBrowser.h"
 #import "UINavigationSample.h"
 #import "DataTools.h"
-
+#import "CDBSelfPhotoViewController.h"
 //#import "AFHTTPRequestOperationManager.h"
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
 #define GOODS_WINE_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/wineNew.do?sessionid="
@@ -372,7 +372,13 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
-
+        if (indexPath.row == 3) {
+            NSString *myTitle = self.title;
+            CDBSelfPhotoViewController * viewss = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBSelfPhotoViewController"];
+            viewss.title =[NSString stringWithFormat:@"%@的相册",myTitle];
+            viewss.privateUID = self.userUid;
+            [self.navigationController pushViewController:viewss animated:YES];
+        }
         
     }
     if (indexPath.section == 1) {
