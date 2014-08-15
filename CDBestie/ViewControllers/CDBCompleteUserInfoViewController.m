@@ -130,7 +130,7 @@
 
 -(IBAction)OpenGallery:(id)sender
 {
-    
+    [self hideKeyboary];
     [SVProgressHUD show];
     
     {
