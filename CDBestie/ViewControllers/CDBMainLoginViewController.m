@@ -259,7 +259,7 @@
         {
             [SVProgressHUD dismiss];
             
-            if (myUserInfo.nick) {
+            
                 NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
                 [defaults setObject:myUserInfo.nick forKey:@"USERINFO_NICK"];
                 if(myUserInfo.uid)
@@ -313,6 +313,7 @@
                     [defaults setObject:@"" forKey:@"USERINFO_JOB"];
                 }
                 [defaults synchronize];
+            if (myUserInfo.nick) {
                 NSLog(@"%@",myUserInfo.nick);
                 [SVProgressHUD dismiss];
                 [self dismissViewControllerAnimated:NO completion:^{}];

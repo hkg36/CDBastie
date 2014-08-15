@@ -385,35 +385,33 @@ WebSocketManager *one_instance=nil;
             [req.callbacks addObject:callback];
         }
     }
-    
-    if(gosend && self.websocket.workQueue)
+    if(req.buffer_timeout>0)
     {
-        dispatch_async(self.websocket.workQueue, ^{
-            if(req.buffer_timeout>0)
+        NSString *bufkey=[self CmdBufferKey:req.func parm:req.parm];
+        NSDictionary *result=[self.cmdCacheDb getObject:bufkey];
+        if(result)
+        {
+            if([[NSDate date] timeIntervalSince1970]-[[result objectForKey:@"time"] doubleValue]<req.buffer_timeout)
             {
-                NSString *bufkey=[self CmdBufferKey:req.func parm:req.parm];
-                NSDictionary *result=[self.cmdCacheDb getObject:bufkey];
-                if(result)
+                req.error_code=0;
+                req.error=@"from cache";
+                @synchronized(req)
                 {
-                    if([[NSDate date] timeIntervalSince1970]-[[result objectForKey:@"time"] doubleValue]<req.buffer_timeout)
-                    {
-                        req.error_code=0;
-                        req.error=@"from cache";
-                        @synchronized(req)
-                        {
-                            [req performSelectorOnMainThread:@selector(doCallBack:) withObject:result waitUntilDone:FALSE];
-                        }
-                        return;
-                    }
+                    [req doCallBack:[result objectForKey:@"result"]];
+                    //[req performSelectorOnMainThread:@selector(doCallBack:) withObject:result waitUntilDone:FALSE];
                 }
-                
+                return;
             }
-            if([self isConnected]){
-                NSData *tosend_data=[req getCompressData];
-                if(tosend_data)
-                    [self.websocket send:tosend_data];
-            }
-        });
+        }
+        
+    }
+    if(gosend)
+    {
+        if([self isConnected]){
+            NSData *tosend_data=[req getCompressData];
+            if(tosend_data)
+                [self.websocket send:tosend_data];
+        }
     }
 }
 -(NSString*) CmdBufferKey:(NSString*)func parm:(NSDictionary*)parm

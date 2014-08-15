@@ -13,29 +13,16 @@
 #import "SVProgressHUD.h"
 #import "UIImageView+AFNetworking.h"
 #import "AFHTTPRequestOperationManager.h"
-//#import <CommonCrypto/CommonDigest.h>
 #import <AssetsLibrary/AssetsLibrary.h>
-//#import <Foundation/Foundation.h>
-//#import <MobileCoreServices/MobileCoreServices.h>
-//#import "LXAPIController.h"
-//#import "LXRequestFacebookManager.h"
-//#import "XCAlbumAdditions.h"
 
-//#import "MLNetworkingManager.h"
-//#import "XCJErWeiCodeViewController.h"
-//#import "XCJChangeNickNaviController.h"
-//#import "XCJChangeSignNaviController.h"
 #import "CDBChangeNickNaviController.h"
 #import "CDBChangeNickViewController.h"
 #import "CDBChangeSignNaviController.h"
 #import "CDBChangeSignViewController.h"
 #import "CDBChangeBirthNaviController.h"
 #import "CDBChangeJobNaviController.h"
+#import "CDBSelfPhotoViewController.h"
 
-
-//
-//
-//#import "XCJSelfPrivatePhotoViewController.h"
 
 #define  RESET_PASSWD_CID  1
 
@@ -59,7 +46,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *Label_sex;
 @property (weak, nonatomic) IBOutlet UILabel *Label_age;
 @property (weak, nonatomic) IBOutlet UILabel *Label_job;
-//@property (strong, nonatomic) HZAreaPickerView *locatePicker;
 @property (strong, nonatomic) NSString *areaValue, *cityValue;
 @property (weak, nonatomic) IBOutlet UIImageView *firPic;
 @property (weak, nonatomic) IBOutlet UIImageView *secPic;
@@ -190,8 +176,8 @@
 -(void)showAlbm
 {
     NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
-    NSLog(@"%@",[defaults objectForKey:@"USERINFO_UID"]);
-    [[WebSocketManager instance]sendWithAction:@"album.read" parameters:@{@"uid":[defaults objectForKey:@"USERINFO_UID"],@"count":@"4"} callback:^(WSRequest *request, NSDictionary *result) {
+    NSLog(@"%ld",(long)[defaults integerForKey:@"USERINFO_UID"]);
+    [[WebSocketManager instance]sendWithAction:@"album.read" parameters:@{@"uid":@([defaults integerForKey:@"USERINFO_UID"]),@"count":@"4"} callback:^(WSRequest *request, NSDictionary *result) {
         NSLog(@"error_code = %d",request.error_code);
         NSLog(@"error = %@",request.error);
         if(request.error_code!=0)
@@ -290,9 +276,10 @@
 
 -(void)SeePrivateGalleryClick
 {
-//    XCJSelfPrivatePhotoViewController * viewss = [self.storyboard instantiateViewControllerWithIdentifier:@"XCJSelfPrivatePhotoViewController"];
-//    viewss.privateUID = [USER_DEFAULT stringForKey:KeyChain_Laixin_account_user_id];
-//    [self.navigationController pushViewController:viewss animated:YES];
+    CDBSelfPhotoViewController * viewss = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBSelfPhotoViewController"];
+    viewss.privateUID = [USER_DEFAULT integerForKey:@"USERINFO_UID"];
+    viewss.title = @"我的相册";
+    [self.navigationController pushViewController:viewss animated:YES];
 }
 
 

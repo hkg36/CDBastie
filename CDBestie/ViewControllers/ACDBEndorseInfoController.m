@@ -19,8 +19,8 @@
 #import "SVProgressHUD.h"
 #import "DZWebBrowser.h"
 #import "UINavigationSample.h"
-
-
+#import "DataTools.h"
+#import "CDBSelfPhotoViewController.h"
 //#import "AFHTTPRequestOperationManager.h"
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
 #define GOODS_WINE_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/wineNew.do?sessionid="
@@ -65,8 +65,10 @@
 {   [SVProgressHUD show];
     [super viewDidLoad];
     UrlArray = @[GOODS_LEBAIHUI_NEW,GOODS_HOTEL_NEW,GOODS_WINE_NEW,GOODS_TRAVEL_NEW,GOODS_CAVALRY_NEW];
+    
     NSDictionary * parames = @{@"uid":@(self.userUid)};
-    [[WebSocketManager instance]sendWithAction:@"user.info2" parameters:parames callback:^(WSRequest *request, NSDictionary *result)
+    //[[WebSocketManager instance]sendWithAction:@"user.info2" parameters:parames callback:^(WSRequest *request, NSDictionary *result)
+     [[WebSocketManager instance] sendWithAction:@"user.info2" parameters:parames cdata:GenCdata(12) callback:^(WSRequest *request, NSDictionary *result)
      {
          
          
@@ -74,7 +76,7 @@
          NSLog(@"result = %@",result);
          userInfo = [[UserInfo2 alloc]initWithJson:result];
          [self.tableView reloadData];
-     }];
+     }timeout:UserInfo2_TimeOut];
 }
 
 - (void)didReceiveMemoryWarning
@@ -185,7 +187,7 @@
                 NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
                 NSURL *imageURL = [NSURL URLWithString:imageString];
                 [cell.userIcon setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
-                
+                cell.userIconUrl = [NSString stringWithFormat:@"%@?imageView2/1/format/jpg",userInfo.user.headpic];
                 NSString *user_SEX;
                 NSString *user_JOB;
                 if (userInfo.user.sex == 1) {
@@ -370,14 +372,20 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
-
+        if (indexPath.row == 3) {
+            NSString *myTitle = self.title;
+            CDBSelfPhotoViewController * viewss = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBSelfPhotoViewController"];
+            viewss.title =[NSString stringWithFormat:@"%@的相册",myTitle];
+            viewss.privateUID = self.userUid;
+            [self.navigationController pushViewController:viewss animated:YES];
+        }
         
     }
     if (indexPath.section == 1) {
         {
             NSArray *cs=[userInfo.endors_list[indexPath.row] valueForKey:@"merchandise"];
             DZWebBrowser *webBrowser = [[DZWebBrowser alloc] initWebBrowserWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@?sessionid=%@&sid=%lld",[cs valueForKey:@"show_post_url"],[[NSUserDefaults standardUserDefaults] objectForKey:@"SESSION_ID"],self.userUid]]];
-            webBrowser.showProgress = YES;
+            //webBrowser.showProgress = YES;
             webBrowser.allowOrder = YES;
             webBrowser.allowtoolbar = NO;
             UINavigationSample *webBrowserNC = [self.storyboard instantiateViewControllerWithIdentifier:@"UINavigationSample"];

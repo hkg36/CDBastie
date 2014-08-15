@@ -13,7 +13,9 @@
 //#import "UIAlertViewAddition.h"
 //#import "LXRequestFacebookManager.h"
 #import "SVProgressHUD.h"
-
+#import "DZWebBrowser.h"
+#import "UINavigationSample.h"
+#import "CDBestieDefines.h"
 
 @interface CDBCompleteUserInfoViewController ()<UIAlertViewDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *completeBtn;
@@ -24,6 +26,9 @@
 @property (weak, nonatomic) IBOutlet UIImageView *image_lady;
 @property (weak, nonatomic) IBOutlet UILabel *hintlbl;
 @property (assign, nonatomic)  NSInteger inviteCid;
+- (IBAction)protocolShow:(id)sender;
+@property (weak, nonatomic) IBOutlet UISwitch *proSwith;
+- (IBAction)proSwitchChange:(id)sender;
 @end
 
 @implementation CDBCompleteUserInfoViewController
@@ -40,9 +45,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    _completeBtn.userInteractionEnabled = NO;
+    _completeBtn.titleLabel.textColor = [UIColor grayColor];
     UITapGestureRecognizer * tapges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboary)];
     [self.view addGestureRecognizer:tapges];
-
+    
 }
 
 
@@ -69,6 +76,12 @@
     }
 }
 
+
+/**
+ *  选择男士
+ *
+ *  @param sender <#sender description#>
+ */
 - (IBAction)selectManClick:(id)sender {
     [UIView animateWithDuration:0.3 animations:^{
         self.image_man.hidden = NO;
@@ -76,6 +89,11 @@
     }];
 }
 
+/**
+ *  选择女士
+ *
+ *  @param sender <#sender description#>
+ */
 - (IBAction)selectLadyClick:(id)sender {
     [UIView animateWithDuration:0.3 animations:^{
         self.image_man.hidden = YES;
@@ -87,15 +105,15 @@
 #pragma mark - Keyboard
 - (void)keyboardWillShow:(NSNotification *)notification
 {
-
-        
+    
+    
     
 }
 
 - (void)keyboardWillHide:(NSNotification *)notification
 {
     
-
+    
     
 }
 
@@ -107,12 +125,12 @@
     }
 }
 
- 
+
 
 
 -(IBAction)OpenGallery:(id)sender
 {
-    
+    [self hideKeyboary];
     [SVProgressHUD show];
     
     {
@@ -148,9 +166,16 @@
             [self dismissViewControllerAnimated:NO completion:^{}];
             UINavigationController * CDBEndorseLoginNaviController =  [self.storyboard instantiateViewControllerWithIdentifier:@"CDBEndorseLoginNaviController"];
             [self presentViewController:CDBEndorseLoginNaviController animated:NO completion:nil];
-
+            
+            
+            /*
+             UITabBarController * viewContr = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBmainViewController"];
+             //viewContr.selectedIndex = 2;
+             [self.navigationController pushViewController:viewContr animated:YES];
+             */
+            
         } ];
-
+        
     }
     
 }
@@ -168,4 +193,25 @@
 }
 
 
+- (IBAction)protocolShow:(id)sender {
+    DZWebBrowser *webBrowser = [[DZWebBrowser alloc] initWebBrowserWithURL:[NSURL URLWithString:protocolList]];
+    webBrowser.showProgress = YES;
+    webBrowser.allowOrder = YES;
+    webBrowser.allowtoolbar = NO;
+    
+    UINavigationSample *webBrowserNC = [self.storyboard instantiateViewControllerWithIdentifier:@"UINavigationSample"];
+    [webBrowserNC pushViewController:webBrowser animated:NO];
+    [self presentViewController:webBrowserNC animated:YES completion:NULL];
+    
+}
+- (IBAction)proSwitchChange:(id)sender {
+    if ([sender isOn]){
+        _completeBtn.userInteractionEnabled = YES;
+        _completeBtn.titleLabel.textColor = [UIColor whiteColor];
+    }
+    if (![sender isOn]){
+        _completeBtn.userInteractionEnabled = NO;
+        _completeBtn.titleLabel.textColor = [UIColor grayColor];
+    }
+}
 @end

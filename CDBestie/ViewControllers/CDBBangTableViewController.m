@@ -17,6 +17,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "SVProgressHUD.h"
 #import "ACDBEndorseInfoController.h"
+#import "DataTools.h"
 
 #import "AFHTTPRequestOperationManager.h"
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
@@ -167,7 +168,7 @@
     NSLog(@"cell_uid = %@",cell_uid);
     NSDictionary * parames = @{@"uid":cell_uid};
     
-    [[WebSocketManager instance]sendWithAction:@"user.info2" parameters:parames callback:^(WSRequest *request, NSDictionary *result)
+    [[WebSocketManager instance] sendWithAction:@"user.info2" parameters:parames cdata:GenCdata(12) callback:^(WSRequest *request, NSDictionary *result)
      {
          
          NSLog(@"result = %@",result);
@@ -246,7 +247,7 @@
          cell.userLevel.titleLabel.textAlignment = NSTextAlignmentCenter;
          
          cell.userGoods.text = [NSString stringWithFormat:@"我的积分:%lld",userInfo.endorsement.endorsement_point];;
-        }];
+        }timeout:UserInfo2_TimeOut];
 
     return cell;
 }

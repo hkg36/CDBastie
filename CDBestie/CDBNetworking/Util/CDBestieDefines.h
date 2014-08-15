@@ -48,8 +48,8 @@ typedef enum {
 #define kAppKey								@"2824743419"
 #define kAppSecret							@"9c152c876ec980df305d54196539773f"
 #define kAppRedirectURI						@"http://1.livep.sinaapp.com/api/weibo_manager_impl/sina_weibo/callback.php"
-
-
+#define UserInfo2_TimeOut      600
+#define protocolList   @"http://202.85.215.157:8888/LifeStyleCenter/views/app/zhuce.jsp"
 /*!
  *  parse
  */

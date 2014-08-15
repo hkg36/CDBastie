@@ -23,6 +23,7 @@
 #import "CDBBangTableViewController.h"
 #import "ACDBEndorseInfoController.h"
 #import "ImageDownloader.h"
+#import "DataTools.h"
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
 
 
@@ -88,6 +89,8 @@
         
         NSLog(@"sessionid = %@",sessionid);
         NSLog(@"nick = %@",user_nick);
+         [self completeUserInfoview:nil];
+        /*
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             if (!sessionid||[sessionid isEqualToString:@""]) {
@@ -102,7 +105,7 @@
                 
             }
         });
-        
+        */
     }
     if([self.title isEqual:@"排行榜"])
     {
@@ -344,7 +347,7 @@
     NSLog(@"cell_uid = %@",cell_uid);
     NSDictionary * parames = @{@"uid":cell_uid};
     
-    [[WebSocketManager instance]sendWithAction:@"user.info2" parameters:parames callback:^(WSRequest *request, NSDictionary *result)
+    [[WebSocketManager instance] sendWithAction:@"user.info2" parameters:parames cdata:GenCdata(12) callback:^(WSRequest *request, NSDictionary *result)
      {
          if ([[request.parm valueForKey:@"uid"] longLongValue]!=cell.celluid) {
              return;
@@ -360,12 +363,15 @@
           NSString *imageString = [NSString stringWithFormat:@"%@?imageView2/1/w/%i/h/%i/format/jpg",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
          NSURL *imageURL = [NSURL URLWithString:imageString];
          NSLog(@"%@",imageURL);
+         if(imageURL)
+         {
          [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIImageView *view, UIImage *image) {
              if(image)
              {
                  view.image=image;
              }
          }];
+         }
          //[cell.userIcon setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
          
          NSString *user_SEX;
@@ -479,7 +485,7 @@
              cell.userGoods.text = cs;
          }
           */
-     }];
+     }timeout:UserInfo2_TimeOut];
     return cell;
 }
 

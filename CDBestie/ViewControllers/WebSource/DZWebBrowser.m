@@ -202,6 +202,7 @@ NSString * const kNewAttachmentKey = @"kNewAttachmentKey";
 
 - (NSString *)title
 {
+    NSLog(@"%@",[_webView stringByEvaluatingJavaScriptFromString:@"document.title"]);
     return [_webView stringByEvaluatingJavaScriptFromString:@"document.title"];
 }
 
@@ -248,7 +249,7 @@ NSString * const kNewAttachmentKey = @"kNewAttachmentKey";
 {
     UIView *titleView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [self titleWidth], 44.0)];
     [titleView addSubview:self.titleLabel];
-    [titleView addSubview:self.urlLabel];
+    //[titleView addSubview:self.urlLabel];
     return titleView;
 }
 
@@ -444,7 +445,8 @@ NSString * const kNewAttachmentKey = @"kNewAttachmentKey";
     _urlLabel.text = [self url];
     
     CGRect rect = _titleLabel.frame;
-    rect.origin.y = 2.0;
+    //rect.origin.y = 2.0;
+    rect.origin.y = 12.0;
     
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionBeginFromCurrentState
                      animations:^{

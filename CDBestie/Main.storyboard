@@ -271,121 +271,6 @@
             </objects>
             <point key="canvasLocation" x="-114" y="-1084"/>
         </scene>
-        <!--Complete User Info View Controller-->
-        <scene sceneID="8P1-Mb-h1m">
-            <objects>
-                <viewController restorationIdentifier="CDBCompleteUserInfoViewController" storyboardIdentifier="CDBCompleteUserInfoViewController" id="sdV-DH-MSQ" customClass="CDBCompleteUserInfoViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="dTi-HG-ljh">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_register" id="tJa-tr-9Cq">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            </imageView>
-                            <view tag="1" contentMode="scaleToFill" id="rj0-JT-ONl">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="329"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_background_os7" id="LFX-0q-Pq0">
-                                        <rect key="frame" x="26" y="78" width="266" height="91"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <rect key="contentStretch" x="0.29999999999999999" y="0.80000000000000004" width="0.29999999999999999" height="0.0"/>
-                                    </imageView>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="userinfo_gender_male_checkbox" id="PfY-pv-BGb">
-                                        <rect key="frame" x="74" y="138" width="17" height="18"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="userinfo_icon_male_os7" id="fdu-AE-zKC">
-                                        <rect key="frame" x="73" y="138" width="18" height="18"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="userinfo_gender_female_checkbox" id="igU-XJ-Y7h">
-                                        <rect key="frame" x="196" y="138" width="17" height="18"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                    </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="昵称" minimumFontSize="15" clearButtonMode="whileEditing" id="iGR-nX-tvu">
-                                        <rect key="frame" x="39" y="91" width="231" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
-                                    </textField>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用真实姓名能让人更快找到你" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NM5-Eb-Q86">
-                                        <rect key="frame" x="36" y="194" width="246" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="userinfo_icon_female_os7" id="JLb-3P-CLl">
-                                        <rect key="frame" x="195" y="138" width="18" height="18"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="GMk-xa-Q3Z">
-                                        <rect key="frame" x="70" y="135" width="65" height="27"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <state key="normal" title="  男">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="selectManClick:" destination="sdV-DH-MSQ" eventType="touchUpInside" id="2YK-RF-T3k"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="i8b-gp-hMS">
-                                        <rect key="frame" x="197" y="133" width="65" height="28"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <state key="normal" title="  女">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="selectLadyClick:" destination="sdV-DH-MSQ" eventType="touchUpInside" id="XVW-Ys-Z0y"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="昵称" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2Zn-EP-vcj">
-                                        <rect key="frame" x="102" y="38" width="113" height="21"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="zNe-XU-kPh">
-                                        <rect key="frame" x="259" y="34" width="46" height="30"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="完成">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="OpenGallery:" destination="sdV-DH-MSQ" eventType="touchUpInside" id="rVX-ZM-XAo"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="K3z-pC-MrQ"/>
-                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
-                    <connections>
-                        <outlet property="LadyBtn" destination="i8b-gp-hMS" id="azQ-x1-LdM"/>
-                        <outlet property="ManBtn" destination="GMk-xa-Q3Z" id="g9m-Z1-uYc"/>
-                        <outlet property="NickText" destination="iGR-nX-tvu" id="zEj-7z-nxr"/>
-                        <outlet property="completeBtn" destination="zNe-XU-kPh" id="t1J-oA-H3d"/>
-                        <outlet property="hintlbl" destination="NM5-Eb-Q86" id="T8k-KY-HRI"/>
-                        <outlet property="image_lady" destination="JLb-3P-CLl" id="lQc-cq-Mze"/>
-                        <outlet property="image_man" destination="fdu-AE-zKC" id="1BI-GU-B6q"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JEi-Gr-ayg" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="285" y="-1084"/>
-        </scene>
         <!--View Controller-->
         <scene sceneID="Sh6-L2-DE5">
             <objects>
@@ -612,7 +497,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IMN-0a-Tah">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="characterWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IMN-0a-Tah">
                                                     <rect key="frame" x="96" y="6" width="184" height="72"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -718,7 +603,7 @@
             </objects>
             <point key="canvasLocation" x="1271" y="1560"/>
         </scene>
-        <!--Change Sign View Controller - 个性签名-->
+        <!--Change Sign View Controller - 自我介绍-->
         <scene sceneID="h1j-kJ-gNn">
             <objects>
                 <viewController restorationIdentifier="CDBChangeSignViewController" storyboardIdentifier="CDBChangeSignViewController" id="lxl-aa-9cw" customClass="CDBChangeSignViewController" sceneMemberID="viewController">
@@ -751,7 +636,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="个性签名" id="hhd-4b-ATE">
+                    <navigationItem key="navigationItem" title="自我介绍" id="hhd-4b-ATE">
                         <barButtonItem key="leftBarButtonItem" title="取消" style="plain" id="Okf-9v-eDf">
                             <connections>
                                 <action selector="dismissThisNavi:" destination="lxl-aa-9cw" id="gGg-vF-Z1C"/>
@@ -1257,6 +1142,179 @@
             </objects>
             <point key="canvasLocation" x="-132" y="733"/>
         </scene>
+        <!--Self Photo View Controller-->
+        <scene sceneID="MmM-NP-trJ">
+            <objects>
+                <viewController restorationIdentifier="CDBSelfPhotoViewController" storyboardIdentifier="CDBSelfPhotoViewController" hidesBottomBarWhenPushed="YES" id="btC-Cm-O4A" customClass="CDBSelfPhotoViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2la-TL-1x1">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" tag="1" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" id="QC3-Qs-Ykn">
+                                <rect key="frame" x="0.0" y="88" width="320" height="456"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            </scrollView>
+                            <view tag="2" contentMode="scaleToFill" id="kIP-Bf-vpM">
+                                <rect key="frame" x="0.0" y="518" width="320" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="itemsInfo_tabbar_bg" id="2bI-DI-pQP">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="66"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="contentStretch" x="0.59999999999999998" y="0.49999999999999994" width="0.24999999999999967" height="0.29999999999999966"/>
+                                    </imageView>
+                                    <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Yod-zt-kb9">
+                                        <rect key="frame" x="20" y="10" width="280" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="添加照片">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lla-xE-WkL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="780" y="770"/>
+        </scene>
+        <!--Complete User Info View Controller-->
+        <scene sceneID="mFS-Hh-Bto">
+            <objects>
+                <viewController restorationIdentifier="CDBCompleteUserInfoViewController" storyboardIdentifier="CDBCompleteUserInfoViewController" id="p91-qp-Ndp" customClass="CDBCompleteUserInfoViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="T3D-gN-ddu">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_register" id="3ih-d5-vbq">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <view tag="1" contentMode="scaleToFill" id="3R9-fj-LDP">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="329"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_background_os7" id="Oqx-88-JWl">
+                                        <rect key="frame" x="26" y="78" width="266" height="91"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <rect key="contentStretch" x="0.29999999999999999" y="0.80000000000000004" width="0.29999999999999999" height="0.0"/>
+                                    </imageView>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="userinfo_gender_male_checkbox" id="bp3-zd-TZa">
+                                        <rect key="frame" x="74" y="138" width="17" height="18"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="userinfo_icon_male_os7" id="Wre-8B-vTZ">
+                                        <rect key="frame" x="73" y="138" width="18" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="userinfo_gender_female_checkbox" id="JC3-L1-6kI">
+                                        <rect key="frame" x="196" y="138" width="17" height="18"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                    </imageView>
+                                    <textField opaque="NO" clipsSubviews="YES" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="昵称" minimumFontSize="15" clearButtonMode="whileEditing" id="TgL-d8-fY5">
+                                        <rect key="frame" x="39" y="91" width="231" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="next"/>
+                                    </textField>
+                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="userinfo_icon_female_os7" id="uVH-YP-mrt">
+                                        <rect key="frame" x="195" y="138" width="18" height="18"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TjK-jv-fwU">
+                                        <rect key="frame" x="70" y="135" width="65" height="27"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="  男">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="selectManClick:" destination="p91-qp-Ndp" eventType="touchUpInside" id="q6p-cF-OGH"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vgY-QJ-1j0">
+                                        <rect key="frame" x="197" y="133" width="65" height="28"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="  女">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="selectLadyClick:" destination="p91-qp-Ndp" eventType="touchUpInside" id="kPD-uJ-USe"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="注册" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="4qc-Kc-Hxb">
+                                        <rect key="frame" x="102" y="38" width="113" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" tag="12" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fat-C1-YDA">
+                                        <rect key="frame" x="259" y="34" width="46" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <state key="normal" title="完成">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="OpenGallery:" destination="p91-qp-Ndp" eventType="touchUpInside" id="rZa-X0-i2O"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="b7n-hk-EjW">
+                                        <rect key="frame" x="170" y="186" width="108" height="22"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" red="0.20000000000000001" green="0.63529411759999999" blue="0.93725490199999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <inset key="imageEdgeInsets" minX="5" minY="2" maxX="5" maxY="2"/>
+                                        <state key="normal" image="fuwuxieyi">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="protocolShow:" destination="p91-qp-Ndp" eventType="touchUpInside" id="Iy1-U0-XmD"/>
+                                        </connections>
+                                    </button>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="i9V-YR-Pcu">
+                                        <rect key="frame" x="26" y="181" width="51" height="31"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <connections>
+                                            <action selector="proSwitchChange:" destination="p91-qp-Ndp" eventType="valueChanged" id="rxe-5C-poG"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="阅读并同意" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gUJ-UO-Urz">
+                                        <rect key="frame" x="82" y="186" width="73" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="FtT-CB-0I9"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <connections>
+                        <outlet property="LadyBtn" destination="vgY-QJ-1j0" id="YLG-Bf-EbW"/>
+                        <outlet property="ManBtn" destination="TjK-jv-fwU" id="ave-2p-Wc0"/>
+                        <outlet property="NickText" destination="TgL-d8-fY5" id="e6k-WI-1hh"/>
+                        <outlet property="completeBtn" destination="fat-C1-YDA" id="Gwg-sx-zGh"/>
+                        <outlet property="image_lady" destination="uVH-YP-mrt" id="8A9-Hn-ogf"/>
+                        <outlet property="image_man" destination="Wre-8B-vTZ" id="aas-Pd-jD6"/>
+                        <outlet property="proSwith" destination="i9V-YR-Pcu" id="WtO-Hp-9BE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CsA-Y8-dYs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="285" y="-1084"/>
+        </scene>
     </scenes>
     <resources>
         <image name="background" width="640" height="960"/>
@@ -1265,8 +1323,10 @@
         <image name="daiyan_liebiao_dengjiicon" width="30" height="15"/>
         <image name="fbc_TextEntryField_light_0_6_0_6" width="13" height="28"/>
         <image name="fbc_primarybutton_28_3_3_3_3_normal_ios7" width="11" height="32"/>
+        <image name="fuwuxieyi" width="108" height="12"/>
         <image name="groupMask" width="60" height="60"/>
         <image name="groupMaskPressed" width="60" height="60"/>
+        <image name="itemsInfo_tabbar_bg" width="1" height="46"/>
         <image name="left_view_avatar_avatar" width="34" height="34"/>
         <image name="login_background_os7" width="261" height="91"/>
         <image name="login_key_os7" width="21" height="21"/>
