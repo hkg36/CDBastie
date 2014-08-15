@@ -379,6 +379,7 @@
 
 -(void) uploadImage:(UIImage * ) image
 {
+    [SVProgressHUD showWithStatus:@"正在上传..."];
         NSString * requestString = [NSString stringWithFormat:@"%@upload/UserExMedia?sessionid=%@&userid=%lld",CDBestieURLString,[USER_DEFAULT objectForKey:@"SESSION_ID"],self.privateUID];
         NSError *error;
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:[NSURL URLWithString:requestString]];
@@ -458,6 +459,7 @@
 
 -(void) taskMethodDidFailed
 {
+    [SVProgressHUD dismiss];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
