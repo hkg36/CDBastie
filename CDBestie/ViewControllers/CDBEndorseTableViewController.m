@@ -89,6 +89,8 @@
         
         NSLog(@"sessionid = %@",sessionid);
         NSLog(@"nick = %@",user_nick);
+         [self completeUserInfoview:nil];
+        /*
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             if (!sessionid||[sessionid isEqualToString:@""]) {
@@ -103,7 +105,7 @@
                 
             }
         });
-        
+        */
     }
     if([self.title isEqual:@"排行榜"])
     {
