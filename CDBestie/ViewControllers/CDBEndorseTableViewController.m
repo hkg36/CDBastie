@@ -349,10 +349,12 @@
     
     [[WebSocketManager instance] sendWithAction:@"user.info2" parameters:parames cdata:GenCdata(12) callback:^(WSRequest *request, NSDictionary *result)
      {
+         if(0!=request.error_code)
+             return;
          if ([[request.parm valueForKey:@"uid"] longLongValue]!=cell.celluid) {
              return;
          }
-         NSLog(@"result = %@",result);
+         NSLog(@"user.info2 error = %@",request.error);
          
          [cell.userIcon.layer setCornerRadius:CGRectGetHeight([cell.userIcon bounds]) / 2];
          cell.userIcon.layer.masksToBounds = YES;
@@ -360,11 +362,11 @@
          UserInfo2 *userInfo =[[UserInfo2 alloc]initWithJson:result];
          cell.userNick.text = userInfo.user.nick;
          //NSString *imageString = [NSString stringWithFormat:@"http://laixinle.qiniudn.com/FjJHS3LxIfYSlN2XSfnvdVv4qbNR\?imageView2/1/w/%i/h/%i/format/jpg",(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
+         if(userInfo.user.headpic)
+         {
           NSString *imageString = [NSString stringWithFormat:@"%@?imageView2/1/w/%i/h/%i/format/jpg",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
          NSURL *imageURL = [NSURL URLWithString:imageString];
          NSLog(@"%@",imageURL);
-         if(imageURL)
-         {
          [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIImageView *view, UIImage *image) {
              if(image)
              {

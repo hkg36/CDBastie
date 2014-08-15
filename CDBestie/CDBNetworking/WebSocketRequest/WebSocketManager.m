@@ -385,33 +385,39 @@ WebSocketManager *one_instance=nil;
             [req.callbacks addObject:callback];
         }
     }
+    
+    if(gosend)
+    {
+        //[[NSRunLoop SR_networkRunLoop] performSelector:@selector(syncSend:) target:self argument:req order:0 modes:@[NSDefaultRunLoopMode]];
+        [self syncSend:req];
+    }
+}
+-(void) syncSend:(WSRequest*)req
+{
     if(req.buffer_timeout>0)
     {
         NSString *bufkey=[self CmdBufferKey:req.func parm:req.parm];
         NSDictionary *result=[self.cmdCacheDb getObject:bufkey];
         if(result)
         {
+            req.error_code=0;
+            req.error=@"from cache";
+            @synchronized(req)
+            {
+                //[req doCallBack:[result objectForKey:@"result"]];
+                [req performSelectorOnMainThread:@selector(doCallBack:) withObject:[result objectForKey:@"result"] waitUntilDone:FALSE];
+            }
             if([[NSDate date] timeIntervalSince1970]-[[result objectForKey:@"time"] doubleValue]<req.buffer_timeout)
             {
-                req.error_code=0;
-                req.error=@"from cache";
-                @synchronized(req)
-                {
-                    [req doCallBack:[result objectForKey:@"result"]];
-                    //[req performSelectorOnMainThread:@selector(doCallBack:) withObject:result waitUntilDone:FALSE];
-                }
                 return;
             }
         }
         
     }
-    if(gosend)
-    {
-        if([self isConnected]){
-            NSData *tosend_data=[req getCompressData];
-            if(tosend_data)
-                [self.websocket send:tosend_data];
-        }
+    if([self isConnected]){
+        NSData *tosend_data=[req getCompressData];
+        if(tosend_data)
+            [self.websocket send:tosend_data];
     }
 }
 -(NSString*) CmdBufferKey:(NSString*)func parm:(NSDictionary*)parm
@@ -451,21 +457,19 @@ WebSocketManager *one_instance=nil;
     }
     
     
-    NSMutableArray *go_delete=[NSMutableArray new];
     @synchronized(self.requestbuffer)
     {
-    for(NSString *key in self.requestbuffer)
+    for(NSString *key in [self.requestbuffer allKeys])
     {
         WSRequest *one = [self.requestbuffer valueForKey:key];
         if(now-one.addtime>15.0)
         {
-            [go_delete addObject:key];
+            [self.requestbuffer removeObjectForKey:key];
             one.error_code=-1;
             one.error=@"time out";
             [one doCallBack:nil];
         }
     }
-    [self.requestbuffer removeObjectsForKeys:go_delete];
     }
 }
 @end
