@@ -143,12 +143,10 @@
         _displayToolbar = YES;
         _autoHide = YES;
         _displayDoneButton = YES;
-        //图片保存按钮开关(lewcok)
         _displaySaveButton = NO;
-        
-        //关掉举报接口(lewcok)
+
         //_displayActionButton = YES;
-        
+
         _displayArrowButton = YES;
         _displayCounterLabel = NO;
         _useWhiteBackgroundColor = NO;
@@ -779,7 +777,6 @@
     } else {
         [_toolbar removeFromSuperview];
     }
-    //图片保存按钮是否加载(lewcok)
     // Save button
     if(_displaySaveButton && !self.navigationController.navigationBar)
         [self.view addSubview:_saveButton];
@@ -1125,7 +1122,6 @@
     return CGRectMake(screenWidth - 55 - 20, 30, 55, 26);
 }
 
-//保存按钮框架(lewcok)
 - (CGRect)frameForSaveButtonAtOrientation:(UIInterfaceOrientation)orientation {
     CGRect screenBound = [[UIScreen mainScreen] bounds];
     CGFloat screenWidth = screenBound.size.width;

@@ -13,18 +13,8 @@
 #import "SVProgressHUD.h"
 #import "UIImageView+AFNetworking.h"
 #import "AFHTTPRequestOperationManager.h"
-//#import <CommonCrypto/CommonDigest.h>
 #import <AssetsLibrary/AssetsLibrary.h>
-//#import <Foundation/Foundation.h>
-//#import <MobileCoreServices/MobileCoreServices.h>
-//#import "LXAPIController.h"
-//#import "LXRequestFacebookManager.h"
-//#import "XCAlbumAdditions.h"
 
-//#import "MLNetworkingManager.h"
-//#import "XCJErWeiCodeViewController.h"
-//#import "XCJChangeNickNaviController.h"
-//#import "XCJChangeSignNaviController.h"
 #import "CDBChangeNickNaviController.h"
 #import "CDBChangeNickViewController.h"
 #import "CDBChangeSignNaviController.h"
@@ -33,9 +23,6 @@
 #import "CDBChangeJobNaviController.h"
 #import "CDBSelfPhotoViewController.h"
 
-//
-//
-//#import "XCJSelfPrivatePhotoViewController.h"
 
 #define  RESET_PASSWD_CID  1
 
@@ -59,7 +46,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *Label_sex;
 @property (weak, nonatomic) IBOutlet UILabel *Label_age;
 @property (weak, nonatomic) IBOutlet UILabel *Label_job;
-//@property (strong, nonatomic) HZAreaPickerView *locatePicker;
 @property (strong, nonatomic) NSString *areaValue, *cityValue;
 @property (weak, nonatomic) IBOutlet UIImageView *firPic;
 @property (weak, nonatomic) IBOutlet UIImageView *secPic;
