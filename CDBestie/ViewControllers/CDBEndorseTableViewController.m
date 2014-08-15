@@ -22,6 +22,7 @@
 #import "CDBBangNaviController.h"
 #import "CDBBangTableViewController.h"
 #import "ACDBEndorseInfoController.h"
+#import "ImageDownloader.h"
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
 
 
@@ -330,6 +331,13 @@
     if (cell == nil) {
         cell = [[CDBEndorseCell alloc] init];
     }
+    else{
+        cell.userIcon.image=[UIImage imageNamed:@"left_view_avatar_avatar"];
+        cell.userNick.text=nil;
+        cell.userInfo.text=nil;
+        cell.userGoods.text=nil;
+        cell.userLevel.hidden=TRUE;
+    }
     cell.celluid = [[[friend_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
     // Configure the cell...
     NSString* cell_uid = [[friend_list objectAtIndex:indexPath.row] objectForKey:@"uid"];
@@ -352,7 +360,13 @@
           NSString *imageString = [NSString stringWithFormat:@"%@?imageView2/1/w/%i/h/%i/format/jpg",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
          NSURL *imageURL = [NSURL URLWithString:imageString];
          NSLog(@"%@",imageURL);
-         [cell.userIcon setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
+         [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIImageView *view, UIImage *image) {
+             if(image)
+             {
+                 view.image=image;
+             }
+         }];
+         //[cell.userIcon setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
          
          NSString *user_SEX;
          NSString *user_JOB;
@@ -434,6 +448,7 @@
          NSLog(@"levelText = %@",[NSString stringWithFormat:@"LV%d",value]);
          [cell.userLevel.titleLabel sizeToFit];
          cell.userLevel.titleLabel.textAlignment = NSTextAlignmentCenter;
+         cell.userLevel.hidden=FALSE;
          
          if(userInfo.endors_list){
              
