@@ -89,8 +89,6 @@
         
         NSLog(@"sessionid = %@",sessionid);
         NSLog(@"nick = %@",user_nick);
-         [self completeUserInfoview:nil];
-        /*
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             if (!sessionid||[sessionid isEqualToString:@""]) {
@@ -105,7 +103,6 @@
                 
             }
         });
-        */
     }
     if([self.title isEqual:@"排行榜"])
     {
@@ -451,23 +448,7 @@
              }
              cell.userGoods.text = cs;
          }
-         
-         //以下方法 当icol_url为空会crash
-         /*
-         if(userInfo.endors_list){
-             Merchandise *ct =[[Merchandise alloc]initWithJson:userInfo.endors_list[0]];
-             NSString *cs=ct.productname;
-             int i;
-             for(i=1;i < [userInfo.endors_list count];i++)
-             {
-                 ct =[[Merchandise alloc]initWithJson:userInfo.endors_list[i]];
-                 NSString *temp =ct.productname;
-                 
-                 cs =[NSString stringWithFormat:@"%@ | %@",cs,temp];
-             }
-             cell.userGoods.text = cs;
-         }
-          */
+
      }timeout:UserInfo2_TimeOut];
     return cell;
 }
