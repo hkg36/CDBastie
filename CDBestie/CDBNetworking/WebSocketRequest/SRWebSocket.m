@@ -254,9 +254,6 @@ typedef void (^data_callback)(SRWebSocket *webSocket,  NSData *data);
     
     NSMutableSet *_scheduledRunloops;
     
-    // We use this to retain ourselves.
-    __strong SRWebSocket *_selfRetain;
-    
     NSArray *_requestedProtocols;
     SRIOConsumerPool *_consumerPool;
 }
@@ -374,8 +371,6 @@ static __strong NSData *CRLFCRLF;
     assert(_url);
     NSAssert(_readyState == SR_CONNECTING, @"Cannot call -(void)open on SRWebSocket more than once");
 
-    _selfRetain = self;
-    
     [self _connect];
 }
 
@@ -572,7 +567,6 @@ static __strong NSData *CRLFCRLF;
 
 - (void)_failWithError:(NSError *)error;
 {
-    //dispatch_async(_workQueue, ^{
         if (self.readyState != SR_CLOSED) {
             _failed = YES;
                 if ([self.delegate respondsToSelector:@selector(webSocket:didFailWithError:)]) {
@@ -580,10 +574,8 @@ static __strong NSData *CRLFCRLF;
                 }
 
             [self _disconnect];
-            _selfRetain = nil;
             
         }
-    //});
 }
 
 - (void)_writeData:(NSData *)data;
@@ -720,7 +712,6 @@ static inline BOOL closeCodeIsValid(int closeCode) {
             [self.delegate webSocket:self didCloseWithCode:_closeCode reason:_closeReason wasClean:YES];
         }
     }
-    _selfRetain = nil;
 }
 
 - (void)_handleFrameWithData:(NSData *)frameData opCode:(NSInteger)opcode;
@@ -1283,7 +1274,6 @@ static const size_t SRFrameHeaderOverhead = 32;
                 } else {
                     if (self.readyState != SR_CLOSED) {
                         self.readyState = SR_CLOSED;
-                        _selfRetain = nil;
                     }
 
                     if (!_failed) {
