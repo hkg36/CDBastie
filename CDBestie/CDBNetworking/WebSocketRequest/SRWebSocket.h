@@ -74,7 +74,6 @@ extern NSString *const SRWebSocketErrorDomain;
 - (void)open;
 
 - (void)close;
-- (void)closeWithCode:(NSInteger)code reason:(NSString *)reason;
 
 // Send a UTF8 String or Data.
 - (void)send:(id)data;

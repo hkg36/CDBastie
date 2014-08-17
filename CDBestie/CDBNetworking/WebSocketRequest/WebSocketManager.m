@@ -135,7 +135,7 @@ WebSocketManager *one_instance=nil;
     self.cmdCacheDb=[[LevelDB alloc] initWithPath:[NSString stringWithFormat:@"%@networkCacheDb",tmppath]];
     
     self.timer=[NSTimer timerWithTimeInterval:5.0 target:self selector:@selector(handleTimer:) userInfo:nil repeats:TRUE];
-    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
+    [[NSRunLoop SR_networkRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
     return self;
 }
 -(void) open:(NSString*) url withsessionid:(NSString*) sessionid
@@ -169,6 +169,7 @@ WebSocketManager *one_instance=nil;
         self.websocket = [[SRWebSocket alloc] initWithURL:[NSURL URLWithString:fullurl]];
         self.websocket.delegate = self;
         [self.websocket open];
+        self.last_recvtime=[[NSDate date] timeIntervalSince1970];
     }
 }
 
@@ -467,7 +468,7 @@ WebSocketManager *one_instance=nil;
             [self.requestbuffer removeObjectForKey:key];
             one.error_code=-1;
             one.error=@"time out";
-            [one doCallBack:nil];
+            [one performSelectorOnMainThread:@selector(doCallBack:) withObject:nil waitUntilDone:FALSE];
         }
     }
     }
