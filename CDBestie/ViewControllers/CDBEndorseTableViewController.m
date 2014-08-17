@@ -361,7 +361,7 @@
          //NSString *imageString = [NSString stringWithFormat:@"http://laixinle.qiniudn.com/FjJHS3LxIfYSlN2XSfnvdVv4qbNR\?imageView2/1/w/%i/h/%i/format/jpg",(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
          if(userInfo.user.headpic)
          {
-          NSString *imageString = [NSString stringWithFormat:@"%@?imageView2/1/w/%i/h/%i/format/jpg",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
+          NSString *imageString = [NSString stringWithFormat:@"%@?imageView2/1/w/%i/h/%i",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
          NSURL *imageURL = [NSURL URLWithString:imageString];
          NSLog(@"%@",imageURL);
          [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIImageView *view, UIImage *image) {
