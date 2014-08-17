@@ -209,7 +209,7 @@ typedef void (^data_callback)(SRWebSocket *webSocket,  NSData *data);
     //NSOperationQueue *_delegateOperationQueue;
     //dispatch_queue_t _delegateDispatchQueue;
     
-    dispatch_queue_t _workQueue;
+    //dispatch_queue_t _workQueue;
     NSMutableArray *_consumers;
 
     NSInputStream *_inputStream;
@@ -265,7 +265,6 @@ typedef void (^data_callback)(SRWebSocket *webSocket,  NSData *data);
 @synthesize url = _url;
 @synthesize readyState = _readyState;
 @synthesize protocol = _protocol;
-@synthesize workQueue = _workQueue;
 
 static __strong NSData *CRLFCRLF;
 
@@ -320,10 +319,10 @@ static __strong NSData *CRLFCRLF;
     _consumerStopped = YES;
     _webSocketVersion = 13;
     
-    _workQueue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
+    //_workQueue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
     
     // Going to set a specific on the queue so we can validate we're on the work queue
-    dispatch_queue_set_specific(_workQueue, (__bridge void *)self, maybe_bridge(_workQueue), NULL);
+    //dispatch_queue_set_specific(_workQueue, (__bridge void *)self, maybe_bridge(_workQueue), NULL);
     
     _readBuffer = [[NSMutableData alloc] init];
     _outputBuffer = [[NSMutableData alloc] init];
@@ -343,7 +342,7 @@ static __strong NSData *CRLFCRLF;
 
 - (void)assertOnWorkQueue;
 {
-    assert(dispatch_get_specific((__bridge void *)self) == maybe_bridge(_workQueue));
+    //assert(dispatch_get_specific((__bridge void *)self) == maybe_bridge(_workQueue));
 }
 
 - (void)dealloc
@@ -354,8 +353,8 @@ static __strong NSData *CRLFCRLF;
     [_inputStream close];
     [_outputStream close];
     
-    sr_dispatch_release(_workQueue);
-    _workQueue = NULL;
+    //sr_dispatch_release(_workQueue);
+    //_workQueue = NULL;
     
     if (_receivedHTTPHeaders) {
         CFRelease(_receivedHTTPHeaders);
@@ -572,7 +571,7 @@ static __strong NSData *CRLFCRLF;
 - (void)closeWithCode:(NSInteger)code reason:(NSString *)reason;
 {
     assert(code);
-    dispatch_async(_workQueue, ^{
+    //dispatch_async(_workQueue, ^{
         if (self.readyState == SR_CLOSING || self.readyState == SR_CLOSED) {
             return;
         }
@@ -611,7 +610,7 @@ static __strong NSData *CRLFCRLF;
         
         
         [self _sendFrameWithOpcode:SROpCodeConnectionClose data:payload];
-    });
+    //});
 }
 
 - (void)_closeWithProtocolError:(NSString *)message;
@@ -619,14 +618,14 @@ static __strong NSData *CRLFCRLF;
     // Need to shunt this on the _callbackQueue first to see if they received any messages 
     
         [self closeWithCode:SRStatusCodeProtocolError reason:message];
-        dispatch_async(_workQueue, ^{
+        //dispatch_async(_workQueue, ^{
             [self _disconnect];
-        });
+        //});
 }
 
 - (void)_failWithError:(NSError *)error;
 {
-    dispatch_async(_workQueue, ^{
+    //dispatch_async(_workQueue, ^{
         if (self.readyState != SR_CLOSED) {
             _failed = YES;
                 if ([self.delegate respondsToSelector:@selector(webSocket:didFailWithError:)]) {
@@ -640,7 +639,7 @@ static __strong NSData *CRLFCRLF;
             
             [self _disconnect];
         }
-    });
+    //});
 }
 
 - (void)_writeData:(NSData *)data;
@@ -658,7 +657,7 @@ static __strong NSData *CRLFCRLF;
     NSAssert(self.readyState != SR_CONNECTING, @"Invalid State: Cannot call send: until connection is open");
     // TODO: maybe not copy this for performance
     //data = [data copy];
-    dispatch_async(_workQueue, ^{
+    //dispatch_async(_workQueue, ^{
         if ([data isKindOfClass:[NSString class]]) {
             [self _sendFrameWithOpcode:SROpCodeTextFrame data:[(NSString *)data dataUsingEncoding:NSUTF8StringEncoding]];
         } else if ([data isKindOfClass:[NSData class]]) {
@@ -668,20 +667,20 @@ static __strong NSData *CRLFCRLF;
         } else {
             assert(NO);
         }
-    });
+    //});
 }
 - (void)sendPing
 {
-        dispatch_async(_workQueue, ^{
+        //dispatch_async(_workQueue, ^{
             [self _sendFrameWithOpcode:SROpCodePing data:nil];
-        });
+        //});
 }
 - (void)handlePing:(NSData *)pingData;
 {
     // Need to pingpong this off _callbackQueue first to make sure messages happen in order
-        dispatch_async(_workQueue, ^{
+        //dispatch_async(_workQueue, ^{
             [self _sendFrameWithOpcode:SROpCodePong data:pingData];
-        });
+        //});
 }
 
 - (void)handlePong;
@@ -766,9 +765,9 @@ static inline BOOL closeCodeIsValid(int closeCode) {
     if (self.readyState == SR_OPEN) {
         [self closeWithCode:1000 reason:nil];
     }
-    dispatch_async(_workQueue, ^{
+    //dispatch_async(_workQueue, ^{
         [self _disconnect];
-    });
+    //});
 }
 
 - (void)_disconnect;
@@ -784,22 +783,16 @@ static inline BOOL closeCodeIsValid(int closeCode) {
     // Check that the current data is valid UTF8
     
     BOOL isControlFrame = (opcode == SROpCodePing || opcode == SROpCodePong || opcode == SROpCodeConnectionClose);
-    if (!isControlFrame) {
-        [self _readFrameNew];
-    } else {
-        dispatch_async(_workQueue, ^{
-            [self _readFrameContinue];
-        });
-    }
+    
     
     switch (opcode) {
         case SROpCodeTextFrame: {
             NSString *str = [[NSString alloc] initWithData:frameData encoding:NSUTF8StringEncoding];
             if (str == nil && frameData) {
                 [self closeWithCode:SRStatusCodeInvalidUTF8 reason:@"Text frames must be valid UTF-8"];
-                dispatch_async(_workQueue, ^{
+                //dispatch_async(_workQueue, ^{
                     [self _disconnect];
-                });
+                //});
 
                 return;
             }
@@ -822,6 +815,13 @@ static inline BOOL closeCodeIsValid(int closeCode) {
             [self _closeWithProtocolError:[NSString stringWithFormat:@"Unknown opcode %ld", (long)opcode]];
             // TODO: Handle invalid opcode
             break;
+    }
+    if (!isControlFrame) {
+        [self _readFrameNew];
+    } else {
+        // dispatch_async(_workQueue, ^{
+        [self _readFrameContinue];
+        //});
     }
 }
 
@@ -995,7 +995,7 @@ static const uint8_t SRPayloadLenMask   = 0x7F;
 
 - (void)_readFrameNew;
 {
-    dispatch_async(_workQueue, ^{
+    //dispatch_async(_workQueue, ^{
         [_currentFrameData setLength:0];
         
         _currentFrameOpcode = 0;
@@ -1004,7 +1004,7 @@ static const uint8_t SRPayloadLenMask   = 0x7F;
         _currentStringScanPosition = 0;
         
         [self _readFrameContinue];
-    });
+    //});
 }
 
 - (void)_pumpWriting;
@@ -1186,9 +1186,9 @@ static const char CRLFCRLFBytes[] = {'\r', '\n', '\r', '\n'};
                     
                     if (valid_utf8_size == -1) {
                         [self closeWithCode:SRStatusCodeInvalidUTF8 reason:@"Text frames must be valid UTF-8"];
-                        dispatch_async(_workQueue, ^{
+                        //dispatch_async(_workQueue, ^{
                             [self _disconnect];
-                        });
+                        //});
                         return didWork;
                     } else {
                         _currentStringScanPosition += valid_utf8_size;
@@ -1334,15 +1334,15 @@ static const size_t SRFrameHeaderOverhead = 32;
             }
             
             if (!_pinnedCertFound) {
-                dispatch_async(_workQueue, ^{
+                //dispatch_async(_workQueue, ^{
                     [self _failWithError:[NSError errorWithDomain:@"org.lolrus.SocketRocket" code:23556 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Invalid server cert"] forKey:NSLocalizedDescriptionKey]]];
-                });
+                //});
                 return;
             }
         }
     }
 
-    dispatch_async(_workQueue, ^{
+    //dispatch_async(_workQueue, ^{
         switch (eventCode) {
             case NSStreamEventOpenCompleted: {
                 SRFastLog(@"NSStreamEventOpenCompleted %@", aStream);
@@ -1425,7 +1425,7 @@ static const size_t SRFrameHeaderOverhead = 32;
                 SRFastLog(@"(default)  %@", aStream);
                 break;
         }
-    });
+    //});
 }
 
 @end

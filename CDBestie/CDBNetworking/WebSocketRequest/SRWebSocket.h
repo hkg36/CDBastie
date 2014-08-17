@@ -53,7 +53,6 @@ extern NSString *const SRWebSocketErrorDomain;
 
 @property (nonatomic, readonly) SRReadyState readyState;
 @property (nonatomic, readonly, retain) NSURL *url;
-@property (nonatomic,readonly) dispatch_queue_t workQueue;
 // This returns the negotiated protocol.
 // It will be nil until after the handshake completes.
 @property (nonatomic, readonly, copy) NSString *protocol;
