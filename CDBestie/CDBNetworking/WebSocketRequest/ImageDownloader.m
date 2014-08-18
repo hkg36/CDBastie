@@ -44,7 +44,7 @@ ImageDownloader* one_instanse=nil;
     do
     {
         [myRunLoop runMode:NSDefaultRunLoopMode
-                                 beforeDate:[NSDate distantFuture]];
+                beforeDate:[NSDate distantFuture]];
     }
     while (true);
 }
@@ -52,10 +52,10 @@ ImageDownloader* one_instanse=nil;
 {
     UIImage *buffimg=nil;
     @synchronized(self.imgbuffer){
-    buffimg=[self.imgbuffer objectForKey:url];
+        buffimg=[self.imgbuffer objectForKey:url];
     }
     if(buffimg){
-        img.image=buffimg;
+        callback(img,buffimg);
         return;
     }
     [img.layer setValue:url forKey:@"download_image_work"];
@@ -91,13 +91,13 @@ ImageDownloader* one_instanse=nil;
             uint8_t *data = WebPDecodeRGBA([responseData bytes], [responseData length], &width, &height);
             if(data)
             {
-            provider = CGDataProviderCreateWithData(NULL, data, width*height*4, free_image_data);
-            
-            CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
-            CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
-            CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
-            CGImageRef imageRef = CGImageCreate(width, height, 8, 32, 4*width, colorSpaceRef, bitmapInfo, provider, NULL, NO, renderingIntent);
-            resimg = [UIImage imageWithCGImage:imageRef];
+                provider = CGDataProviderCreateWithData(NULL, data, width*height*4, free_image_data);
+                
+                CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+                CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
+                CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
+                CGImageRef imageRef = CGImageCreate(width, height, 8, 32, 4*width, colorSpaceRef, bitmapInfo, provider, NULL, NO, renderingIntent);
+                resimg = [UIImage imageWithCGImage:imageRef];
             }
         }
         else{
@@ -130,7 +130,7 @@ ImageDownloader* one_instanse=nil;
 {
     @synchronized(self.imgbuffer)
     {
-    [self.imgbuffer removeAllObjects];
+        [self.imgbuffer removeAllObjects];
     }
 }
 static void free_image_data(void *info, const void *data, size_t size)

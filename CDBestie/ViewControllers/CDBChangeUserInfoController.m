@@ -22,7 +22,7 @@
 #import "CDBChangeBirthNaviController.h"
 #import "CDBChangeJobNaviController.h"
 #import "CDBSelfPhotoViewController.h"
-
+#import "ImageDownloader.h"
 
 #define  RESET_PASSWD_CID  1
 
@@ -63,8 +63,19 @@
     [super viewDidLoad];
     self.Label_nick.text =    [USER_DEFAULT objectForKey:@"USERINFO_NICK"];
     self.label_sign.text =    [USER_DEFAULT objectForKey:@"USERINFO_SIGNATURE"];
-     NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[NSString stringWithFormat:@"%@",[USER_DEFAULT objectForKey:@"USERINFO_HEADPIC"]],(int)self.Image_userIcon.frame.size.width,(int)self.Image_userIcon.frame.size.height];
-   [self.Image_userIcon setImageWithURL:[NSURL URLWithString:imageString ]  placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
+    if ([USER_DEFAULT objectForKey:@"USERINFO_HEADPIC"]) {
+        NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[NSString stringWithFormat:@"%@",[USER_DEFAULT objectForKey:@"USERINFO_HEADPIC"]],(int)self.Image_userIcon.frame.size.width,(int)self.Image_userIcon.frame.size.height];
+        [[ImageDownloader instanse] startDownload:self.Image_userIcon forUrl:[NSURL URLWithString:imageString] callback:^(UIImageView *view, UIImage *image) {
+            if(image)
+            {
+                view.image=image;
+            }
+        }];
+    }
+    else
+    {
+        [self.Image_userIcon setImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
+    }
     [self.Image_userIcon.layer setCornerRadius:CGRectGetHeight([self.Image_userIcon bounds]) / 2];
     self.Image_userIcon.layer.masksToBounds = YES;
     _headLayerIcon.hidden =YES;
@@ -200,7 +211,12 @@
             NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[dataSource[0] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
             NSURL *imageURL = [NSURL URLWithString:imageString];
 
-            [_firPic setImageWithURL:imageURL];
+            [[ImageDownloader instanse] startDownload:_firPic forUrl:imageURL callback:^(UIImageView *view, UIImage *image) {
+                if(image)
+                {
+                    view.image=image;
+                }
+            }];
 
             
             if( [dataSource count] >1)
@@ -209,7 +225,12 @@
                 NSString *imageString1 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[dataSource[1] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
                 NSURL *imageURL1 = [NSURL URLWithString:imageString1];
                 NSLog(@"imageURL1 = %@",imageURL1);
-                [_secPic setImageWithURL:imageURL1];
+                [[ImageDownloader instanse] startDownload:_secPic forUrl:imageURL1 callback:^(UIImageView *view, UIImage *image) {
+                    if(image)
+                    {
+                        view.image=image;
+                    }
+                }];
                 
             }
             if( [dataSource count] > 2)
@@ -217,7 +238,12 @@
                 _thrPic.hidden = NO;
                 NSString *imageString2 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[dataSource[2] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
                 NSURL *imageURL2 = [NSURL URLWithString:imageString2];
-                [_thrPic setImageWithURL:imageURL2];
+                [[ImageDownloader instanse] startDownload:_thrPic forUrl:imageURL2 callback:^(UIImageView *view, UIImage *image) {
+                    if(image)
+                    {
+                        view.image=image;
+                    }
+                }];
             }
             [SVProgressHUD dismiss];
         }else{
@@ -245,10 +271,19 @@
 {
     NSLog(@"%@",notify.object);
     if (notify.object) {
-        [self.Image_userIcon setImageWithURL:[NSURL URLWithString:[tools getUrlByImageUrl:notify.object Size:100]] placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
+            [[ImageDownloader instanse] startDownload:self.Image_userIcon forUrl:[NSURL URLWithString:[tools getUrlByImageUrl:notify.object Size:100]] callback:^(UIImageView *view, UIImage *image) {
+                if(image)
+                {
+                    view.image=image;
+                }
+            }];
+        }
+        else
+        {
+            [self.Image_userIcon setImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
+        }
         
     }
-}
 
 
 
