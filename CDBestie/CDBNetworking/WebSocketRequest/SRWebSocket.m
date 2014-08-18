@@ -231,7 +231,7 @@ typedef void (^data_callback)(SRWebSocket *webSocket,  NSData *data);
     
     NSString *_secKey;
     
-    BOOL _pinnedCertFound;
+    //BOOL _pinnedCertFound;
     
     uint8_t _currentReadMaskKey[4];
     size_t _currentReadMaskOffset;
@@ -249,10 +249,6 @@ typedef void (^data_callback)(SRWebSocket *webSocket,  NSData *data);
     //BOOL _sentClose;
     BOOL _didFail;
     int _closeCode;
-    
-    BOOL _isPumping;
-    
-    NSMutableSet *_scheduledRunloops;
     
     NSArray *_requestedProtocols;
     SRIOConsumerPool *_consumerPool;
@@ -329,8 +325,6 @@ static __strong NSData *CRLFCRLF;
     _consumers = [[NSMutableArray alloc] init];
     
     _consumerPool = [[SRIOConsumerPool alloc] init];
-    
-    _scheduledRunloops = [[NSMutableSet alloc] init];
     
     [self _initializeStreams];
     
@@ -497,11 +491,6 @@ static __strong NSData *CRLFCRLF;
         
         [_outputStream setProperty:(__bridge id)kCFStreamSocketSecurityLevelNegotiatedSSL forKey:(__bridge id)kCFStreamPropertySocketSecurityLevel];
         
-        // If we're using pinned certs, don't validate the certificate chain
-        if ([_urlRequest SR_SSLPinnedCertificates].count) {
-            [SSLOptions setValue:[NSNumber numberWithBool:NO] forKey:(__bridge id)kCFStreamSSLValidatesCertificateChain];
-        }
-        
 #if DEBUG
         //[SSLOptions setValue:[NSNumber numberWithBool:NO] forKey:(__bridge id)kCFStreamSSLValidatesCertificateChain];
         //NSLog(@"SocketRocket: In debug mode.  Allowing connection to any root cert");
@@ -517,29 +506,23 @@ static __strong NSData *CRLFCRLF;
 
 - (void)_connect;
 {
-    if (!_scheduledRunloops.count) {
-        [self scheduleInRunLoop:[NSRunLoop SR_networkRunLoop] forMode:NSDefaultRunLoopMode];
-    }
+    [self scheduleInRunLoop];
     
     
     [_outputStream open];
     [_inputStream open];
 }
 
-- (void)scheduleInRunLoop:(NSRunLoop *)aRunLoop forMode:(NSString *)mode;
+- (void)scheduleInRunLoop
 {
-    [_outputStream scheduleInRunLoop:aRunLoop forMode:mode];
-    [_inputStream scheduleInRunLoop:aRunLoop forMode:mode];
-    
-    [_scheduledRunloops addObject:@[aRunLoop, mode]];
+    [_outputStream scheduleInRunLoop:[NSRunLoop SR_networkRunLoop] forMode:NSDefaultRunLoopMode];
+    [_inputStream scheduleInRunLoop:[NSRunLoop SR_networkRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
-- (void)unscheduleFromRunLoop:(NSRunLoop *)aRunLoop forMode:(NSString *)mode;
+- (void)unscheduleFromRunLoop
 {
-    [_outputStream removeFromRunLoop:aRunLoop forMode:mode];
-    [_inputStream removeFromRunLoop:aRunLoop forMode:mode];
-    
-    [_scheduledRunloops removeObject:@[aRunLoop, mode]];
+    [_outputStream removeFromRunLoop:[NSRunLoop SR_networkRunLoop] forMode:NSDefaultRunLoopMode];
+    [_inputStream removeFromRunLoop:[NSRunLoop SR_networkRunLoop] forMode:NSDefaultRunLoopMode];
 }
 
 - (void)close;
@@ -693,9 +676,8 @@ static inline BOOL closeCodeIsValid(int closeCode) {
     [_inputStream close];
     
     self.readyState=SR_CLOSED;
-    for (NSArray *runLoop in [_scheduledRunloops copy]) {
-        [self unscheduleFromRunLoop:[runLoop objectAtIndex:0] forMode:[runLoop objectAtIndex:1]];
-    }
+    [self unscheduleFromRunLoop];
+    
     if (!_failed) {
         if ([self.delegate respondsToSelector:@selector(webSocket:didCloseWithCode:reason:wasClean:)]) {
             [self.delegate webSocket:self didCloseWithCode:_closeCode reason:_closeReason wasClean:YES];
@@ -1108,17 +1090,9 @@ static const char CRLFCRLFBytes[] = {'\r', '\n', '\r', '\n'};
 
 -(void)_pumpScanner;
 {
-    if (!_isPumping) {
-        _isPumping = YES;
-    } else {
-        return;
-    }
-    
     while ([self _innerPumpScanner]) {
         
     }
-    
-    _isPumping = NO;
 }
 
 //#define NOMASK
@@ -1196,39 +1170,6 @@ static const size_t SRFrameHeaderOverhead = 32;
 
 - (void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode;
 {
-    if (_secure && !_pinnedCertFound && (eventCode == NSStreamEventHasBytesAvailable || eventCode == NSStreamEventHasSpaceAvailable)) {
-        
-        NSArray *sslCerts = [_urlRequest SR_SSLPinnedCertificates];
-        if (sslCerts) {
-            SecTrustRef secTrust = (__bridge SecTrustRef)[aStream propertyForKey:(__bridge id)kCFStreamPropertySSLPeerTrust];
-            if (secTrust) {
-                NSInteger numCerts = SecTrustGetCertificateCount(secTrust);
-                for (NSInteger i = 0; i < numCerts && !_pinnedCertFound; i++) {
-                    SecCertificateRef cert = SecTrustGetCertificateAtIndex(secTrust, i);
-                    NSData *certData = CFBridgingRelease(SecCertificateCopyData(cert));
-                    
-                    for (id ref in sslCerts) {
-                        SecCertificateRef trustedCert = (__bridge SecCertificateRef)ref;
-                        NSData *trustedCertData = CFBridgingRelease(SecCertificateCopyData(trustedCert));
-                        
-                        if ([trustedCertData isEqualToData:certData]) {
-                            _pinnedCertFound = YES;
-                            break;
-                        }
-                    }
-                }
-            }
-            
-            if (!_pinnedCertFound) {
-                //dispatch_async(_workQueue, ^{
-                    [self _failWithError:[NSError errorWithDomain:@"org.lolrus.SocketRocket" code:23556 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Invalid server cert"] forKey:NSLocalizedDescriptionKey]]];
-                //});
-                return;
-            }
-        }
-    }
-
-    //dispatch_async(_workQueue, ^{
         switch (eventCode) {
             case NSStreamEventOpenCompleted: {
                 SRFastLog(@"NSStreamEventOpenCompleted %@", aStream);
@@ -1307,7 +1248,6 @@ static const size_t SRFrameHeaderOverhead = 32;
                 SRFastLog(@"(default)  %@", aStream);
                 break;
         }
-    //});
 }
 
 @end
@@ -1375,30 +1315,6 @@ static const size_t SRFrameHeaderOverhead = 32;
     if (_bufferedConsumers.count < _poolSize) {
         [_bufferedConsumers addObject:consumer];
     }
-}
-
-@end
-
-
-@implementation  NSURLRequest (CertificateAdditions)
-
-- (NSArray *)SR_SSLPinnedCertificates;
-{
-    return [NSURLProtocol propertyForKey:@"SR_SSLPinnedCertificates" inRequest:self];
-}
-
-@end
-
-@implementation  NSMutableURLRequest (CertificateAdditions)
-
-- (NSArray *)SR_SSLPinnedCertificates;
-{
-    return [NSURLProtocol propertyForKey:@"SR_SSLPinnedCertificates" inRequest:self];
-}
-
-- (void)setSR_SSLPinnedCertificates:(NSArray *)SR_SSLPinnedCertificates;
-{
-    [NSURLProtocol setProperty:SR_SSLPinnedCertificates forKey:@"SR_SSLPinnedCertificates" inRequest:self];
 }
 
 @end

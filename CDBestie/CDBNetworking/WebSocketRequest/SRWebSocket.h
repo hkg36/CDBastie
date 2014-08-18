@@ -65,11 +65,6 @@ extern NSString *const SRWebSocketErrorDomain;
 - (id)initWithURL:(NSURL *)url protocols:(NSArray *)protocols;
 - (id)initWithURL:(NSURL *)url;
 
-
-// By default, it will schedule itself on +[NSRunLoop SR_networkRunLoop] using defaultModes.
-- (void)scheduleInRunLoop:(NSRunLoop *)aRunLoop forMode:(NSString *)mode;
-- (void)unscheduleFromRunLoop:(NSRunLoop *)aRunLoop forMode:(NSString *)mode;
-
 // SRWebSockets are intended for one-time-use only.  Open should be called once and only once.
 - (void)open;
 
