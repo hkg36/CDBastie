@@ -62,7 +62,7 @@
     NSUserDefaults * settings1 = [NSUserDefaults standardUserDefaults];
     NSString *key1 = [NSString stringWithFormat:@"is_first"];
     NSString *value = [settings1 objectForKey:key1];
-    //if (!value)
+    if (!value)
     {
       
         scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds))];

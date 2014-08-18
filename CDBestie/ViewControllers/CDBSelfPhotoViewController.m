@@ -85,7 +85,7 @@
         [button sendMessageStyle];
         [button addTarget:self action:@selector(AddPhoto:) forControlEvents:UIControlEventTouchUpInside];
         [viewadd setTop:(APP_SCREEN_HEIGHT - 50)];
-         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"threadInfoButtonSelected"] style:UIBarButtonItemStyleDone target:self action:@selector(showinfoClick:)];
+        // self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"threadInfoButtonSelected"] style:UIBarButtonItemStyleDone target:self action:@selector(showinfoClick:)];
         
     }else{
         [scrollview setHeight:APP_SCREEN_HEIGHT ];
