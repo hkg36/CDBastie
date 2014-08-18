@@ -18,6 +18,7 @@
 #import "SVProgressHUD.h"
 #import "ACDBEndorseInfoController.h"
 #import "DataTools.h"
+#import "ImageDownloader.h"
 
 #import "AFHTTPRequestOperationManager.h"
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
@@ -170,6 +171,10 @@
     
     [[WebSocketManager instance] sendWithAction:@"user.info2" parameters:parames cdata:GenCdata(12) callback:^(WSRequest *request, NSDictionary *result)
      {
+         if(request.error_code!=0)
+         {
+             return;
+         }
          
          NSLog(@"result = %@",result);
          if ([[request.parm valueForKey:@"uid"] longLongValue]!=cell.celluid) {
@@ -180,9 +185,22 @@
          cell.iconLayer.hidden =YES;
          UserInfo2 *userInfo =[[UserInfo2 alloc]initWithJson:result];
          cell.userNick.text = userInfo.user.nick;
+         if (userInfo.user.headpic) {
          NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
          NSURL *imageURL = [NSURL URLWithString:imageString];
-         [cell.userIcon setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
+         if (imageURL) {
+             [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIImageView *view, UIImage *image) {
+                 if(image)
+                 {
+                     view.image=image;
+                 }
+             }];
+         }
+         else
+         {
+             [cell.userIcon setImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
+         }
+         }
          NSString *user_SEX;
          NSString *user_JOB;
          if (userInfo.user.sex == 1) {

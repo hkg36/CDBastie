@@ -18,6 +18,7 @@
 #import "DZWebBrowser.h"
 #import "UIImage+Resize.h"
 #import "DataHelper.h"
+#import "ImageDownloader.h"
 
 
 #define DISTANCE_BETWEEN_ITEMS  8.0
@@ -305,6 +306,20 @@
             }
             imageview.tag = idx;
             [imageview setImageWithURL:[NSURL URLWithString:[tools getUrlByImageUrl:[obj objectForKey:@"picture" ] Size:160]] placeholderImage:[UIImage imageNamed:@"aio_ogactivity_default"]];
+            /*
+             if ([NSURL URLWithString:[tools getUrlByImageUrl:[obj objectForKey:@"picture" ] Size:160]]) {
+             [[ImageDownloader instanse] startDownload:imageview forUrl:[NSURL URLWithString:[tools getUrlByImageUrl:[obj objectForKey:@"picture" ] Size:160]] callback:^(UIImageView *view, UIImage *image) {
+             if(image)
+             {
+             view.image=image;
+             }
+             }];
+             }
+             else
+             {
+             [imageview setImage:[UIImage imageNamed:@"aio_ogactivity_default"]];
+             }
+             */
             [scrollview addSubview:imageview];
         }
     }];
