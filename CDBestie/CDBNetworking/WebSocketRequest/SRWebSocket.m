@@ -354,17 +354,6 @@ static __strong NSData *CRLFCRLF;
     }
 }
 
-#ifndef NDEBUG
-
-- (void)setReadyState:(SRReadyState)aReadyState;
-{
-    [self willChangeValueForKey:@"readyState"];
-    assert(aReadyState > _readyState);
-    _readyState = aReadyState;
-    [self didChangeValueForKey:@"readyState"];
-}
-
-#endif
 
 - (void)open;
 {
