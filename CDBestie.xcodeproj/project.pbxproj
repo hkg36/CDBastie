@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1702C12F199B56A300290CE0 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1702C12E199B56A300290CE0 /* ImageDownloader.m */; };
 		17387A46199323220049B1A2 /* Merchandise.m in Sources */ = {isa = PBXBuildFile; fileRef = 17387A45199323220049B1A2 /* Merchandise.m */; };
+		177D06E219A05FEA00E2A228 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 177D06E119A05FEA00E2A228 /* WebP.framework */; };
 		86078D79199327B9005BDD8B /* ACDBEndorseInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86078D78199327B9005BDD8B /* ACDBEndorseInfoController.m */; };
 		86103FB4199D9BF100896884 /* NSDataAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 86103F84199D9BF100896884 /* NSDataAddition.m */; };
 		86103FB5199D9BF100896884 /* NSString+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 86103F86199D9BF100896884 /* NSString+Addition.m */; };
@@ -131,6 +132,7 @@
 		1702C12E199B56A300290CE0 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
 		17387A44199323220049B1A2 /* Merchandise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Merchandise.h; sourceTree = "<group>"; };
 		17387A45199323220049B1A2 /* Merchandise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Merchandise.m; sourceTree = "<group>"; };
+		177D06E119A05FEA00E2A228 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = CDBestie/CDBNetworking/WebP.framework; sourceTree = "<group>"; };
 		86078D77199327B9005BDD8B /* ACDBEndorseInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACDBEndorseInfoController.h; sourceTree = "<group>"; };
 		86078D78199327B9005BDD8B /* ACDBEndorseInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACDBEndorseInfoController.m; sourceTree = "<group>"; };
 		86103F83199D9BF100896884 /* NSDataAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAddition.h; sourceTree = "<group>"; };
@@ -349,6 +351,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				177D06E219A05FEA00E2A228 /* WebP.framework in Frameworks */,
 				86B7F75E198F34E200749659 /* libleveldb.a in Frameworks */,
 				863E517519861F6D00753B80 /* libicucore.dylib in Frameworks */,
 				863E517319861F0100753B80 /* CoreText.framework in Frameworks */,
@@ -650,6 +653,7 @@
 		8653DBA11985F66600A8EE47 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				177D06E119A05FEA00E2A228 /* WebP.framework */,
 				86B7F75D198F34E200749659 /* libleveldb.a */,
 				863E517419861F6D00753B80 /* libicucore.dylib */,
 				863E517019861E2300753B80 /* libz.dylib */,
@@ -1164,6 +1168,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CDBestie/CDBNetworking/Util/iOS-WebP",
+					"$(PROJECT_DIR)/CDBestie/CDBNetworking",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CDBestie/CDBestie-Prefix.pch";
@@ -1190,6 +1195,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CDBestie/CDBNetworking/Util/iOS-WebP",
+					"$(PROJECT_DIR)/CDBestie/CDBNetworking",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "CDBestie/CDBestie-Prefix.pch";

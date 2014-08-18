@@ -22,8 +22,8 @@
 #import "CDBBangNaviController.h"
 #import "CDBBangTableViewController.h"
 #import "ACDBEndorseInfoController.h"
+#import "ImageDownloader.h"
 #import "DataTools.h"
-
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
 
 
@@ -331,6 +331,13 @@
     if (cell == nil) {
         cell = [[CDBEndorseCell alloc] init];
     }
+    else{
+        cell.userIcon.image=[UIImage imageNamed:@"left_view_avatar_avatar"];
+        cell.userNick.text=nil;
+        cell.userInfo.text=nil;
+        cell.userGoods.text=nil;
+        cell.userLevel.hidden=TRUE;
+    }
     cell.celluid = [[[friend_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
     // Configure the cell...
     NSString* cell_uid = [[friend_list objectAtIndex:indexPath.row] objectForKey:@"uid"];
@@ -339,10 +346,12 @@
     
     [[WebSocketManager instance] sendWithAction:@"user.info2" parameters:parames cdata:GenCdata(12) callback:^(WSRequest *request, NSDictionary *result)
      {
+         if(0!=request.error_code)
+             return;
          if ([[request.parm valueForKey:@"uid"] longLongValue]!=cell.celluid) {
              return;
          }
-         NSLog(@"result = %@",result);
+         NSLog(@"user.info2 error = %@",request.error);
          
          [cell.userIcon.layer setCornerRadius:CGRectGetHeight([cell.userIcon bounds]) / 2];
          cell.userIcon.layer.masksToBounds = YES;
@@ -350,10 +359,19 @@
          UserInfo2 *userInfo =[[UserInfo2 alloc]initWithJson:result];
          cell.userNick.text = userInfo.user.nick;
          //NSString *imageString = [NSString stringWithFormat:@"http://laixinle.qiniudn.com/FjJHS3LxIfYSlN2XSfnvdVv4qbNR\?imageView2/1/w/%i/h/%i/format/jpg",(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
-          NSString *imageString = [NSString stringWithFormat:@"%@?imageView2/1/w/%i/h/%i/format/jpg",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
+         if(userInfo.user.headpic)
+         {
+          NSString *imageString = [NSString stringWithFormat:@"%@?imageView2/1/w/%i/h/%i",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
          NSURL *imageURL = [NSURL URLWithString:imageString];
          NSLog(@"%@",imageURL);
-         [cell.userIcon setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
+         [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIImageView *view, UIImage *image) {
+             if(image)
+             {
+                 view.image=image;
+             }
+         }];
+         }
+         //[cell.userIcon setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
          
          NSString *user_SEX;
          NSString *user_JOB;
@@ -435,6 +453,7 @@
          NSLog(@"levelText = %@",[NSString stringWithFormat:@"LV%d",value]);
          [cell.userLevel.titleLabel sizeToFit];
          cell.userLevel.titleLabel.textAlignment = NSTextAlignmentCenter;
+         cell.userLevel.hidden=FALSE;
          
          if(userInfo.endors_list){
              

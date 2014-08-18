@@ -7,6 +7,7 @@
 //
 
 #import "ImageDownloader.h"
+#import <WebP/decode.h>
 
 @interface ImageDownloader()
 @property (strong,nonatomic) NSThread *workthread;
@@ -82,7 +83,26 @@ ImageDownloader* one_instanse=nil;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if(responseData)
     {
-        UIImage *resimg=[UIImage imageWithData:responseData];
+        UIImage *resimg=nil;
+        if([response.MIMEType caseInsensitiveCompare:@"image/webp"]==NSOrderedSame){
+            int width = 0;
+            int height = 0;
+            CGDataProviderRef provider;
+            uint8_t *data = WebPDecodeRGBA([responseData bytes], [responseData length], &width, &height);
+            if(data)
+            {
+            provider = CGDataProviderCreateWithData(NULL, data, width*height*4, free_image_data);
+            
+            CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+            CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault;
+            CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
+            CGImageRef imageRef = CGImageCreate(width, height, 8, 32, 4*width, colorSpaceRef, bitmapInfo, provider, NULL, NO, renderingIntent);
+            resimg = [UIImage imageWithCGImage:imageRef];
+            }
+        }
+        else{
+            resimg=[UIImage imageWithData:responseData];
+        }
         if(resimg)
         {
             @synchronized(self.imgbuffer){
@@ -111,6 +131,17 @@ ImageDownloader* one_instanse=nil;
     @synchronized(self.imgbuffer)
     {
     [self.imgbuffer removeAllObjects];
+    }
+}
+static void free_image_data(void *info, const void *data, size_t size)
+{
+    if(info != NULL)
+    {
+        WebPFreeDecBuffer(&(((WebPDecoderConfig *)info)->output));
+    }
+    else
+    {
+        free((void *)data);
     }
 }
 @end

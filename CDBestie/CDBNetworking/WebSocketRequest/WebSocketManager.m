@@ -111,6 +111,7 @@ WebSocketManager *one_instance=nil;
 }
 @end
 
+
 @implementation WebSocketManager
 +(WebSocketManager*) instance
 {
@@ -134,7 +135,7 @@ WebSocketManager *one_instance=nil;
     self.cmdCacheDb=[[LevelDB alloc] initWithPath:[NSString stringWithFormat:@"%@networkCacheDb",tmppath]];
     
     self.timer=[NSTimer timerWithTimeInterval:5.0 target:self selector:@selector(handleTimer:) userInfo:nil repeats:TRUE];
-    [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
+    [[NSRunLoop SR_networkRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
     return self;
 }
 -(void) open:(NSString*) url withsessionid:(NSString*) sessionid
@@ -168,6 +169,7 @@ WebSocketManager *one_instance=nil;
         self.websocket = [[SRWebSocket alloc] initWithURL:[NSURL URLWithString:fullurl]];
         self.websocket.delegate = self;
         [self.websocket open];
+        self.last_recvtime=[[NSDate date] timeIntervalSince1970];
     }
 }
 
@@ -201,8 +203,7 @@ WebSocketManager *one_instance=nil;
             if(pushdata)
             {
                 NSString *notifykey=[NSString stringWithFormat:@"%@%@",NotifyPushPrifix,pushtype];
-                NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-                [center postNotificationName:notifykey object:nil userInfo:pushdata];
+                [self DoNotifition:notifykey object:nil userInfo:pushdata];
             }
         }
     }
@@ -214,15 +215,21 @@ WebSocketManager *one_instance=nil;
         }
         else{
             NSLog(@"%@",cdata);
-            WSRequest *wsreq=[self.requestbuffer objectForKey:cdata];
+            WSRequest *wsreq=nil;
+            @synchronized(self.requestbuffer)
+            {
+                wsreq=[self.requestbuffer objectForKey:cdata];
+                [self.requestbuffer removeObjectForKey:cdata];
+            }
             if(wsreq)
             {
                 wsreq.error=StringFromJson([resdic valueForKey:@"error"]);
                 wsreq.error_code=IntFromJson([resdic valueForKey:@"errno"]);
                 NSDictionary *result=[resdic objectForKey:@"result"];
                 [self SaveResult:wsreq result:result];
-                [wsreq doCallBack:result];
-                [self.requestbuffer removeObjectForKey:cdata];
+                @synchronized(wsreq){
+                    [wsreq performSelectorOnMainThread:@selector(doCallBack:) withObject:result waitUntilDone:FALSE];
+                }
             }
         }
     }
@@ -232,7 +239,8 @@ WebSocketManager *one_instance=nil;
 {
     //NSLog(@"WebSocket did open");
     self.last_recvtime=[[NSDate date] timeIntervalSince1970];
-    
+    @synchronized(self.requestbuffer)
+    {
     for(NSString *key in self.requestbuffer)
     {
         WSRequest *one = [self.requestbuffer valueForKey:key];
@@ -240,22 +248,20 @@ WebSocketManager *one_instance=nil;
         if(tosend_data)
             [webSocket send:tosend_data];
     }
+    }
     
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center postNotificationName:NotifyNetConnected object:nil];
+    [self DoNotifition:NotifyNetConnected object:nil userInfo:nil];
 }
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error
 {
     //NSLog(@"didFailWithError:%@",error);
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center postNotificationName:NotifyNetError object:error];
+    [self DoNotifition:NotifyNetError object:error userInfo:nil];
     self.websocket=nil;
 }
 - (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean
 {
     //NSLog(@"didCloseWithCode:%@",reason);
-    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center postNotificationName:NotifyNetClosed object:reason];
+    [self DoNotifition:NotifyNetClosed object:reason userInfo:nil];
     self.websocket=nil;
 }
 - (void)webSocketDidRecvPong:(SRWebSocket *)webSocket
@@ -327,8 +333,26 @@ WebSocketManager *one_instance=nil;
     NSMutableDictionary *passdata=[NSMutableDictionary new];
     [passdata setValue:invites forKey:@"invites"];
     [passdata setValue:client_data forKey:@"client_data"];
+    
+    
+    [self DoNotifition:NotifyUserLogin object:user userInfo:passdata];
+}
+- (void) DoNotifition:(NSString*) name object:(id) obj userInfo:(NSDictionary*)userInfo
+{
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
-    [center postNotificationName:NotifyUserLogin object:user userInfo:passdata];
+    
+    NSMethodSignature *sig = [center methodSignatureForSelector:@selector(postNotificationName:object:userInfo:)];
+    NSInvocation* invo = [NSInvocation invocationWithMethodSignature:sig];
+    [invo setTarget:center];
+    [invo setSelector:@selector(postNotificationName:object:userInfo:)];
+    [invo setArgument:&name atIndex:2];
+    if(obj)
+        [invo setArgument:&obj atIndex:3];
+    if(userInfo)
+        [invo setArgument:&userInfo atIndex:4];
+    [invo retainArguments];
+    
+    [invo performSelectorOnMainThread:@selector(invoke) withObject:nil waitUntilDone:NO];
 }
 - (void)sendWithAction:(NSString*)function
             parameters:(NSDictionary *)parameters
@@ -342,48 +366,59 @@ WebSocketManager *one_instance=nil;
                callback:(WSResult)callback
                timeout:(NSTimeInterval)timeout
 {
-    if(timeout>0)
+    WSRequest *req=nil;
+    bool gosend=false;
+    @synchronized(self.requestbuffer)
     {
-        NSString *bufkey=[self CmdBufferKey:function parm:parameters];
+        req=[self.requestbuffer valueForKey:cdata];
+        if(req==nil)
+        {
+            gosend=true;
+            req=[WSRequest new];
+            req.func=function;
+            req.parm=parameters;
+            req.cdata=cdata;
+            req.buffer_timeout=timeout;
+            [self.requestbuffer setValue:req forKey:cdata];
+        }
+        @synchronized(req)
+        {
+            [req.callbacks addObject:callback];
+        }
+    }
+    
+    if(gosend)
+    {
+        //[[NSRunLoop SR_networkRunLoop] performSelector:@selector(syncSend:) target:self argument:req order:0 modes:@[NSDefaultRunLoopMode]];
+        [self syncSend:req];
+    }
+}
+-(void) syncSend:(WSRequest*)req
+{
+    if(req.buffer_timeout>0)
+    {
+        NSString *bufkey=[self CmdBufferKey:req.func parm:req.parm];
         NSDictionary *result=[self.cmdCacheDb getObject:bufkey];
         if(result)
         {
-            if([[NSDate date] timeIntervalSince1970]-[[result objectForKey:@"time"] doubleValue]<timeout)
+            req.error_code=0;
+            req.error=@"from cache";
+            @synchronized(req)
             {
-                WSRequest *req=[WSRequest new];
-                req.func=function;
-                req.parm=parameters;
-                req.cdata=cdata;
-                req.buffer_timeout=timeout;
-                
-                req.error_code=0;
-                req.error=@"from cache";
-                callback(req,[result objectForKey:@"result"]);
+                //[req doCallBack:[result objectForKey:@"result"]];
+                [req performSelectorOnMainThread:@selector(doCallBack:) withObject:[result objectForKey:@"result"] waitUntilDone:FALSE];
+            }
+            if([[NSDate date] timeIntervalSince1970]-[[result objectForKey:@"time"] doubleValue]<req.buffer_timeout)
+            {
                 return;
             }
         }
         
     }
-    
-    WSRequest *req=[self.requestbuffer valueForKey:cdata];
-    bool gosend=false;
-    if(req==nil)
-    {
-        gosend=true;
-        req=[WSRequest new];
-        req.func=function;
-        req.parm=parameters;
-        req.cdata=cdata;
-        req.buffer_timeout=timeout;
-        [self.requestbuffer setValue:req forKey:cdata];
-    }
-    [req.callbacks addObject:callback];
-    
-    if(gosend && [self isConnected])
-    {
+    if([self isConnected]){
         NSData *tosend_data=[req getCompressData];
         if(tosend_data)
-           [self.websocket send:tosend_data];
+            [self.websocket send:tosend_data];
     }
 }
 -(NSString*) CmdBufferKey:(NSString*)func parm:(NSDictionary*)parm
@@ -423,18 +458,19 @@ WebSocketManager *one_instance=nil;
     }
     
     
-    NSMutableArray *go_delete=[NSMutableArray new];
-    for(NSString *key in self.requestbuffer)
+    @synchronized(self.requestbuffer)
+    {
+    for(NSString *key in [self.requestbuffer allKeys])
     {
         WSRequest *one = [self.requestbuffer valueForKey:key];
         if(now-one.addtime>15.0)
         {
-            [go_delete addObject:key];
+            [self.requestbuffer removeObjectForKey:key];
             one.error_code=-1;
             one.error=@"time out";
-            [one doCallBack:nil];
+            [one performSelectorOnMainThread:@selector(doCallBack:) withObject:nil waitUntilDone:FALSE];
         }
     }
-    [self.requestbuffer removeObjectsForKeys:go_delete];
+    }
 }
 @end
