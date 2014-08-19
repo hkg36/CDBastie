@@ -108,7 +108,10 @@ extern NSString *const SRWebSocketErrorDomain;
 @end
 
 #pragma mark - NSRunLoop (SRWebSocket)
-
+@interface SRRunLoopThread : NSThread
+@property (nonatomic, readonly) NSRunLoop *runLoop;
++(SRRunLoopThread*) instanse;
+@end
 @interface NSRunLoop (SRWebSocket)
 
 + (NSRunLoop *)SR_networkRunLoop;

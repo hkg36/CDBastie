@@ -97,12 +97,6 @@ static inline void SRFastLog(NSString *format, ...);
 @end
 
 
-@interface _SRRunLoopThread : NSThread
-
-@property (nonatomic, readonly) NSRunLoop *runLoop;
-
-@end
-
 
 static NSString *newSHA1String(const char *bytes, size_t length) {
     uint8_t md[CC_SHA1_DIGEST_LENGTH];
@@ -1423,7 +1417,7 @@ static inline int32_t validate_dispatch_data_partial_string(NSData *data) {
 
 #endif
 
-static _SRRunLoopThread *networkThread = nil;
+static SRRunLoopThread *networkThread = nil;
 static NSRunLoop *networkRunLoop = nil;
 
 @implementation NSRunLoop (SRWebSocket)
@@ -1431,13 +1425,8 @@ static NSRunLoop *networkRunLoop = nil;
 + (NSRunLoop *)SR_networkRunLoop {
     if(networkRunLoop)
         return networkRunLoop;
-    //static dispatch_once_t onceToken;
-    //dispatch_once(&onceToken, ^{
-        networkThread = [[_SRRunLoopThread alloc] init];
-        networkThread.name = @"com.squareup.SocketRocket.NetworkThread";
-        [networkThread start];
-        networkRunLoop = networkThread.runLoop;
-    //});
+    networkThread = [SRRunLoopThread instanse];
+    networkRunLoop = networkThread.runLoop;
     
     return networkRunLoop;
 }
@@ -1445,10 +1434,18 @@ static NSRunLoop *networkRunLoop = nil;
 @end
 
 
-@implementation _SRRunLoopThread {
+@implementation SRRunLoopThread {
     dispatch_group_t _waitGroup;
 }
-
++(SRRunLoopThread*) instanse
+{
+    if(networkThread)
+        return networkThread;
+    networkThread=[[SRRunLoopThread alloc] init];
+    networkThread.name = @"com.squareup.SocketRocket.NetworkThread";
+    [networkThread start];
+    return networkThread;
+}
 @synthesize runLoop = _runLoop;
 
 - (void)dealloc

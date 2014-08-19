@@ -21,6 +21,7 @@
 @property (strong,nonatomic) NSMutableData *data;
 @property (nonatomic) long long fileSize;
 @property (strong,nonatomic) NSString* nowurl;
+@property (strong,nonatomic) NSRegularExpression *mime_image;
 @end
 
 @implementation MemCache
@@ -57,6 +58,9 @@ ImageDownloader* one_instanse=nil;
     [self.workthread start];
     self.imgbuffer=[NSMutableDictionary new];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMemoryWarning:) name: UIApplicationDidReceiveMemoryWarningNotification object:nil];
+    
+    NSError* error = NULL;
+    self.mime_image = [NSRegularExpression regularExpressionWithPattern:@"^\s*image/.+\s*$" options:NSRegularExpressionCaseInsensitive error:&error];
     return self;
 }
 - (void)threadMain:(id)obj
@@ -108,6 +112,8 @@ ImageDownloader* one_instanse=nil;
     if(responseData)
     {
         id resimg=nil;
+        if([self.mime_image numberOfMatchesInString:response.MIMEType options:0 range:NSMakeRange(0, [response.MIMEType length])])
+        {
         if([response.MIMEType caseInsensitiveCompare:@"image/webp"]==NSOrderedSame){
             int width = 0;
             int height = 0;
@@ -127,7 +133,8 @@ ImageDownloader* one_instanse=nil;
         else{
             resimg=[UIImage imageWithData:responseData];
         }
-        if(resimg==nil)
+        }
+        else
         {
             resimg=responseData;
         }
