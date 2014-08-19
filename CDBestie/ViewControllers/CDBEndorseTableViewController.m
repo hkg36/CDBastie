@@ -24,6 +24,7 @@
 #import "ACDBEndorseInfoController.h"
 #import "ImageDownloader.h"
 #import "DataTools.h"
+#define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
 
 
@@ -358,10 +359,10 @@
          cell.iconLayer.hidden =YES;
          UserInfo2 *userInfo =[[UserInfo2 alloc]initWithJson:result];
          cell.userNick.text = userInfo.user.nick;
-         //NSString *imageString = [NSString stringWithFormat:@"http://laixinle.qiniudn.com/FjJHS3LxIfYSlN2XSfnvdVv4qbNR\?imageView2/1/w/%i/h/%i",(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
+         //NSString *imageString = [NSString stringWithFormat:@"http://laixinle.qiniudn.com/FjJHS3LxIfYSlN2XSfnvdVv4qbNR\?imageView2/1/w/%i/h/%i",(int)cell.userIcon.frame.size.width*PIC_QUALITY,(int)cell.userIcon.frame.size.height*PIC_QUALITY];
          if(userInfo.user.headpic)
          {
-          NSString *imageString = [NSString stringWithFormat:@"%@?imageView2/1/w/%i/h/%i",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
+          NSString *imageString = [NSString stringWithFormat:@"%@?imageView2/1/w/%i/h/%i",userInfo.user.headpic,(int)cell.userIcon.frame.size.width*PIC_QUALITY,(int)cell.userIcon.frame.size.height*PIC_QUALITY];
          NSURL *imageURL = [NSURL URLWithString:imageString];
          NSLog(@"%@",imageURL);
          [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIView *view, id image) {
