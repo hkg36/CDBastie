@@ -48,7 +48,7 @@ ImageDownloader* one_instanse=nil;
     }
     while (true);
 }
--(void) startDownload:(UIImageView*)img forUrl:(NSURL*) url callback:(result_callback)callback
+-(void) startDownload:(UIView*)img forUrl:(NSURL*) url callback:(result_callback)callback
 {
     UIImage *buffimg=nil;
     @synchronized(self.imgbuffer){

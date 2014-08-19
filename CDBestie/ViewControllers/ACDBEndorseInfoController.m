@@ -170,13 +170,13 @@
         cell.name.text = [cs valueForKey:@"productname"];
         cell.Introduction.text =[userInfo.endors_list[indexPath.row] valueForKey:@"slogan"];
         
-        NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[cs valueForKey:@"icon_url"],(int)cell.Icon.frame.size.width,(int)cell.Icon.frame.size.height];
+        NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[cs valueForKey:@"icon_url"],(int)cell.Icon.frame.size.width,(int)cell.Icon.frame.size.height];
         NSURL *imageURL = [NSURL URLWithString:imageString];
         if (imageURL) {
-            [[ImageDownloader instanse] startDownload:cell.Icon forUrl:imageURL callback:^(UIImageView *view, UIImage *image) {
+            [[ImageDownloader instanse] startDownload:cell.Icon forUrl:imageURL callback:^(UIView *view, UIImage *image) {
                 if(image)
                 {
-                    view.image=image;
+                    ((UIImageView*)view).image=image;
                 }
             }];
         }
@@ -200,13 +200,13 @@
                 cell.userLayerIcon.hidden =YES;
                 
                 cell.userNickname.text = userInfo.user.nick;
-                NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
+                NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
                 NSURL *imageURL = [NSURL URLWithString:imageString];
                 if (imageURL) {
-                    [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIImageView *view, UIImage *image) {
+                    [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIView *view, id image) {
                         if(image)
                         {
-                            view.image=image;
+                            ((UIImageView*)view).image=image;
                         }
                     }];
                 }
@@ -214,7 +214,7 @@
                 {
                     [cell.userIcon setImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
                 }
-                cell.userIconUrl = [NSString stringWithFormat:@"%@?imageView2/1/format/jpg",userInfo.user.headpic];
+                cell.userIconUrl = [NSString stringWithFormat:@"%@?imageView2/1",userInfo.user.headpic];
                 NSString *user_SEX;
                 NSString *user_JOB;
                 if (userInfo.user.sex == 1) {
@@ -329,12 +329,12 @@
                 
                 if ([AblmdataSource count]> 0) {
                     NSLog(@"%@",AblmdataSource);
-                    NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[AblmdataSource[0] objectForKey:@"picture"],(int)cell.firPic.frame.size.width,(int)cell.firPic.frame.size.height];
+                    NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[AblmdataSource[0] objectForKey:@"picture"],(int)cell.firPic.frame.size.width,(int)cell.firPic.frame.size.height];
                     NSURL *imageURL = [NSURL URLWithString:imageString];
-                        [[ImageDownloader instanse] startDownload:cell.firPic forUrl:imageURL callback:^(UIImageView *view, UIImage *image) {
+                        [[ImageDownloader instanse] startDownload:cell.firPic forUrl:imageURL callback:^(UIView *view, id image) {
                             if(image)
                             {
-                                view.image=image;
+                                ((UIImageView*)view).image=image;
                             }
                         }];
 
@@ -344,10 +344,10 @@
                         NSString *imageString1 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[AblmdataSource[1] objectForKey:@"picture"],(int)cell.secPic.frame.size.width,(int)cell.secPic.frame.size.height];
                         NSURL *imageURL1 = [NSURL URLWithString:imageString1];
                         NSLog(@"imageURL1 = %@",imageURL1);
-                            [[ImageDownloader instanse] startDownload:cell.secPic forUrl:imageURL1 callback:^(UIImageView *view, UIImage *image) {
+                            [[ImageDownloader instanse] startDownload:cell.secPic forUrl:imageURL1 callback:^(UIView *view, id image) {
                                 if(image)
                                 {
-                                    view.image=image;
+                                    ((UIImageView*)view).image=image;
                                 }
                             }];
                         
@@ -355,12 +355,12 @@
                     if( [AblmdataSource count] > 2)
                     {
                         cell.thirPic.hidden = NO;
-                        NSString *imageString2 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[AblmdataSource[2] objectForKey:@"picture"],(int)cell.thirPic.frame.size.width,(int)cell.thirPic.frame.size.height];
+                        NSString *imageString2 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[AblmdataSource[2] objectForKey:@"picture"],(int)cell.thirPic.frame.size.width,(int)cell.thirPic.frame.size.height];
                         NSURL *imageURL2 = [NSURL URLWithString:imageString2];
-                            [[ImageDownloader instanse] startDownload:cell.thirPic forUrl:imageURL2 callback:^(UIImageView *view, UIImage *image) {
+                            [[ImageDownloader instanse] startDownload:cell.thirPic forUrl:imageURL2 callback:^(UIView *view, id image) {
                                 if(image)
                                 {
-                                    view.image=image;
+                                    ((UIImageView*)view).image=image;
                                 }
                             }];
                     }

@@ -64,11 +64,11 @@
     self.Label_nick.text =    [USER_DEFAULT objectForKey:@"USERINFO_NICK"];
     self.label_sign.text =    [USER_DEFAULT objectForKey:@"USERINFO_SIGNATURE"];
     if ([USER_DEFAULT objectForKey:@"USERINFO_HEADPIC"]) {
-        NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[NSString stringWithFormat:@"%@",[USER_DEFAULT objectForKey:@"USERINFO_HEADPIC"]],(int)self.Image_userIcon.frame.size.width,(int)self.Image_userIcon.frame.size.height];
-        [[ImageDownloader instanse] startDownload:self.Image_userIcon forUrl:[NSURL URLWithString:imageString] callback:^(UIImageView *view, UIImage *image) {
+        NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[NSString stringWithFormat:@"%@",[USER_DEFAULT objectForKey:@"USERINFO_HEADPIC"]],(int)self.Image_userIcon.frame.size.width,(int)self.Image_userIcon.frame.size.height];
+        [[ImageDownloader instanse] startDownload:self.Image_userIcon forUrl:[NSURL URLWithString:imageString] callback:^(UIView *view, id image) {
             if(image)
             {
-                view.image=image;
+                ((UIImageView*)view).image=image;
             }
         }];
     }
@@ -208,13 +208,13 @@
             NSLog(@"%@",dataSource);
             
             _firPic.hidden = NO;
-            NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[dataSource[0] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
+            NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[dataSource[0] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
             NSURL *imageURL = [NSURL URLWithString:imageString];
 
-            [[ImageDownloader instanse] startDownload:_firPic forUrl:imageURL callback:^(UIImageView *view, UIImage *image) {
+            [[ImageDownloader instanse] startDownload:_firPic forUrl:imageURL callback:^(UIView *view, id image) {
                 if(image)
                 {
-                    view.image=image;
+                    ((UIImageView*)view).image=image;
                 }
             }];
 
@@ -222,13 +222,13 @@
             if( [dataSource count] >1)
             {
                 _secPic.hidden = NO;
-                NSString *imageString1 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[dataSource[1] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
+                NSString *imageString1 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[dataSource[1] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
                 NSURL *imageURL1 = [NSURL URLWithString:imageString1];
                 NSLog(@"imageURL1 = %@",imageURL1);
-                [[ImageDownloader instanse] startDownload:_secPic forUrl:imageURL1 callback:^(UIImageView *view, UIImage *image) {
+                [[ImageDownloader instanse] startDownload:_secPic forUrl:imageURL1 callback:^(UIView *view, id image) {
                     if(image)
                     {
-                        view.image=image;
+                        ((UIImageView*)view).image=image;
                     }
                 }];
                 
@@ -236,12 +236,12 @@
             if( [dataSource count] > 2)
             {
                 _thrPic.hidden = NO;
-                NSString *imageString2 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",[dataSource[2] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
+                NSString *imageString2 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[dataSource[2] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
                 NSURL *imageURL2 = [NSURL URLWithString:imageString2];
-                [[ImageDownloader instanse] startDownload:_thrPic forUrl:imageURL2 callback:^(UIImageView *view, UIImage *image) {
+                [[ImageDownloader instanse] startDownload:_thrPic forUrl:imageURL2 callback:^(UIView *view, id image) {
                     if(image)
                     {
-                        view.image=image;
+                        ((UIImageView*)view).image=image;
                     }
                 }];
             }
@@ -271,10 +271,10 @@
 {
     NSLog(@"%@",notify.object);
     if (notify.object) {
-            [[ImageDownloader instanse] startDownload:self.Image_userIcon forUrl:[NSURL URLWithString:[tools getUrlByImageUrl:notify.object Size:100]] callback:^(UIImageView *view, UIImage *image) {
+            [[ImageDownloader instanse] startDownload:self.Image_userIcon forUrl:[NSURL URLWithString:[tools getUrlByImageUrl:notify.object Size:100]] callback:^(UIView *view, id image) {
                 if(image)
                 {
-                    view.image=image;
+                    ((UIImageView*)view).image=image;
                 }
             }];
         }

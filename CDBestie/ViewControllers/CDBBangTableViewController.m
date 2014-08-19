@@ -186,13 +186,13 @@
          UserInfo2 *userInfo =[[UserInfo2 alloc]initWithJson:result];
          cell.userNick.text = userInfo.user.nick;
          if (userInfo.user.headpic) {
-         NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i/format/jpg",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
+         NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
          NSURL *imageURL = [NSURL URLWithString:imageString];
          if (imageURL) {
-             [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIImageView *view, UIImage *image) {
+             [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIView *view, id image) {
                  if(image)
                  {
-                     view.image=image;
+                     ((UIImageView*)view).image=image;
                  }
              }];
          }

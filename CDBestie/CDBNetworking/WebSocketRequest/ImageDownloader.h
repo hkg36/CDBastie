@@ -14,9 +14,9 @@
     if(image!=nil)
         view.image=image;
 }];*/
-typedef void(^result_callback)(UIImageView* view, UIImage* image);
+typedef void(^result_callback)(UIView* view, id image);
 @interface ImageDownloader : NSObject
 @property (strong,nonatomic) NSRunLoop *runloop;
 +(ImageDownloader*)instanse;
--(void) startDownload:(UIImageView*)view forUrl:(NSURL*) url callback:(result_callback)callback;
+-(void) startDownload:(UIView*)view forUrl:(NSURL*) url callback:(result_callback)callback;
 @end
