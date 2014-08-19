@@ -23,7 +23,7 @@
 #import "CDBChangeJobNaviController.h"
 #import "CDBSelfPhotoViewController.h"
 #import "ImageDownloader.h"
-
+#define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
 #define  RESET_PASSWD_CID  1
 
 @interface CDBChangeUserInfoController ()<UINavigationControllerDelegate, UIPopoverControllerDelegate, UIImagePickerControllerDelegate,UIAlertViewDelegate>
@@ -64,7 +64,7 @@
     self.Label_nick.text =    [USER_DEFAULT objectForKey:@"USERINFO_NICK"];
     self.label_sign.text =    [USER_DEFAULT objectForKey:@"USERINFO_SIGNATURE"];
     if ([USER_DEFAULT objectForKey:@"USERINFO_HEADPIC"]) {
-        NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[NSString stringWithFormat:@"%@",[USER_DEFAULT objectForKey:@"USERINFO_HEADPIC"]],(int)self.Image_userIcon.frame.size.width,(int)self.Image_userIcon.frame.size.height];
+        NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[NSString stringWithFormat:@"%@",[USER_DEFAULT objectForKey:@"USERINFO_HEADPIC"]],(int)self.Image_userIcon.frame.size.width*PIC_QUALITY,(int)self.Image_userIcon.frame.size.height*PIC_QUALITY];
         [[ImageDownloader instanse] startDownload:self.Image_userIcon forUrl:[NSURL URLWithString:imageString] callback:^(UIView *view, id image) {
             if(image)
             {
@@ -208,7 +208,7 @@
             NSLog(@"%@",dataSource);
             
             _firPic.hidden = NO;
-            NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[dataSource[0] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
+            NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[dataSource[0] objectForKey:@"picture"],(int)_firPic.frame.size.width*PIC_QUALITY,(int)_firPic.frame.size.height*PIC_QUALITY];
             NSURL *imageURL = [NSURL URLWithString:imageString];
 
             [[ImageDownloader instanse] startDownload:_firPic forUrl:imageURL callback:^(UIView *view, id image) {
@@ -222,7 +222,7 @@
             if( [dataSource count] >1)
             {
                 _secPic.hidden = NO;
-                NSString *imageString1 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[dataSource[1] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
+                NSString *imageString1 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[dataSource[1] objectForKey:@"picture"],(int)_firPic.frame.size.width*PIC_QUALITY,(int)_firPic.frame.size.height*PIC_QUALITY];
                 NSURL *imageURL1 = [NSURL URLWithString:imageString1];
                 NSLog(@"imageURL1 = %@",imageURL1);
                 [[ImageDownloader instanse] startDownload:_secPic forUrl:imageURL1 callback:^(UIView *view, id image) {
@@ -236,7 +236,7 @@
             if( [dataSource count] > 2)
             {
                 _thrPic.hidden = NO;
-                NSString *imageString2 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[dataSource[2] objectForKey:@"picture"],(int)_firPic.frame.size.width,(int)_firPic.frame.size.height];
+                NSString *imageString2 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[dataSource[2] objectForKey:@"picture"],(int)_firPic.frame.size.width*PIC_QUALITY,(int)_firPic.frame.size.height*PIC_QUALITY];
                 NSURL *imageURL2 = [NSURL URLWithString:imageString2];
                 [[ImageDownloader instanse] startDownload:_thrPic forUrl:imageURL2 callback:^(UIView *view, id image) {
                     if(image)

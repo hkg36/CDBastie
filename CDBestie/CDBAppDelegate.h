@@ -14,4 +14,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) User *myUserInfo;
+@property (nonatomic) int picQuality;
+
 @end

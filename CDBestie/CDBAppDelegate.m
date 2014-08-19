@@ -14,10 +14,17 @@
 @implementation CDBAppDelegate
 
 @synthesize myUserInfo;
-
+@synthesize picQuality;
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-   
+    if (isRetina) {
+        picQuality = 2;
+    }
+    else
+    {
+        picQuality = 1;
+    }
+    return YES;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(receiveLogin:)

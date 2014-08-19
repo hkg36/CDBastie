@@ -22,7 +22,7 @@
 #import "DataTools.h"
 #import "CDBSelfPhotoViewController.h"
 #import "ImageDownloader.h"
-
+#define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
 //#import "AFHTTPRequestOperationManager.h"
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
 #define GOODS_WINE_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/wineNew.do?sessionid="
@@ -170,7 +170,7 @@
         cell.name.text = [cs valueForKey:@"productname"];
         cell.Introduction.text =[userInfo.endors_list[indexPath.row] valueForKey:@"slogan"];
         
-        NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[cs valueForKey:@"icon_url"],(int)cell.Icon.frame.size.width,(int)cell.Icon.frame.size.height];
+        NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[cs valueForKey:@"icon_url"],(int)cell.Icon.frame.size.width*PIC_QUALITY,(int)cell.Icon.frame.size.height*PIC_QUALITY];
         NSURL *imageURL = [NSURL URLWithString:imageString];
         if (imageURL) {
             [[ImageDownloader instanse] startDownload:cell.Icon forUrl:imageURL callback:^(UIView *view, UIImage *image) {
@@ -200,7 +200,7 @@
                 cell.userLayerIcon.hidden =YES;
                 
                 cell.userNickname.text = userInfo.user.nick;
-                NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",userInfo.user.headpic,(int)cell.userIcon.frame.size.width,(int)cell.userIcon.frame.size.height];
+                NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",userInfo.user.headpic,(int)cell.userIcon.frame.size.width*PIC_QUALITY,(int)cell.userIcon.frame.size.height*PIC_QUALITY];
                 NSURL *imageURL = [NSURL URLWithString:imageString];
                 if (imageURL) {
                     [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIView *view, id image) {
@@ -329,7 +329,7 @@
                 
                 if ([AblmdataSource count]> 0) {
                     NSLog(@"%@",AblmdataSource);
-                    NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[AblmdataSource[0] objectForKey:@"picture"],(int)cell.firPic.frame.size.width,(int)cell.firPic.frame.size.height];
+                    NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[AblmdataSource[0] objectForKey:@"picture"],(int)cell.firPic.frame.size.width*PIC_QUALITY,(int)cell.firPic.frame.size.height*PIC_QUALITY];
                     NSURL *imageURL = [NSURL URLWithString:imageString];
                         [[ImageDownloader instanse] startDownload:cell.firPic forUrl:imageURL callback:^(UIView *view, id image) {
                             if(image)
@@ -341,7 +341,7 @@
                     
                     if( [AblmdataSource count] >1)
                     {
-                        NSString *imageString1 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[AblmdataSource[1] objectForKey:@"picture"],(int)cell.secPic.frame.size.width,(int)cell.secPic.frame.size.height];
+                        NSString *imageString1 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[AblmdataSource[1] objectForKey:@"picture"],(int)cell.secPic.frame.size.width*PIC_QUALITY,(int)cell.secPic.frame.size.height*PIC_QUALITY];
                         NSURL *imageURL1 = [NSURL URLWithString:imageString1];
                         NSLog(@"imageURL1 = %@",imageURL1);
                             [[ImageDownloader instanse] startDownload:cell.secPic forUrl:imageURL1 callback:^(UIView *view, id image) {
@@ -355,7 +355,7 @@
                     if( [AblmdataSource count] > 2)
                     {
                         cell.thirPic.hidden = NO;
-                        NSString *imageString2 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[AblmdataSource[2] objectForKey:@"picture"],(int)cell.thirPic.frame.size.width,(int)cell.thirPic.frame.size.height];
+                        NSString *imageString2 = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[AblmdataSource[2] objectForKey:@"picture"],(int)cell.thirPic.frame.size.width*PIC_QUALITY,(int)cell.thirPic.frame.size.height*PIC_QUALITY];
                         NSURL *imageURL2 = [NSURL URLWithString:imageString2];
                             [[ImageDownloader instanse] startDownload:cell.thirPic forUrl:imageURL2 callback:^(UIView *view, id image) {
                                 if(image)

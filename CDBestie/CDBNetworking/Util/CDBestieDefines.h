@@ -50,6 +50,7 @@ typedef enum {
 #define kAppRedirectURI						@"http://1.livep.sinaapp.com/api/weibo_manager_impl/sina_weibo/callback.php"
 #define UserInfo2_TimeOut      600
 #define protocolList   @"http://202.85.215.157:8888/LifeStyleCenter/views/app/zhuce.jsp"
+#define isRetina   ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)]&&([UIScreen mainScreen].scale == 2.0))
 /*!
  *  parse
  */
