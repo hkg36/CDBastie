@@ -191,19 +191,12 @@ typedef void (^data_callback)(SRWebSocket *webSocket,  NSData *data);
 
 @property (nonatomic) SRReadyState readyState;
 
-@property (nonatomic) NSOperationQueue *delegateOperationQueue;
-@property (nonatomic) dispatch_queue_t delegateDispatchQueue;
-
 @end
 
 
 @implementation SRWebSocket {
     NSInteger _webSocketVersion;
     
-    //NSOperationQueue *_delegateOperationQueue;
-    //dispatch_queue_t _delegateDispatchQueue;
-    
-    //dispatch_queue_t _workQueue;
     NSMutableArray *_consumers;
 
     NSInputStream *_inputStream;
@@ -225,14 +218,11 @@ typedef void (^data_callback)(SRWebSocket *webSocket,  NSData *data);
     
     NSString *_secKey;
     
-    //BOOL _pinnedCertFound;
-    
     uint8_t _currentReadMaskKey[4];
     size_t _currentReadMaskOffset;
 
     BOOL _consumerStopped;
     
-    //BOOL _closeWhenFinishedWriting;
     BOOL _failed;
 
     BOOL _secure;
@@ -240,7 +230,6 @@ typedef void (^data_callback)(SRWebSocket *webSocket,  NSData *data);
 
     CFHTTPMessageRef _receivedHTTPHeaders;
     
-    //BOOL _sentClose;
     BOOL _didFail;
     int _closeCode;
     
@@ -306,11 +295,6 @@ static __strong NSData *CRLFCRLF;
     _consumerStopped = YES;
     _webSocketVersion = 13;
     
-    //_workQueue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
-    
-    // Going to set a specific on the queue so we can validate we're on the work queue
-    //dispatch_queue_set_specific(_workQueue, (__bridge void *)self, maybe_bridge(_workQueue), NULL);
-    
     _readBuffer = [[NSMutableData alloc] init];
     _outputBuffer = [[NSMutableData alloc] init];
     
@@ -332,9 +316,6 @@ static __strong NSData *CRLFCRLF;
 
     [_inputStream close];
     [_outputStream close];
-    
-    //sr_dispatch_release(_workQueue);
-    //_workQueue = NULL;
     
     if (_receivedHTTPHeaders) {
         CFRelease(_receivedHTTPHeaders);
@@ -485,11 +466,6 @@ static __strong NSData *CRLFCRLF;
         
         [_outputStream setProperty:(__bridge id)kCFStreamSocketSecurityLevelNegotiatedSSL forKey:(__bridge id)kCFStreamPropertySocketSecurityLevel];
         
-#if DEBUG
-        //[SSLOptions setValue:[NSNumber numberWithBool:NO] forKey:(__bridge id)kCFStreamSSLValidatesCertificateChain];
-        //NSLog(@"SocketRocket: In debug mode.  Allowing connection to any root cert");
-#endif
-        
         [_outputStream setProperty:SSLOptions
                             forKey:(__bridge id)kCFStreamPropertySSLSettings];
     }
@@ -555,9 +531,7 @@ static __strong NSData *CRLFCRLF;
 - (void)send:(id)data;
 {
     NSAssert(self.readyState != SR_CONNECTING, @"Invalid State: Cannot call send: until connection is open");
-    // TODO: maybe not copy this for performance
-    //data = [data copy];
-    //dispatch_async(_workQueue, ^{
+    
         if ([data isKindOfClass:[NSString class]]) {
             [self _sendFrameWithOpcode:SROpCodeTextFrame data:[(NSString *)data dataUsingEncoding:NSUTF8StringEncoding]];
         } else if ([data isKindOfClass:[NSData class]]) {
@@ -567,20 +541,14 @@ static __strong NSData *CRLFCRLF;
         } else {
             assert(NO);
         }
-    //});
 }
 - (void)sendPing
 {
-        //dispatch_async(_workQueue, ^{
             [self _sendFrameWithOpcode:SROpCodePing data:nil];
-        //});
 }
 - (void)handlePing:(NSData *)pingData;
 {
-    // Need to pingpong this off _callbackQueue first to make sure messages happen in order
-        //dispatch_async(_workQueue, ^{
             [self _sendFrameWithOpcode:SROpCodePong data:pingData];
-        //});
 }
 
 - (void)handlePong;
@@ -666,12 +634,14 @@ static inline BOOL closeCodeIsValid(int closeCode) {
 
 - (void)_disconnect;
 {
+    [self unscheduleFromRunLoop];
     [_outputStream close];
     [_inputStream close];
     
     self.readyState=SR_CLOSED;
-    [self unscheduleFromRunLoop];
     
+    _outputBuffer=nil;
+    _inputStream=nil;
     if (!_failed) {
         if ([self.delegate respondsToSelector:@selector(webSocket:didCloseWithCode:reason:wasClean:)]) {
             [self.delegate webSocket:self didCloseWithCode:_closeCode reason:_closeReason wasClean:YES];
@@ -698,7 +668,7 @@ static inline BOOL closeCodeIsValid(int closeCode) {
             break;
         }
         case SROpCodeBinaryFrame:
-            [self _handleMessage:[frameData copy]];
+            [self _handleMessage:frameData];
             break;
         case SROpCodeConnectionClose:
             [self handleCloseWithData:frameData];
