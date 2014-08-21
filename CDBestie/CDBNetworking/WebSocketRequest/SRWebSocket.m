@@ -863,7 +863,6 @@ static const uint8_t SRPayloadLenMask   = 0x7F;
 
 - (void)_readFrameNew;
 {
-    //dispatch_async(_workQueue, ^{
         [_currentFrameData setLength:0];
         
         _currentFrameOpcode = 0;
@@ -872,7 +871,6 @@ static const uint8_t SRPayloadLenMask   = 0x7F;
         _currentStringScanPosition = 0;
         
         [self _readFrameContinue];
-    //});
 }
 
 - (void)_pumpWriting;
@@ -1019,8 +1017,8 @@ static const char CRLFCRLFBytes[] = {'\r', '\n', '\r', '\n'};
                     // TODO: Optimize the crap out of this.  Don't really have to copy all the data each time
                     
                     size_t scanSize = currentDataSize - _currentStringScanPosition;
-                    
-                    NSData *scan_data = [_currentFrameData subdataWithRange:NSMakeRange(_currentStringScanPosition, scanSize)];
+                    NSData *scan_data = [NSData dataWithBytesNoCopy:((char*)[_currentFrameData bytes]+_currentStringScanPosition) length:scanSize freeWhenDone:NO];
+                    //NSData *scan_data = [_currentFrameData subdataWithRange:NSMakeRange(_currentStringScanPosition, scanSize)];
                     int32_t valid_utf8_size = validate_dispatch_data_partial_string(scan_data);
                     
                     if (valid_utf8_size == -1) {
