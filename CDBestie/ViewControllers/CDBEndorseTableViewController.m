@@ -133,6 +133,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [self hiddeErrorText];
     self.show = NO;
     self.tabBarController.tabBar.hidden=YES;
     self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height + 44);
@@ -531,6 +532,7 @@
 }
 -(void)handleSearchForTerm:(NSString *)searchString
 {
+    [self hiddeErrorText];
     NSDictionary * parames = @{@"nick":searchString};
     [[WebSocketManager instance]sendWithAction:@"user.search" parameters:parames callback:^(WSRequest *request, NSDictionary *result){
         if(request.error_code!=0)
