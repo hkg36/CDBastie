@@ -9,11 +9,35 @@
 #import "ImageDownloader.h"
 #import <WebP/decode.h>
 
+@interface MemCache : NSObject
+@property (strong,nonatomic) id data;
+@property (nonatomic) float usetime;
+@end
+
 @interface ImageDownloader()
 @property (strong,nonatomic) NSThread *workthread;
 @property (strong,nonatomic) NSMutableDictionary *imgbuffer;
+@property (strong,nonatomic) NSHTTPURLResponse *response;
+@property (strong,nonatomic) NSMutableData *data;
+@property (nonatomic) long long fileSize;
+@property (strong,nonatomic) NSString* nowurl;
+@property (strong,nonatomic) NSRegularExpression *mime_image;
 @end
 
+@implementation MemCache
+-(id)initWithData:(id) data
+{
+    if(self==nil)
+        return nil;
+    self.data=data;
+    self.usetime=[[NSDate date] timeIntervalSince1970];
+    return self;
+}
+-(void) use
+{
+    self.usetime=[[NSDate date] timeIntervalSince1970];
+}
+@end
 
 ImageDownloader* one_instanse=nil;
 @implementation ImageDownloader
@@ -34,6 +58,9 @@ ImageDownloader* one_instanse=nil;
     [self.workthread start];
     self.imgbuffer=[NSMutableDictionary new];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleMemoryWarning:) name: UIApplicationDidReceiveMemoryWarningNotification object:nil];
+    
+    NSError* error = NULL;
+    self.mime_image = [NSRegularExpression regularExpressionWithPattern:@"^\s*image/.+\s*$" options:NSRegularExpressionCaseInsensitive error:&error];
     return self;
 }
 - (void)threadMain:(id)obj
@@ -50,12 +77,13 @@ ImageDownloader* one_instanse=nil;
 }
 -(void) startDownload:(UIView*)img forUrl:(NSURL*) url callback:(result_callback)callback
 {
-    UIImage *buffimg=nil;
+    MemCache *buffimg=nil;
     @synchronized(self.imgbuffer){
         buffimg=[self.imgbuffer objectForKey:url];
     }
     if(buffimg){
-        callback(img,buffimg);
+        [buffimg use];
+        callback(img,buffimg.data);
         return;
     }
     [img.layer setValue:url forKey:@"download_image_work"];
@@ -65,25 +93,27 @@ ImageDownloader* one_instanse=nil;
 {
     UIImageView* img=[work valueForKey:@"view"];
     NSURL *url=[img.layer valueForKey:@"download_image_work"];
-    UIImage *buffimg=nil;
+    MemCache *buffimg=nil;
     @synchronized(self.imgbuffer)
     {
         buffimg=[self.imgbuffer objectForKey:url];
     }
     if(buffimg){
-        [self performSelectorOnMainThread:@selector(FrontSetup:) withObject:@{@"view":img,@"img":buffimg,@"url":url,@"callback":[work objectForKey:@"callback"]} waitUntilDone:false];
+        [buffimg use];
+        [self performSelectorOnMainThread:@selector(FrontSetup:) withObject:@{@"view":img,@"img":buffimg.data,@"url":url,@"callback":[work objectForKey:@"callback"]} waitUntilDone:false];
         return;
     }
     
-    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30];
     
     NSURLResponse *response;
     NSError *error;
-    //send it synchronous
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if(responseData)
     {
-        UIImage *resimg=nil;
+        id resimg=nil;
+        if([self.mime_image numberOfMatchesInString:response.MIMEType options:0 range:NSMakeRange(0, [response.MIMEType length])])
+        {
         if([response.MIMEType caseInsensitiveCompare:@"image/webp"]==NSOrderedSame){
             int width = 0;
             int height = 0;
@@ -103,10 +133,15 @@ ImageDownloader* one_instanse=nil;
         else{
             resimg=[UIImage imageWithData:responseData];
         }
+        }
+        else
+        {
+            resimg=responseData;
+        }
         if(resimg)
         {
             @synchronized(self.imgbuffer){
-                [self.imgbuffer setObject:resimg forKey:url];
+                [self.imgbuffer setObject:[[MemCache alloc] initWithData:resimg] forKey:url];
             }
             [self performSelectorOnMainThread:@selector(FrontSetup:) withObject:@{@"view":img,@"img":resimg,@"url":url,@"callback":[work objectForKey:@"callback"]} waitUntilDone:false];
             return;
@@ -114,6 +149,7 @@ ImageDownloader* one_instanse=nil;
     }
     [self performSelectorOnMainThread:@selector(FrontSetup:) withObject:@{@"view":img,@"url":url,@"callback":[work objectForKey:@"callback"]} waitUntilDone:false];
 }
+
 -(void)FrontSetup:(NSDictionary*)work
 {
     UIImage* img=[work valueForKey:@"img"];
@@ -130,7 +166,13 @@ ImageDownloader* one_instanse=nil;
 {
     @synchronized(self.imgbuffer)
     {
-        [self.imgbuffer removeAllObjects];
+        float now=[[NSDate date] timeIntervalSince1970];
+        for(id key in [self.imgbuffer allKeys])
+        {
+            MemCache* mc=[self.imgbuffer objectForKey:key];
+            if(now-mc.usetime>30)
+                [self.imgbuffer removeObjectForKey:key];
+        }
     }
 }
 static void free_image_data(void *info, const void *data, size_t size)
