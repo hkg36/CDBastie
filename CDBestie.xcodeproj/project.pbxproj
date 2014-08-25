@@ -10,6 +10,9 @@
 		1702C12F199B56A300290CE0 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1702C12E199B56A300290CE0 /* ImageDownloader.m */; };
 		17387A46199323220049B1A2 /* Merchandise.m in Sources */ = {isa = PBXBuildFile; fileRef = 17387A45199323220049B1A2 /* Merchandise.m */; };
 		177D06E219A05FEA00E2A228 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 177D06E119A05FEA00E2A228 /* WebP.framework */; };
+		5ED17A6D19AAE7BE00D6521C /* UIViewController+Indicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED17A6919AAE7BE00D6521C /* UIViewController+Indicator.m */; };
+		5ED17A6E19AAE7BE00D6521C /* XCJErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED17A6B19AAE7BE00D6521C /* XCJErrorView.m */; };
+		5ED17A6F19AAE7BE00D6521C /* XCJErrorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ED17A6C19AAE7BE00D6521C /* XCJErrorView.xib */; };
 		86078D79199327B9005BDD8B /* ACDBEndorseInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86078D78199327B9005BDD8B /* ACDBEndorseInfoController.m */; };
 		86103FB4199D9BF100896884 /* NSDataAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 86103F84199D9BF100896884 /* NSDataAddition.m */; };
 		86103FB5199D9BF100896884 /* NSString+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 86103F86199D9BF100896884 /* NSString+Addition.m */; };
@@ -133,6 +136,12 @@
 		17387A44199323220049B1A2 /* Merchandise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Merchandise.h; sourceTree = "<group>"; };
 		17387A45199323220049B1A2 /* Merchandise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Merchandise.m; sourceTree = "<group>"; };
 		177D06E119A05FEA00E2A228 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = CDBestie/CDBNetworking/WebP.framework; sourceTree = "<group>"; };
+		5ED17A6719AAE7BE00D6521C /* blocktypedef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = blocktypedef.h; path = ViewControllers/blocktypedef.h; sourceTree = "<group>"; };
+		5ED17A6819AAE7BE00D6521C /* UIViewController+Indicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Indicator.h"; path = "ViewControllers/UIViewController+Indicator.h"; sourceTree = "<group>"; };
+		5ED17A6919AAE7BE00D6521C /* UIViewController+Indicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Indicator.m"; path = "ViewControllers/UIViewController+Indicator.m"; sourceTree = "<group>"; };
+		5ED17A6A19AAE7BE00D6521C /* XCJErrorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XCJErrorView.h; path = ViewControllers/XCJErrorView.h; sourceTree = "<group>"; };
+		5ED17A6B19AAE7BE00D6521C /* XCJErrorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XCJErrorView.m; path = ViewControllers/XCJErrorView.m; sourceTree = "<group>"; };
+		5ED17A6C19AAE7BE00D6521C /* XCJErrorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = XCJErrorView.xib; path = ViewControllers/XCJErrorView.xib; sourceTree = "<group>"; };
 		86078D77199327B9005BDD8B /* ACDBEndorseInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ACDBEndorseInfoController.h; sourceTree = "<group>"; };
 		86078D78199327B9005BDD8B /* ACDBEndorseInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ACDBEndorseInfoController.m; sourceTree = "<group>"; };
 		86103F83199D9BF100896884 /* NSDataAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSDataAddition.h; sourceTree = "<group>"; };
@@ -375,6 +384,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5ED17A6619AAE79A00D6521C /* Extends */ = {
+			isa = PBXGroup;
+			children = (
+				5ED17A6719AAE7BE00D6521C /* blocktypedef.h */,
+				5ED17A6819AAE7BE00D6521C /* UIViewController+Indicator.h */,
+				5ED17A6919AAE7BE00D6521C /* UIViewController+Indicator.m */,
+				5ED17A6A19AAE7BE00D6521C /* XCJErrorView.h */,
+				5ED17A6B19AAE7BE00D6521C /* XCJErrorView.m */,
+				5ED17A6C19AAE7BE00D6521C /* XCJErrorView.xib */,
+			);
+			name = Extends;
+			sourceTree = "<group>";
+		};
 		86103F80199D9BF100896884 /* Private */ = {
 			isa = PBXGroup;
 			children = (
@@ -682,6 +704,7 @@
 		8653DBA91985F66600A8EE47 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				5ED17A6619AAE79A00D6521C /* Extends */,
 				864067DB198BCEDC0032E693 /* WebSource */,
 				8682D5581989EEB000AD88EB /* Resources */,
 				8653DBAA1985F66600A8EE47 /* CDBestie-Info.plist */,
@@ -935,6 +958,7 @@
 				86103FBE199D9BF100896884 /* IDMPhotoBrowser.bundle in Resources */,
 				8668E285198A57D100E84FAB /* click_before.png in Resources */,
 				8668E27F198A566500E84FAB /* 2.png in Resources */,
+				5ED17A6F19AAE7BE00D6521C /* XCJErrorView.xib in Resources */,
 				8668E282198A56E600E84FAB /* 3.png in Resources */,
 				864067EE198BCEDD0032E693 /* default-controls.bundle in Resources */,
 				8668E286198A57D100E84FAB /* click.png in Resources */,
@@ -963,6 +987,7 @@
 				86078D79199327B9005BDD8B /* ACDBEndorseInfoController.m in Sources */,
 				86B7F75C198F32EF00749659 /* User.m in Sources */,
 				86103FBF199D9BF100896884 /* IDMPhotoBrowser.m in Sources */,
+				5ED17A6E19AAE7BE00D6521C /* XCJErrorView.m in Sources */,
 				8668E279198A563300E84FAB /* MYIntroductionPanel.m in Sources */,
 				86A0C5B41991211B0091462B /* userInfoCell.m in Sources */,
 				86103FC5199D9BF100896884 /* UIImage+Alpha.m in Sources */,
@@ -985,6 +1010,7 @@
 				86A0C5BD1991214F0091462B /* ablmCell.m in Sources */,
 				863E51551986172800753B80 /* UIProgressView+AFNetworking.m in Sources */,
 				86103FBA199D9BF100896884 /* DCIntrospect.m in Sources */,
+				5ED17A6D19AAE7BE00D6521C /* UIViewController+Indicator.m in Sources */,
 				863E514A1986172800753B80 /* AFNetworkReachabilityManager.m in Sources */,
 				865610ED19907B2500E2AC47 /* CDBBangNaviController.m in Sources */,
 				86B3333B198F96CA004D86BD /* CDBChangeSignNaviController.m in Sources */,

@@ -24,9 +24,9 @@
 #import "ACDBEndorseInfoController.h"
 #import "ImageDownloader.h"
 #import "DataTools.h"
-//#import "UIViewController+Indicator.h"
-//#import "UIView+Additon.h"
-//#import "XCJErrorView.h"
+#import "UIViewController+Indicator.h"
+#import "UIView+Additon.h"
+#import "XCJErrorView.h"
 #define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
 
@@ -512,7 +512,7 @@
     _isSearchBack =NO;
     [self initHomeData];
     searchBar.text=@"";
-    //[self hiddeErrorText];
+    [self hiddeErrorText];
     [self.tableView reloadData];
     [mysearchBar resignFirstResponder];
     
@@ -542,7 +542,7 @@
         self.filteredPersons = result[@"users"];
         NSLog(@"self.filteredPersons = %@",self.filteredPersons);
         if ([self.filteredPersons count]==0) {
-           // [self showErrorText:[NSString stringWithFormat:@"没有找到\"%@\"相关的结果",searchString]];
+            [self showErrorText:[NSString stringWithFormat:@"没有找到\"%@\"相关的结果",searchString]];
         }
         friend_list =self.filteredPersons;
         searchS = searchString;
