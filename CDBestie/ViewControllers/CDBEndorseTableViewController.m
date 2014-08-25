@@ -24,25 +24,34 @@
 #import "ACDBEndorseInfoController.h"
 #import "ImageDownloader.h"
 #import "DataTools.h"
+//#import "UIViewController+Indicator.h"
+//#import "UIView+Additon.h"
+//#import "XCJErrorView.h"
 #define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
 
 
-@interface CDBEndorseTableViewController ()
+@interface CDBEndorseTableViewController ()<UISearchBarDelegate>
 {
     UIView *myMenu;
     NSMutableArray *friend_list;
     UILabel *levellbl;
+    NSString *searchS;
     
 }
 @property (readwrite)  BOOL show;
 @property (nonatomic,weak) UIImageView *titleLabImage;
 @property (nonatomic,weak) UILabel *titlelab;
+@property (nonatomic,retain) UISearchBar* mysearchBar;
+@property(nonatomic, copy) NSMutableArray *filteredPersons;
+@property(nonatomic) BOOL isFiltered;
+@property(nonatomic) BOOL isSearchBack;
 @end
 
 @implementation CDBEndorseTableViewController
 @synthesize titlelab;
 @synthesize titleLabImage;
+@synthesize mysearchBar;
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -54,6 +63,16 @@
 
 - (void)viewDidLoad
 {
+    
+    mysearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, 40)];
+    //mySearchBar = searchBar;
+    mysearchBar.showsCancelButton = YES;
+    mysearchBar.placeholder =@"搜索";
+    mysearchBar.delegate = self;
+    [mysearchBar sizeToFit];
+    self.tableView.tableHeaderView =mysearchBar;
+    self.tableView.contentOffset = CGPointMake(0, CGRectGetHeight(mysearchBar.bounds));
+    
     if (![self.title isEqual:@"排行榜"]) {
         CGSize navSize = CGSizeMake(20 , 20);
         UIImage *menuImage = [self scaleToSize:[UIImage imageNamed:@"daiyan_list"] size:navSize];
@@ -119,7 +138,13 @@
     self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height + 44);
     titleLabImage.hidden = NO;
     titlelab.hidden = NO;
-        [self initHomeData];
+    if (_isSearchBack) {
+        if (searchS) {
+            mysearchBar.text =searchS;
+        }
+        return;
+    }
+    [self initHomeData];
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -473,5 +498,60 @@
     return cell;
 }
 
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    _isSearchBack =YES;
+    NSString *searchTerm=[searchBar text];
+    [self handleSearchForTerm:searchTerm];
+    [searchBar resignFirstResponder];
+    
+}
 
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    _isSearchBack =NO;
+    [self initHomeData];
+    searchBar.text=@"";
+    //[self hiddeErrorText];
+    [self.tableView reloadData];
+    [mysearchBar resignFirstResponder];
+    
+}
+
+- (BOOL)isPureInt:(NSString*)string{
+    NSScanner* scan = [NSScanner scannerWithString:string];
+    int val;
+    return[scan scanInt:&val] && [scan isAtEnd];
+}
+
+- (BOOL)isPureFloat:(NSString*)string{
+    NSScanner* scan = [NSScanner scannerWithString:string];
+    float val;
+    return[scan scanFloat:&val] && [scan isAtEnd];
+}
+-(void)handleSearchForTerm:(NSString *)searchString
+{
+    NSDictionary * parames = @{@"nick":searchString};
+    [[WebSocketManager instance]sendWithAction:@"user.search" parameters:parames callback:^(WSRequest *request, NSDictionary *result){
+        if(request.error_code!=0)
+        {
+            [SVProgressHUD dismiss];
+            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
+            return;
+        }
+        self.filteredPersons = result[@"users"];
+        NSLog(@"self.filteredPersons = %@",self.filteredPersons);
+        if ([self.filteredPersons count]==0) {
+           // [self showErrorText:[NSString stringWithFormat:@"没有找到\"%@\"相关的结果",searchString]];
+        }
+        friend_list =self.filteredPersons;
+        searchS = searchString;
+        [self.tableView reloadData];
+    }];
+}
+
+-(void)showLoading
+{
+    [SVProgressHUD show];
+}
 @end
