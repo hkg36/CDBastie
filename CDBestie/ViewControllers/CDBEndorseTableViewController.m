@@ -98,7 +98,7 @@
         [super viewDidLoad];
         
         //占坑专用 过后删除
-        UIImage *myInfoImage = [self scaleToSize:[UIImage imageNamed:@"daiyan_list"] size:navSize];
+        UIImage *myInfoImage = [self scaleToSize:[UIImage imageNamed:@"daiyangeren"] size:navSize];
         UIBarButtonItem * myInfoBar = [[UIBarButtonItem alloc] initWithImage:myInfoImage style:UIBarButtonItemStyleDone target:self action:@selector(myInfoShow:)];
         self.navigationItem.rightBarButtonItems = @[myInfoBar];
         [titlelab removeFromSuperview];
