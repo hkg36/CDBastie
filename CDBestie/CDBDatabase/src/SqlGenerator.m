@@ -28,7 +28,7 @@
 	if (generateSql) {
 		[sql appendFormat:@"(%@ > '%@' AND %@ < '%@~') OR %@ = '%@'",name,value,name,value,name,value];		
 	}
-	ALog(sql);
+	//ALog(sql);
 	return sql;
 }
 

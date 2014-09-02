@@ -97,6 +97,7 @@
         [self.navigationController.view addSubview:titlelab];
         [super viewDidLoad];
         
+        
         //占坑专用 过后删除
         UIImage *myInfoImage = [self scaleToSize:[UIImage imageNamed:@"daiyangeren"] size:navSize];
         UIBarButtonItem * myInfoBar = [[UIBarButtonItem alloc] initWithImage:myInfoImage style:UIBarButtonItemStyleDone target:self action:@selector(myInfoShow:)];

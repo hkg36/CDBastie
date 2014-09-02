@@ -99,7 +99,7 @@
 		[self execute:@"PRAGMA cache_size = 100"];
 		[self execute:@"PRAGMA foreign_keys = ON"];
 
-		ALog(@"Db: %@",self.path);
+		//ALog(@"Db: %@",self.path);
 	}
 }
 
@@ -130,7 +130,7 @@
 
 -(void) checkError{
     if ([self.theDb hadError]) {
-		ALog(@"Err %d: %@", [self.theDb lastErrorCode], [self.theDb lastErrorMessage]);
+		//ALog(@"Err %d: %@", [self.theDb lastErrorCode], [self.theDb lastErrorMessage]);
 		NSException *e = [NSException						  
 				       		  exceptionWithName:@"DBError"						  
 						  reason:[self.theDb lastErrorMessage]						  
@@ -627,7 +627,7 @@
 -(FMResultSet *) load: (NSString *)sql{
 	[self openDb];
 	FMResultSet *rs;
-	ALog(sql);
+	//ALog(sql);
 	rs = [self.theDb executeQuery :sql];
 	
 	[self checkError];
@@ -637,7 +637,7 @@
 
 -(void) execute: (NSString *)sql{
 	[self openDb];
-	ALog(sql);	
+	//ALog(sql);
 	[self.theDb executeUpdate :sql];
 	
 	[self checkError];

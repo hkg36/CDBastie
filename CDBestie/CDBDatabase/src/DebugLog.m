@@ -8,7 +8,7 @@
  */
 
 #include "DebugLog.h"
-
+/*
 void _ALog(const char *file, int lineNumber, NSString *format,...) {
   va_list ap;
 	
@@ -24,4 +24,4 @@ void _ALog(const char *file, int lineNumber, NSString *format,...) {
 	LOG_GENERAL(0,[NSString stringWithFormat:@"[%s:%d]  %s",[fileName UTF8String],lineNumber, [body UTF8String]],@"");
 				
 }
-
+*/

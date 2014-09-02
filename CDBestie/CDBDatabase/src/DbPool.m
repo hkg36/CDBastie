@@ -25,7 +25,7 @@ static DbPool *sharedInstance = nil;
 
 - (void)dealloc
 { 
-	ALog(@"Releasing pool");
+	//ALog(@"Releasing pool");
 	for (Db *db in self.pool) {
 		[db closeDb];
 	}
@@ -93,13 +93,13 @@ static DbPool *sharedInstance = nil;
 	if (!db) {
 		db = [[Db alloc] initWithName :path];
 		
-		ALog(@"Adding %@ to pool",name);
+		//ALog(@"Adding %@ to pool",name);
 		@synchronized(self) {
 			[self.pool setObject:db forKey:name];
 			[self.paths setObject:path forKey:name];
 		}
 	} else {
-		ALog(@"%@ already exist on pool",name);
+		//ALog(@"%@ already exist on pool",name);
 	}
 
 	return db;
