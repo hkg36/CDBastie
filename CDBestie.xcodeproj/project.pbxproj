@@ -10,21 +10,14 @@
 		1702C12F199B56A300290CE0 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1702C12E199B56A300290CE0 /* ImageDownloader.m */; };
 		17387A46199323220049B1A2 /* Merchandise.m in Sources */ = {isa = PBXBuildFile; fileRef = 17387A45199323220049B1A2 /* Merchandise.m */; };
 		177D06E219A05FEA00E2A228 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 177D06E119A05FEA00E2A228 /* WebP.framework */; };
+		17C0850B19B6C86100094AC4 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 17C0850A19B6C86100094AC4 /* libsqlite3.dylib */; };
 		5EC45A9319AC998C001F4DA8 /* daiyangeren@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EC45A9219AC998C001F4DA8 /* daiyangeren@2x.png */; };
 		5EC45AEF19AD886E001F4DA8 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AA219AD886E001F4DA8 /* FMDatabase.m */; };
 		5EC45AF019AD886E001F4DA8 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AA419AD886E001F4DA8 /* FMDatabaseAdditions.m */; };
 		5EC45AF119AD886E001F4DA8 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AA619AD886E001F4DA8 /* FMDatabasePool.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5EC45AF219AD886E001F4DA8 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AA819AD886E001F4DA8 /* FMDatabaseQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5EC45AF419AD886E001F4DA8 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AAB19AD886E001F4DA8 /* FMResultSet.m */; };
-		5EC45AF719AD886E001F4DA8 /* GTMObjC2Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AB219AD886E001F4DA8 /* GTMObjC2Runtime.m */; };
-		5EC45AF819AD886E001F4DA8 /* GTMStackTrace.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AB419AD886E001F4DA8 /* GTMStackTrace.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		5EC45AF919AD886E001F4DA8 /* LoggerClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AB819AD886E001F4DA8 /* LoggerClient.m */; };
-		5EC45B0119AD886E001F4DA8 /* License.html in Resources */ = {isa = PBXBuildFile; fileRef = 5EC45AC519AD886E001F4DA8 /* License.html */; };
-		5EC45B0219AD886E001F4DA8 /* License.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5EC45AC619AD886E001F4DA8 /* License.rtf */; };
-		5EC45B0319AD886E001F4DA8 /* RegexKitLite.html in Resources */ = {isa = PBXBuildFile; fileRef = 5EC45AC819AD886E001F4DA8 /* RegexKitLite.html */; };
-		5EC45B0419AD886E001F4DA8 /* RegexKitLite.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AC919AD886E001F4DA8 /* RegexKitLite.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		5EC45B0619AD886E001F4DA8 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45ACC19AD886E001F4DA8 /* sqlite3.c */; };
-		5EC45B0719AD886E001F4DA8 /* sqlite3_unicode.c in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45ACE19AD886E001F4DA8 /* sqlite3_unicode.c */; };
 		5EC45B0819AD886E001F4DA8 /* Db.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AD319AD886E001F4DA8 /* Db.m */; };
 		5EC45B0919AD886E001F4DA8 /* DbBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AD519AD886E001F4DA8 /* DbBackground.m */; };
 		5EC45B0A19AD886E001F4DA8 /* DbCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AD719AD886E001F4DA8 /* DbCache.m */; };
@@ -163,6 +156,7 @@
 		17387A44199323220049B1A2 /* Merchandise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Merchandise.h; sourceTree = "<group>"; };
 		17387A45199323220049B1A2 /* Merchandise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Merchandise.m; sourceTree = "<group>"; };
 		177D06E119A05FEA00E2A228 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = CDBestie/CDBNetworking/WebP.framework; sourceTree = "<group>"; };
+		17C0850A19B6C86100094AC4 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		5EC45A9219AC998C001F4DA8 /* daiyangeren@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "daiyangeren@2x.png"; path = "Images.xcassets/daiyangeren.imageset/daiyangeren@2x.png"; sourceTree = "<group>"; };
 		5EC45AA119AD886E001F4DA8 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		5EC45AA219AD886E001F4DA8 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
@@ -174,24 +168,9 @@
 		5EC45AA819AD886E001F4DA8 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
 		5EC45AAA19AD886E001F4DA8 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		5EC45AAB19AD886E001F4DA8 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
-		5EC45AB119AD886E001F4DA8 /* GTMObjC2Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMObjC2Runtime.h; sourceTree = "<group>"; };
-		5EC45AB219AD886E001F4DA8 /* GTMObjC2Runtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMObjC2Runtime.m; sourceTree = "<group>"; };
-		5EC45AB319AD886E001F4DA8 /* GTMStackTrace.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMStackTrace.h; sourceTree = "<group>"; };
-		5EC45AB419AD886E001F4DA8 /* GTMStackTrace.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMStackTrace.m; sourceTree = "<group>"; };
-		5EC45AB519AD886E001F4DA8 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		5EC45AB719AD886E001F4DA8 /* LoggerClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerClient.h; sourceTree = "<group>"; };
 		5EC45AB819AD886E001F4DA8 /* LoggerClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoggerClient.m; sourceTree = "<group>"; };
 		5EC45AB919AD886E001F4DA8 /* LoggerCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoggerCommon.h; sourceTree = "<group>"; };
-		5EC45AC519AD886E001F4DA8 /* License.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = License.html; sourceTree = "<group>"; };
-		5EC45AC619AD886E001F4DA8 /* License.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = License.rtf; sourceTree = "<group>"; };
-		5EC45AC719AD886E001F4DA8 /* RegexKitLite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegexKitLite.h; sourceTree = "<group>"; };
-		5EC45AC819AD886E001F4DA8 /* RegexKitLite.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = RegexKitLite.html; sourceTree = "<group>"; };
-		5EC45AC919AD886E001F4DA8 /* RegexKitLite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegexKitLite.m; sourceTree = "<group>"; };
-		5EC45ACC19AD886E001F4DA8 /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
-		5EC45ACD19AD886E001F4DA8 /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
-		5EC45ACE19AD886E001F4DA8 /* sqlite3_unicode.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sqlite3_unicode.c; sourceTree = "<group>"; };
-		5EC45ACF19AD886E001F4DA8 /* sqlite3_unicode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3_unicode.h; sourceTree = "<group>"; };
-		5EC45AD019AD886E001F4DA8 /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite3ext.h; sourceTree = "<group>"; };
 		5EC45AD219AD886E001F4DA8 /* Db.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Db.h; sourceTree = "<group>"; };
 		5EC45AD319AD886E001F4DA8 /* Db.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Db.m; sourceTree = "<group>"; };
 		5EC45AD419AD886E001F4DA8 /* DbBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DbBackground.h; sourceTree = "<group>"; };
@@ -440,6 +419,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17C0850B19B6C86100094AC4 /* libsqlite3.dylib in Frameworks */,
 				177D06E219A05FEA00E2A228 /* WebP.framework in Frameworks */,
 				86B7F75E198F34E200749659 /* libleveldb.a in Frameworks */,
 				863E517519861F6D00753B80 /* libicucore.dylib in Frameworks */,
@@ -477,10 +457,7 @@
 			isa = PBXGroup;
 			children = (
 				5EC45A9619AD886D001F4DA8 /* fdbm */,
-				5EC45AAF19AD886E001F4DA8 /* GTM */,
 				5EC45AB619AD886E001F4DA8 /* Logger */,
-				5EC45ABA19AD886E001F4DA8 /* regexkit */,
-				5EC45ACA19AD886E001F4DA8 /* sqlite */,
 			);
 			path = external;
 			sourceTree = "<group>";
@@ -510,26 +487,6 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		5EC45AAF19AD886E001F4DA8 /* GTM */ = {
-			isa = PBXGroup;
-			children = (
-				5EC45AB019AD886E001F4DA8 /* Foundation */,
-				5EC45AB519AD886E001F4DA8 /* GTMDefines.h */,
-			);
-			path = GTM;
-			sourceTree = "<group>";
-		};
-		5EC45AB019AD886E001F4DA8 /* Foundation */ = {
-			isa = PBXGroup;
-			children = (
-				5EC45AB119AD886E001F4DA8 /* GTMObjC2Runtime.h */,
-				5EC45AB219AD886E001F4DA8 /* GTMObjC2Runtime.m */,
-				5EC45AB319AD886E001F4DA8 /* GTMStackTrace.h */,
-				5EC45AB419AD886E001F4DA8 /* GTMStackTrace.m */,
-			);
-			path = Foundation;
-			sourceTree = "<group>";
-		};
 		5EC45AB619AD886E001F4DA8 /* Logger */ = {
 			isa = PBXGroup;
 			children = (
@@ -538,30 +495,6 @@
 				5EC45AB919AD886E001F4DA8 /* LoggerCommon.h */,
 			);
 			path = Logger;
-			sourceTree = "<group>";
-		};
-		5EC45ABA19AD886E001F4DA8 /* regexkit */ = {
-			isa = PBXGroup;
-			children = (
-				5EC45AC519AD886E001F4DA8 /* License.html */,
-				5EC45AC619AD886E001F4DA8 /* License.rtf */,
-				5EC45AC719AD886E001F4DA8 /* RegexKitLite.h */,
-				5EC45AC819AD886E001F4DA8 /* RegexKitLite.html */,
-				5EC45AC919AD886E001F4DA8 /* RegexKitLite.m */,
-			);
-			path = regexkit;
-			sourceTree = "<group>";
-		};
-		5EC45ACA19AD886E001F4DA8 /* sqlite */ = {
-			isa = PBXGroup;
-			children = (
-				5EC45ACC19AD886E001F4DA8 /* sqlite3.c */,
-				5EC45ACD19AD886E001F4DA8 /* sqlite3.h */,
-				5EC45ACE19AD886E001F4DA8 /* sqlite3_unicode.c */,
-				5EC45ACF19AD886E001F4DA8 /* sqlite3_unicode.h */,
-				5EC45AD019AD886E001F4DA8 /* sqlite3ext.h */,
-			);
-			path = sqlite;
 			sourceTree = "<group>";
 		};
 		5EC45AD119AD886E001F4DA8 /* src */ = {
@@ -886,6 +819,7 @@
 		8653DBA11985F66600A8EE47 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				17C0850A19B6C86100094AC4 /* libsqlite3.dylib */,
 				177D06E119A05FEA00E2A228 /* WebP.framework */,
 				86B7F75D198F34E200749659 /* libleveldb.a */,
 				863E517419861F6D00753B80 /* libicucore.dylib */,
@@ -1181,10 +1115,7 @@
 				86893D511987914A00CFC166 /* SVProgressHUD.bundle in Resources */,
 				5EC45A9319AC998C001F4DA8 /* daiyangeren@2x.png in Resources */,
 				8653DBAD1985F66600A8EE47 /* InfoPlist.strings in Resources */,
-				5EC45B0119AD886E001F4DA8 /* License.html in Resources */,
 				8653DBB51985F66600A8EE47 /* Images.xcassets in Resources */,
-				5EC45B0319AD886E001F4DA8 /* RegexKitLite.html in Resources */,
-				5EC45B0219AD886E001F4DA8 /* License.rtf in Resources */,
 				8668E27E198A566500E84FAB /* 1.png in Resources */,
 				8653DC161985F91A00A8EE47 /* Main.storyboard in Resources */,
 			);
@@ -1214,18 +1145,15 @@
 				86A0C5B41991211B0091462B /* userInfoCell.m in Sources */,
 				86103FC5199D9BF100896884 /* UIImage+Alpha.m in Sources */,
 				86B3333F198FB3E3004D86BD /* CDBChangeBirthViewController.m in Sources */,
-				5EC45AF719AD886E001F4DA8 /* GTMObjC2Runtime.m in Sources */,
 				86103FB7199D9BF100896884 /* DACircularProgressView.m in Sources */,
 				863E51471986172800753B80 /* AFHTTPRequestOperation.m in Sources */,
 				5EC45AF419AD886E001F4DA8 /* FMResultSet.m in Sources */,
 				863E51541986172800753B80 /* UIImageView+AFNetworking.m in Sources */,
 				86B7F759198F32EF00749659 /* CircleInfo.m in Sources */,
 				86103FBC199D9BF100896884 /* IDMCaptionView.m in Sources */,
-				5EC45B0719AD886E001F4DA8 /* sqlite3_unicode.c in Sources */,
 				86103FC0199D9BF100896884 /* IDMTapDetectingImageView.m in Sources */,
 				5EC45B0819AD886E001F4DA8 /* Db.m in Sources */,
 				864067EF198BCEDD0032E693 /* DZWebBrowser.m in Sources */,
-				5EC45B0619AD886E001F4DA8 /* sqlite3.c in Sources */,
 				865610F319907B7300E2AC47 /* CDBBangCell.m in Sources */,
 				863E517B1986244000753B80 /* CDBMainLoginViewController.m in Sources */,
 				8653DBB31985F66600A8EE47 /* CDBAppDelegate.m in Sources */,
@@ -1239,7 +1167,6 @@
 				86103FBA199D9BF100896884 /* DCIntrospect.m in Sources */,
 				5ED17A6D19AAE7BE00D6521C /* UIViewController+Indicator.m in Sources */,
 				5EC45B0C19AD886E001F4DA8 /* DbPool.m in Sources */,
-				5EC45B0419AD886E001F4DA8 /* RegexKitLite.m in Sources */,
 				5EC45B0D19AD886E001F4DA8 /* DebugLog.m in Sources */,
 				863E514A1986172800753B80 /* AFNetworkReachabilityManager.m in Sources */,
 				865610ED19907B2500E2AC47 /* CDBBangNaviController.m in Sources */,
@@ -1247,7 +1174,6 @@
 				8668E27A198A563300E84FAB /* MYIntroductionView.m in Sources */,
 				864067F0198BCEDD0032E693 /* NJKWebViewProgress.m in Sources */,
 				863E514E1986172800753B80 /* AFURLResponseSerialization.m in Sources */,
-				5EC45AF819AD886E001F4DA8 /* GTMStackTrace.m in Sources */,
 				86B7F75B198F32EF00749659 /* Message.m in Sources */,
 				86103FC8199D9BF100896884 /* UIView+Additon.m in Sources */,
 				864067F5198BCEDD0032E693 /* script.js in Sources */,
