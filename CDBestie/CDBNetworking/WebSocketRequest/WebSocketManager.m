@@ -178,7 +178,10 @@ WebSocketManager *one_instance=nil;
     self.last_recvtime=[[NSDate date] timeIntervalSince1970];
     
     if(![message isKindOfClass:[NSData class]])
+    {
+        NSLog(@"%@",message);
         return;
+    }
     NSError *error;
     NSData *ucdata=[self uncompressZippedData:message];
     if(ucdata==nil)
