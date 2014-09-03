@@ -902,7 +902,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
-                            <tableViewCell userInteractionEnabled="NO" contentMode="scaleToFill" restorationIdentifier="userInfoCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="userInfoCell" rowHeight="75" id="6sO-89-CU3" customClass="userInfoCell">
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="userInfoCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="userInfoCell" rowHeight="75" id="6sO-89-CU3" customClass="userInfoCell">
                                 <rect key="frame" x="0.0" y="55" width="320" height="75"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6sO-89-CU3" id="YOW-m8-rll">
@@ -1006,8 +1006,32 @@
                                     <outlet property="Xbonus" destination="tT3-Mc-sPw" id="xGJ-oX-WMf"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="FavorCell" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FavorCell" rowHeight="39" id="zLx-Yi-5JD" customClass="FavorCell">
+                                <rect key="frame" x="0.0" y="208" width="320" height="39"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zLx-Yi-5JD" id="fs9-Sj-ozE">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="38"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="收藏她" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="m7Y-5z-qsM">
+                                            <rect key="frame" x="20" y="11" width="64" height="21"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="BgZ-hx-yfP">
+                                            <rect key="frame" x="244" y="3" width="51" height="31"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </switch>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="store" destination="BgZ-hx-yfP" id="E9r-ur-jXY"/>
+                                    <outlet property="title" destination="m7Y-5z-qsM" id="1hp-1m-hvQ"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" restorationIdentifier="ablmCell" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ablmCell" rowHeight="58" id="2Qm-w7-QA0" customClass="ablmCell">
-                                <rect key="frame" x="0.0" y="208" width="320" height="58"/>
+                                <rect key="frame" x="0.0" y="247" width="320" height="58"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2Qm-w7-QA0" id="Ghk-Xx-b8d">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="57"/>
@@ -1040,7 +1064,7 @@
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" restorationIdentifier="GoodsCell" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GoodsCell" rowHeight="94" id="GuD-UV-SFB" customClass="GoodsCell">
-                                <rect key="frame" x="0.0" y="266" width="320" height="94"/>
+                                <rect key="frame" x="0.0" y="305" width="320" height="94"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GuD-UV-SFB" id="kw7-qh-5Y4">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="93"/>
