@@ -83,18 +83,26 @@ WebSocketManager *one_instance=nil;
             break;
         }
     }
-    strm.next_out = tempdata;
-    strm.avail_out = sizeof(tempdata);
-    strm.total_out=0;
-    // Inflate another chunk.
-    status = deflate (&strm, Z_FINISH);
-    if (status==Z_STREAM_END) {
-        if(strm.total_out>0)
+    while(true)
+    {
+        strm.next_out = tempdata;
+        strm.avail_out = sizeof(tempdata);
+        strm.total_out=0;
+        // Inflate another chunk.
+        status = deflate (&strm, Z_FINISH);
+        if(status==Z_OK)
+        {
             [compressed appendBytes:tempdata length:strm.total_out];
-        done=true;
+        }
+        else if (status==Z_STREAM_END) {
+            if(strm.total_out>0)
+                [compressed appendBytes:tempdata length:strm.total_out];
+            done=true;
+            break;
+        }
+        else
+            return nil;
     }
-    else
-        return nil;
     if (deflateEnd (&strm) != Z_OK) return nil;
     // Set real length.
     if (done) {

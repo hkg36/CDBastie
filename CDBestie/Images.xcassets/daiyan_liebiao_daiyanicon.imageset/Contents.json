@@ -2,8 +2,7 @@
   "images" : [
     {
       "idiom" : "universal",
-      "scale" : "1x",
-      "filename" : "daiyan_liebiao_daiyanicon.png"
+      "scale" : "1x"
     },
     {
       "idiom" : "universal",
