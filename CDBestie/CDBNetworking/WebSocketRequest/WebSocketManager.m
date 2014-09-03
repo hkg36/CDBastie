@@ -238,9 +238,7 @@ WebSocketManager *one_instance=nil;
                 wsreq.error_code=IntFromJson([resdic valueForKey:@"errno"]);
                 NSDictionary *result=[resdic objectForKey:@"result"];
                 [self SaveResult:wsreq result:result];
-                @synchronized(wsreq){
-                    [wsreq performSelectorOnMainThread:@selector(doCallBack:) withObject:result waitUntilDone:FALSE];
-                }
+                [wsreq performSelectorOnMainThread:@selector(doCallBack:) withObject:result waitUntilDone:FALSE];
             }
         }
     }
@@ -392,10 +390,7 @@ WebSocketManager *one_instance=nil;
             req.buffer_timeout=timeout;
             [self.requestbuffer setValue:req forKey:cdata];
         }
-        @synchronized(req)
-        {
-            [req.callbacks addObject:callback];
-        }
+        [req.callbacks addObject:callback];
     }
     
     if(gosend)
@@ -413,11 +408,7 @@ WebSocketManager *one_instance=nil;
         {
             req.error_code=0;
             req.error=@"from cache";
-            @synchronized(req)
-            {
-                //[req doCallBack:[result objectForKey:@"result"]];
-                [req performSelectorOnMainThread:@selector(doCallBack:) withObject:[result objectForKey:@"result"] waitUntilDone:FALSE];
-            }
+            [req performSelectorOnMainThread:@selector(doCallBack:) withObject:[result objectForKey:@"result"] waitUntilDone:FALSE];
             if([[NSDate date] timeIntervalSince1970]-[[result objectForKey:@"time"] doubleValue]<req.buffer_timeout)
             {
                 return;
