@@ -52,6 +52,7 @@
 @synthesize titlelab;
 @synthesize titleLabImage;
 @synthesize mysearchBar;
+@synthesize isFavor;
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -97,14 +98,14 @@
         [self.navigationController.view addSubview:titlelab];
         [super viewDidLoad];
         
-        
+        /*
         //占坑专用 过后删除
         UIImage *myInfoImage = [self scaleToSize:[UIImage imageNamed:@"daiyangeren"] size:navSize];
         UIBarButtonItem * myInfoBar = [[UIBarButtonItem alloc] initWithImage:myInfoImage style:UIBarButtonItemStyleDone target:self action:@selector(myInfoShow:)];
         self.navigationItem.rightBarButtonItems = @[myInfoBar];
         [titlelab removeFromSuperview];
         self.title = @"代言人";
-        
+        */
         
         
         NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
@@ -244,6 +245,15 @@
         [clientview.bangBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_paihang"] forState:UIControlStateNormal];
         [clientview.bangBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_paihang"] forState:UIControlStateSelected];
         [clientview.bangBtn addTarget:self action:@selector(bangInfoShow:) forControlEvents:UIControlEventTouchUpInside];
+            
+            
+            [clientview.FavorBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_soucang"] forState:UIControlStateNormal];
+            [clientview.FavorBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_soucang"] forState:UIControlStateSelected];
+            [clientview.FavorBtn addTarget:self action:@selector(FavorShow:) forControlEvents:UIControlEventTouchUpInside];
+            
+            [clientview.PushBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_tuosong"] forState:UIControlStateNormal];
+            [clientview.PushBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_tuosong"] forState:UIControlStateSelected];
+            [clientview.PushBtn addTarget:self action:@selector(pushInfoShow:) forControlEvents:UIControlEventTouchUpInside];
         
     }else
     {
@@ -375,6 +385,20 @@
         cell.userInfo.text=nil;
         cell.userGoods.text=nil;
         cell.userLevel.hidden=TRUE;
+    }
+    
+    //是否是已收藏界面里的（lewcok）
+    if (!isFavor) {
+        //代言人主页面（非收藏页面 显示收藏信息）  （lewcok）
+        if (1) {
+            
+            UIImageView *favorIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"daiyan_liebiao_yisoucang"]];
+            favorIcon.frame = CGRectMake(0,
+                                         0,
+                                         favorIcon.frame.size.width,
+                                         favorIcon.frame.size.height);
+            [cell.contentView addSubview:favorIcon];
+        }
     }
     cell.celluid = [[[friend_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
     // Configure the cell...

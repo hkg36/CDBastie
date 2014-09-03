@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *btn1;
 @property (weak, nonatomic) IBOutlet UIButton *btn2;
 @property (weak, nonatomic) IBOutlet UIButton *btn3;
-
+@property (weak, nonatomic) IBOutlet UIButton *FavorBtn;
+@property (weak, nonatomic) IBOutlet UIButton *PushBtn;
 @end
