@@ -400,8 +400,7 @@ WebSocketManager *one_instance=nil;
     
     if(gosend)
     {
-        //[[NSRunLoop SR_networkRunLoop] performSelector:@selector(syncSend:) target:self argument:req order:0 modes:@[NSDefaultRunLoopMode]];
-        [self syncSend:req];
+        [self performSelector:@selector(syncSend:) onThread:[SRRunLoopThread instanse] withObject:req waitUntilDone:NO];
     }
 }
 -(void) syncSend:(WSRequest*)req

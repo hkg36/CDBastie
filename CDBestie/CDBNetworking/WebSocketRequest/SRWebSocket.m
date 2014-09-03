@@ -1387,6 +1387,7 @@ static inline int32_t validate_dispatch_data_partial_string(NSData *data) {
 
 static SRRunLoopThread *networkThread = nil;
 static NSRunLoop *networkRunLoop = nil;
+static dispatch_queue_t networkdqueue=nil;
 
 @implementation NSRunLoop (SRWebSocket)
 
@@ -1435,8 +1436,10 @@ static NSRunLoop *networkRunLoop = nil;
 {
     @autoreleasepool {
         _runLoop = [NSRunLoop currentRunLoop];
+        //networkdqueue=dispatch_get_current_queue();
         dispatch_group_leave(_waitGroup);
         
+        //[_runLoop addTimer:[NSTimer timerWithTimeInterval:1 invocation:nil repeats:NO] forMode:NSDefaultRunLoopMode];
         [_runLoop addPort:[NSMachPort port] forMode:NSDefaultRunLoopMode];
         
         while ([_runLoop runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) {
@@ -1445,7 +1448,11 @@ static NSRunLoop *networkRunLoop = nil;
         assert(NO);
     }
 }
-
+- (dispatch_queue_t) dispatch_queue
+{
+    dispatch_group_wait(_waitGroup, DISPATCH_TIME_FOREVER);
+    return networkdqueue;
+}
 - (NSRunLoop *)runLoop;
 {
     dispatch_group_wait(_waitGroup, DISPATCH_TIME_FOREVER);
