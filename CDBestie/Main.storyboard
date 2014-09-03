@@ -1000,6 +1000,10 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="xiangqingye_sixintisi" id="k86-3J-HIO">
+                                            <rect key="frame" x="276" y="28" width="24" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
@@ -1319,7 +1323,7 @@
     <resources>
         <image name="background" width="640" height="960"/>
         <image name="background_register" width="320" height="568"/>
-        <image name="daiyan_liebiao_daiyanicon" width="30" height="24"/>
+        <image name="daiyan_liebiao_daiyanicon" width="11" height="12"/>
         <image name="daiyan_liebiao_dengjiicon" width="30" height="15"/>
         <image name="fbc_TextEntryField_light_0_6_0_6" width="13" height="28"/>
         <image name="fbc_primarybutton_28_3_3_3_3_normal_ios7" width="11" height="32"/>
@@ -1338,6 +1342,7 @@
         <image name="userinfo_gender_male_checkbox" width="17" height="18"/>
         <image name="userinfo_icon_female_os7" width="18" height="18"/>
         <image name="userinfo_icon_male_os7" width="18" height="18"/>
+        <image name="xiangqingye_sixintisi" width="24" height="17"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
