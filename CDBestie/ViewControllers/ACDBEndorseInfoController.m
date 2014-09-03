@@ -22,6 +22,7 @@
 #import "DataTools.h"
 #import "CDBSelfPhotoViewController.h"
 #import "ImageDownloader.h"
+#import "FavorCell.h"
 #define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
 //#import "AFHTTPRequestOperationManager.h"
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
@@ -100,7 +101,7 @@
 {
     NSLog(@"%ld",(long)section);
     if (section == 0) {
-        return 4;
+        return 5;
     }
     else
     {
@@ -145,6 +146,9 @@
                 return 39.0f;
                 break;
             case 2:
+                return 39.0f;
+                break;
+            case 3:
                 return 39.0f;
                 break;
             default:
@@ -319,6 +323,29 @@
             }
                 break;
             case 3:
+            {
+                FavorCell *cell;
+                cell = [tableView dequeueReusableCellWithIdentifier:@"FavorCell" forIndexPath:indexPath];
+                if (cell == nil) {
+                    cell = [[FavorCell alloc] init];
+                }
+                if (userInfo.user.sex == 1) {
+                    cell.title.text = @"收藏他";
+                }
+                else
+                {
+                    cell.title.text = @"收藏她";
+                }
+                if (0) {
+                    cell.store.on =YES;
+                }
+                
+                //cell.Xbonus.textAlignment = NSTextAlignmentRight;
+                //[cell.Xbonus sizeToFit];
+                return cell;
+            }
+                break;
+            case 4:
             {
                 ablmCell *cell;
                 cell = [tableView dequeueReusableCellWithIdentifier:@"ablmCell" forIndexPath:indexPath];

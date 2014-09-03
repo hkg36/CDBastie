@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CDBEndorseTableViewController : UITableViewController
-
+@property (nonatomic) BOOL isFavor;
 
 @end
