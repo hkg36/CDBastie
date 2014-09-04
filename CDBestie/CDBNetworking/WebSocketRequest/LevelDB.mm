@@ -9,6 +9,7 @@
 
 #import "leveldb/db.h"
 #import "leveldb/options.h"
+#import "../MPMessagePack/MPMessagePack.h"
 
 #define SliceFromString(_string_) (Slice((char *)[_string_ UTF8String], [_string_ lengthOfBytesUsingEncoding:NSUTF8StringEncoding]))
 #define StringFromSlice(_slice_) ([[NSString alloc] initWithBytes:_slice_.data() length:_slice_.size() encoding:NSUTF8StringEncoding])
@@ -17,19 +18,15 @@
 using namespace leveldb;
 
 static Slice SliceFromObject(id object) {
-    NSMutableData *d = [[NSMutableData alloc] init];
-    NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:d];
-    [archiver encodeObject:object forKey:@"object"];
-    [archiver finishEncoding];
-    return Slice((const char *)[d bytes], (size_t)[d length]);
+    NSError *error = nil;
+    NSData *data = [MPMessagePackWriter writeObject:object error:&error];
+    return Slice((const char *)[data bytes], (size_t)[data length]);
 }
 
 static id ObjectFromSlice(Slice v) {
     NSData *data = [NSData dataWithBytes:v.data() length:v.size()];
-    NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-    id object = [unarchiver decodeObjectForKey:@"object"];
-    [unarchiver finishDecoding];
-    return object;
+    NSError *error = nil;
+    return [MPMessagePackReader readData:data error:&error];
 }
 @interface LevelDB()
 {
