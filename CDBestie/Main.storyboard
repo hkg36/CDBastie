@@ -1365,6 +1365,68 @@
             </objects>
             <point key="canvasLocation" x="-1119" y="779"/>
         </scene>
+        <!--Favor View Controller-->
+        <scene sceneID="UWp-jq-eLb">
+            <objects>
+                <viewController restorationIdentifier="CDBFavorViewController" storyboardIdentifier="CDBFavorViewController" id="Qd6-XB-Mf5" customClass="CDBFavorViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dZa-JH-pwa">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" id="fec-zJ-3rs">
+                                <rect key="frame" x="60" y="64" width="200" height="29"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <segments>
+                                    <segment title="代言人"/>
+                                    <segment title="文章"/>
+                                </segments>
+                                <color key="tintColor" red="0.074509803920000006" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <action selector="FavorSegAction:" destination="Qd6-XB-Mf5" eventType="valueChanged" id="iGY-BD-khL"/>
+                                </connections>
+                            </segmentedControl>
+                            <view contentMode="scaleToFill" id="9s9-wB-YNi">
+                                <rect key="frame" x="0.0" y="98" width="320" height="461"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="mVr-HW-aIB"/>
+                    <connections>
+                        <outlet property="FavorLayView" destination="9s9-wB-YNi" id="rWd-yc-HMD"/>
+                        <outlet property="FavorSeg" destination="fec-zJ-3rs" id="tEA-V3-ouA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TYJ-15-QTO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="799" y="1540"/>
+        </scene>
+        <!--Favor Navi Controller - 代言-->
+        <scene sceneID="Z0s-Ea-SHa">
+            <objects>
+                <navigationController restorationIdentifier="CDBFavorNaviController" storyboardIdentifier="CDBFavorNaviController" definesPresentationContext="YES" id="jfR-57-dbk" customClass="CDBFavorNaviController" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" tag="2" title="代言" image="tabBarRecentsIcon" id="aqG-26-8QY"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <navigationBar key="navigationBar" clipsSubviews="YES" contentMode="scaleToFill" barStyle="black" id="x35-tJ-bFn">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.1960784314" green="0.1960784314" blue="0.1960784314" alpha="1" colorSpace="calibratedRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </textAttributes>
+                    </navigationBar>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="JOz-Qg-3CI">
+                        <rect key="frame" x="0.0" y="524" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DQv-DO-W9e" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="340" y="1540"/>
+        </scene>
     </scenes>
     <resources>
         <image name="background" width="640" height="960"/>

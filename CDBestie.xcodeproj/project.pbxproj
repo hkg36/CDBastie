@@ -18,6 +18,8 @@
 		177D06E219A05FEA00E2A228 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 177D06E119A05FEA00E2A228 /* WebP.framework */; };
 		17C0850B19B6C86100094AC4 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 17C0850A19B6C86100094AC4 /* libsqlite3.dylib */; };
 		5E70271D19B6D0E100DC548E /* FavorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70271C19B6D0E100DC548E /* FavorCell.m */; };
+		5E70273919B98F0E00DC548E /* CDBFavorNaviController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70273619B98F0E00DC548E /* CDBFavorNaviController.m */; };
+		5E70273A19B98F0E00DC548E /* CDBFavorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E70273819B98F0E00DC548E /* CDBFavorViewController.m */; };
 		5EC45A9319AC998C001F4DA8 /* daiyangeren@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EC45A9219AC998C001F4DA8 /* daiyangeren@2x.png */; };
 		5EC45AEF19AD886E001F4DA8 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AA219AD886E001F4DA8 /* FMDatabase.m */; };
 		5EC45AF019AD886E001F4DA8 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AA419AD886E001F4DA8 /* FMDatabaseAdditions.m */; };
@@ -179,6 +181,10 @@
 		17C0850A19B6C86100094AC4 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		5E70271B19B6D0E100DC548E /* FavorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavorCell.h; sourceTree = "<group>"; };
 		5E70271C19B6D0E100DC548E /* FavorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavorCell.m; sourceTree = "<group>"; };
+		5E70273519B98F0E00DC548E /* CDBFavorNaviController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDBFavorNaviController.h; sourceTree = "<group>"; };
+		5E70273619B98F0E00DC548E /* CDBFavorNaviController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDBFavorNaviController.m; sourceTree = "<group>"; };
+		5E70273719B98F0E00DC548E /* CDBFavorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDBFavorViewController.h; sourceTree = "<group>"; };
+		5E70273819B98F0E00DC548E /* CDBFavorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDBFavorViewController.m; sourceTree = "<group>"; };
 		5EC45A9219AC998C001F4DA8 /* daiyangeren@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "daiyangeren@2x.png"; path = "Images.xcassets/daiyangeren.imageset/daiyangeren@2x.png"; sourceTree = "<group>"; };
 		5EC45AA119AD886E001F4DA8 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		5EC45AA219AD886E001F4DA8 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
@@ -933,6 +939,10 @@
 				86078D78199327B9005BDD8B /* ACDBEndorseInfoController.m */,
 				86103FC9199D9C3A00896884 /* CDBSelfPhotoViewController.h */,
 				86103FCA199D9C3A00896884 /* CDBSelfPhotoViewController.m */,
+				5E70273519B98F0E00DC548E /* CDBFavorNaviController.h */,
+				5E70273619B98F0E00DC548E /* CDBFavorNaviController.m */,
+				5E70273719B98F0E00DC548E /* CDBFavorViewController.h */,
+				5E70273819B98F0E00DC548E /* CDBFavorViewController.m */,
 			);
 			name = CDBMainViewController;
 			sourceTree = "<group>";
@@ -1207,6 +1217,7 @@
 				86103FB5199D9BF100896884 /* NSString+Addition.m in Sources */,
 				17387A46199323220049B1A2 /* Merchandise.m in Sources */,
 				86B33345198FB424004D86BD /* CDBChangeBirthNaviController.m in Sources */,
+				5E70273A19B98F0E00DC548E /* CDBFavorViewController.m in Sources */,
 				863E51481986172800753B80 /* AFHTTPRequestOperationManager.m in Sources */,
 				86A0C5BD1991214F0091462B /* ablmCell.m in Sources */,
 				863E51551986172800753B80 /* UIProgressView+AFNetworking.m in Sources */,
@@ -1276,6 +1287,7 @@
 				5EC45AF919AD886E001F4DA8 /* LoggerClient.m in Sources */,
 				863E51561986172800753B80 /* UIWebView+AFNetworking.m in Sources */,
 				171495BB19B87316009B93A1 /* NSArray+MPMessagePack.m in Sources */,
+				5E70273919B98F0E00DC548E /* CDBFavorNaviController.m in Sources */,
 				864067F4198BCEDD0032E693 /* SDURLCache.m in Sources */,
 				86B3333A198F96CA004D86BD /* CDBChangeNickViewController.m in Sources */,
 				86103FB9199D9BF100896884 /* DCFrameView.m in Sources */,
