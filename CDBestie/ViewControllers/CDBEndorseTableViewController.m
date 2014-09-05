@@ -781,6 +781,52 @@
     }];
 }
 
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (isFavor) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    return UITableViewCellEditingStyleNone;
+}
 
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"取消收藏";
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{   long long celluid = 0;
+    if (isFavor) {
+        celluid = [[Endorse_list objectAtIndex:indexPath.row] longLongValue] ;
+    }
+    else {
+        celluid = [[[Endorse_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
+    }
+    {
+        NSDictionary * parames = @{@"uid":@(celluid)};
+        [[WebSocketManager instance]sendWithAction:@"user.del_friend" parameters:parames callback:^(WSRequest *request, NSDictionary *result) {
+            [SVProgressHUD dismiss];
+            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
+            NSLog(@"error_code = %d",request.error_code);
+            NSLog(@"error = %@",request.error);
+            if(request.error_code!=0)
+            {
+                [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
+                [SVProgressHUD dismiss];
+                return;
+            }
+            if (editingStyle == UITableViewCellEditingStyleDelete)
+            {
+                NSMutableArray *tempArray =[[NSMutableArray alloc]initWithArray:Endorse_list];
+                [tempArray removeObjectAtIndex:[indexPath row]];
+                Endorse_list = tempArray;
+                [self.tableView deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            
+        }];
+    }
+    
+    
+}
 
 @end
