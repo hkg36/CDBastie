@@ -93,6 +93,7 @@ typedef enum {
 #define APP_STORE_LINK_iTunes       @"itms-apps://itunes.apple.com/cn/app/541873451?mt=8"
 
 #define APP_COMMENT_LINK_iTunes     @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=541873451"
+#define CDBestieNet @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/"
 
 /*keychain group*/
 #define KeyChain_Laixin_account_phone           @"lifestyle.laixin.chengdu.account_phone"

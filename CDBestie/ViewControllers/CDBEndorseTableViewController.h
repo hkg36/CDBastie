@@ -8,7 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CDBEndorseTableViewController : UITableViewController
+@interface CDBEndorseTableViewController : UITableViewController<UITextFieldDelegate,UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
+@property (nonatomic) BOOL shouldReload;
+@property (nonatomic) BOOL favorChange;
 @property (nonatomic) BOOL isFavor;
-
+@property (nonatomic) BOOL isBang;
+@property (nonatomic,strong) NSMutableArray *Endorse_assignArray;
 @end

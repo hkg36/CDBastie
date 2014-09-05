@@ -5,7 +5,6 @@
 //  Created by apple on 14-8-1.
 //  Copyright (c) 2014年 lifestyle. All rights reserved.
 //
-
 #import "CDBEndorseTableViewController.h"
 #import "CDBLoginNaviController.h"
 #import "CDBCompleteUserInfoViewController.h"
@@ -22,37 +21,52 @@
 #import "CDBBangNaviController.h"
 #import "CDBBangTableViewController.h"
 #import "ACDBEndorseInfoController.h"
-#import "ImageDownloader.h"
 #import "DataTools.h"
+#import "ImageDownloader.h"
+#import "CDBAppDelegate.h"
 #import "UIViewController+Indicator.h"
 #import "UIView+Additon.h"
 #import "XCJErrorView.h"
+#import <limits.h>
 #define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
+
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
 
 
-@interface CDBEndorseTableViewController ()<UISearchBarDelegate>
+@interface CDBEndorseTableViewController ()
 {
     UIView *myMenu;
-    NSMutableArray *friend_list;
+    NSMutableArray *Friend_list;
+    NSMutableArray *friendUidArray;
+    NSMutableArray *Endorse_favorUidArray;
+    NSMutableArray *Endorse_list;
     UILabel *levellbl;
+    NSMutableArray *navNick_list;
     NSString *searchS;
-    
+    NSSet *FriendSet;
 }
 @property (readwrite)  BOOL show;
 @property (nonatomic,weak) UIImageView *titleLabImage;
 @property (nonatomic,weak) UILabel *titlelab;
 @property (nonatomic,retain) UISearchBar* mysearchBar;
+@property(nonatomic, strong) UISearchDisplayController *mySearchDisplayController;
 @property(nonatomic, copy) NSMutableArray *filteredPersons;
 @property(nonatomic) BOOL isFiltered;
 @property(nonatomic) BOOL isSearchBack;
+
 @end
 
 @implementation CDBEndorseTableViewController
 @synthesize titlelab;
 @synthesize titleLabImage;
 @synthesize mysearchBar;
+@synthesize mySearchDisplayController;
 @synthesize isFavor;
+@synthesize isBang;
+@synthesize shouldReload,favorChange;
+@synthesize Endorse_assignArray;
+
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -64,90 +78,69 @@
 
 - (void)viewDidLoad
 {
-    
-    mysearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, 40)];
-    //mySearchBar = searchBar;
-    mysearchBar.showsCancelButton = YES;
-    mysearchBar.placeholder =@"搜索";
-    mysearchBar.delegate = self;
-    [mysearchBar sizeToFit];
-    self.tableView.tableHeaderView =mysearchBar;
-    self.tableView.contentOffset = CGPointMake(0, CGRectGetHeight(mysearchBar.bounds));
-    
+
+    if(!isFavor&&!isBang)
+    {
+        mysearchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.bounds.size.width, 40)];
+        mysearchBar.showsCancelButton = YES;
+        mysearchBar.placeholder =@"搜索";
+        mysearchBar.delegate = self;
+        [mysearchBar sizeToFit];
+        self.tableView.tableHeaderView =mysearchBar;
+        self.tableView.contentOffset = CGPointMake(0, CGRectGetHeight(mysearchBar.bounds));
+    }
     if (![self.title isEqual:@"排行榜"]) {
-        CGSize navSize = CGSizeMake(20 , 20);
+        CGSize navSize = CGSizeMake(15 , 12);
         UIImage *menuImage = [self scaleToSize:[UIImage imageNamed:@"daiyan_list"] size:navSize];
         ;
-        UIImage *searchImage = [self scaleToSize:[UIImage imageNamed:@"composeIcon"] size:navSize];
-        ;
         UIBarButtonItem * menubar = [[UIBarButtonItem alloc] initWithImage:menuImage style:UIBarButtonItemStyleDone target:self action:@selector(menubarClick)];
-        UIBarButtonItem * mySearchbar = [[UIBarButtonItem alloc] initWithImage:searchImage style:UIBarButtonItemStyleDone target:self action:@selector(mySearchbarClick)];
-        UIBarButtonItem * loginoutBar = [[UIBarButtonItem alloc] initWithImage:searchImage style:UIBarButtonItemStyleDone target:self action:@selector(loginOut)];
         self.navigationItem.rightBarButtonItems = @[menubar];
-        UIImageView *tempLabImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"daiyan_logo"]];
-        titleLabImage = tempLabImage;
-        UILabel *templab = [[UILabel alloc]init];
-        titlelab = templab;
-        UINavigationBar *bar = [self.navigationController navigationBar];
-        titleLabImage.frame = CGRectMake(20, bar.frame.size.height-15, 25, 25);
-        NSLog(@"%@",NSStringFromCGRect(titleLabImage.frame));
-        titlelab.frame = CGRectMake(20+30, bar.frame.size.height-15, 100, 30);
-        [titlelab setText:@"代言人"];
-        [titlelab setTextColor:[UIColor whiteColor]];
-        [self.navigationController.view addSubview:titleLabImage];
-        [self.navigationController.view addSubview:titlelab];
-        [super viewDidLoad];
-        
-        /*
-        //占坑专用 过后删除
-        UIImage *myInfoImage = [self scaleToSize:[UIImage imageNamed:@"daiyangeren"] size:navSize];
-        UIBarButtonItem * myInfoBar = [[UIBarButtonItem alloc] initWithImage:myInfoImage style:UIBarButtonItemStyleDone target:self action:@selector(myInfoShow:)];
-        self.navigationItem.rightBarButtonItems = @[myInfoBar];
-        [titlelab removeFromSuperview];
-        self.title = @"代言人";
-        */
-        
-        
+        [self addPic];
         NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
         NSString *sessionid = [defaults objectForKey:@"SESSION_ID"];
-        
-        
         NSString *user_nick = [defaults objectForKey:@"USERINFO_NICK"];
-        
-        
-        
-        NSLog(@"sessionid = %@",sessionid);
-        NSLog(@"nick = %@",user_nick);
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
-            if (!sessionid||[sessionid isEqualToString:@""]) {
+            if (!sessionid) {
                 [self OpenLoginview:nil];
             }else{
                 if(!user_nick||[user_nick isEqual:@""])
                 {
                     [self completeUserInfoview:nil];
                 }
-                
-                [self initHomeData];
-                
+            
             }
         });
-    }
-    if([self.title isEqual:@"排行榜"])
-    {
-    [self initHomeData];
+        
     }
     
 }
 
 
 
+-(void)addPic
+
+{
+    UIImageView *tempLabImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"daiyan_logo"]];
+    titleLabImage = tempLabImage;
+    UILabel *templab = [[UILabel alloc]init];
+    titlelab = templab;
+    UINavigationBar *bar = [self.navigationController navigationBar];
+    titleLabImage.frame = CGRectMake(6, (bar.frame.size.height-20)/2, 20, 20);
+    NSLog(@"%@",NSStringFromCGRect(titleLabImage.frame));
+    titlelab.frame = CGRectMake(6+25, (bar.frame.size.height-20)/2, 100, 20);
+    [titlelab setText:@"代言人"];
+    [titlelab setTextColor:[UIColor whiteColor]];
+    [self.navigationController.navigationBar addSubview:titleLabImage];
+    [self.navigationController.navigationBar addSubview:titlelab];
+    [super viewDidLoad];
+}
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    [self hiddeErrorText];
     self.show = NO;
     self.tabBarController.tabBar.hidden=YES;
+    [self.navigationController.toolbar removeFromSuperview];
     self.view.frame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height + 44);
     titleLabImage.hidden = NO;
     titlelab.hidden = NO;
@@ -157,39 +150,145 @@
         }
         return;
     }
-    [self initHomeData];
+    [self getFriendList];
 }
 
 -(void)viewDidDisappear:(BOOL)animated
 {
+    
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
     titleLabImage.hidden = YES;
     titlelab.hidden =YES;
     
+    
 }
 
 -(void)initHomeData
 {
-    [SVProgressHUD show];
+
+    if (isFavor) {
+        Endorse_list = Endorse_assignArray;
+        [self.tableView reloadData];
+        return;
+    }
+    [self performSelector:@selector(showLoading) withObject:nil afterDelay:.3];
     NSDictionary * parames = @{};
     [[WebSocketManager instance]sendWithAction:@"endorsement.list_user" parameters:parames callback:^(WSRequest *request, NSDictionary *result){
         if(request.error_code!=0)
         {
+            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
             [SVProgressHUD dismiss];
-            //_picHint.hidden = NO;
-            //_picHint.text = @"加载失败,请检查网络";
             return;
         }
-        NSLog(@"%@",result);
-        friend_list = result[@"users"];
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
         [SVProgressHUD dismiss];
-        [self.tableView reloadData];
+        [self isChanged:result[@"users"]];
+        if (shouldReload||favorChange) {
+            Endorse_list = result[@"users"];
+            [self.tableView reloadData];
+        }
+        
     }];
 }
 
 
+-(void)getFriendList
+{
+    
+    NSDictionary * parames = @{@"uid":@([[USER_DEFAULT objectForKey:@"USERINFO_UID"] longLongValue]),@"pos":@(0),@"count":@LLONG_MAX};
+    [[WebSocketManager instance]sendWithAction:@"user.friend_list" parameters:parames callback:^(WSRequest *request, NSDictionary *result){
+        if(request.error_code!=0)
+        {
+            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
+            [SVProgressHUD dismiss];
+            return;
+        }
+        [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
+        if ([self FavorChanged:result[@"friend_id"]]) {
+            Friend_list = result[@"friend_id"];
+            NSMutableArray *tempArray = [[NSMutableArray alloc]init];
+            
+            for (id obj in Friend_list) {
+                if ([obj objectForKey:@"uid"]) {
+                    [tempArray addObject:[obj objectForKey:@"uid"]];
+                }
+            }
+            friendUidArray = tempArray;
+            FriendSet =[NSSet setWithArray:tempArray];
+            [self initHomeData];
+        }
+        
+    }];
+    
+    
+}
+
+
+-(void)showLoading
+{
+    [SVProgressHUD show];
+}
+
+-(BOOL)FavorChanged:(NSMutableArray*)newlist
+{
+    if (Friend_list) {
+        if ([newlist count]!=[Friend_list count]) {
+            favorChange =YES;
+            return YES;
+        }
+        else{
+            for (int i = 0; i < [newlist count]; i ++)
+            {
+                if ([[[Friend_list objectAtIndex:i] objectForKey:@"uid"] longLongValue] != [[[newlist objectAtIndex:i] objectForKey:@"uid"] longLongValue])
+                {
+                    favorChange =YES;
+                    return YES;
+                }
+            }
+            favorChange =NO;
+            return NO;
+        }
+    }
+    else
+    {
+        favorChange =YES;
+        return YES;
+    }
+    
+}
+
+
+-(BOOL)isChanged:(NSMutableArray*)newlist
+{
+    if (Endorse_list) {
+        if ([newlist count]!=[Endorse_list count]) {
+            shouldReload =YES;
+            return YES;
+        }
+        else{
+            for (int i = 0; i < [newlist count]; i ++)
+            {
+                SLog(@"%lld",[[[Endorse_list objectAtIndex:i] objectForKey:@"uid"] longLongValue]);
+                SLog(@"%lld",[[[newlist objectAtIndex:i] objectForKey:@"uid"] longLongValue]);
+                if ([[[Endorse_list objectAtIndex:i] objectForKey:@"uid"] longLongValue] != [[[newlist objectAtIndex:i] objectForKey:@"uid"] longLongValue])
+                {
+                    shouldReload =YES;
+                    return YES;
+                }
+            }
+            shouldReload =NO;
+            return NO;
+        }
+    }
+    else
+    {
+        shouldReload =YES;
+        return YES;
+    }
+    
+}
 -(IBAction)OpenLoginview:(id)sender
 {
     UINavigationController * CDBLoginNaviController =  [self.storyboard instantiateViewControllerWithIdentifier:@"CDBLoginNaviController"];
@@ -217,35 +316,33 @@
 - (void)menubarClick
 {
     if (self.show == NO) {
-
-        if (!myMenu) {
-        UIViewController *customView = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBplusMenuViewController"];
         
-        CDBplusMenuView *clientview=(CDBplusMenuView*)customView.view;
+        if (!myMenu) {
+            UIViewController *customView = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBplusMenuViewController"];
+            
+            CDBplusMenuView *clientview=(CDBplusMenuView*)customView.view;
             NSLog(@"%f",self.navigationController.navigationBar.frame.size.height);
-        customView.view.frame = CGRectMake(0,self.navigationController.navigationBar.frame.size.height+20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-44);
+            customView.view.frame = CGRectMake(0,self.navigationController.navigationBar.frame.size.height+20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-44);
+            //Set the customView properties
             myMenu = customView.view ;
-        customView.view.alpha = 0.0;
-        customView.view.layer.borderWidth = 0.5f;
-        customView.view.layer.masksToBounds = YES;
-        customView.view.tag = 99;
-        [[[UIApplication sharedApplication].delegate window] addSubview:myMenu];
-        [UIView animateWithDuration:0.4 animations:^{
-            [customView.view setAlpha:1.0];
-        } completion:^(BOOL finished) {}];
-        self.show =YES;
-             [clientview.btn1 addTarget:self action:@selector(hiddenMenu) forControlEvents:UIControlEventTouchDown];
+            customView.view.alpha = 0.0;
+            customView.view.tag = 99;
+            [[[UIApplication sharedApplication].delegate window] addSubview:myMenu];
+            [UIView animateWithDuration:0.4 animations:^{
+                [customView.view setAlpha:1.0];
+            } completion:^(BOOL finished) {}];
+            self.show =YES;
+            [clientview.btn1 addTarget:self action:@selector(hiddenMenu) forControlEvents:UIControlEventTouchDown];
             [clientview.btn2 addTarget:self action:@selector(hiddenMenu) forControlEvents:UIControlEventTouchDown];
             [clientview.btn3 addTarget:self action:@selector(hiddenMenu) forControlEvents:UIControlEventTouchDown];
-        [clientview.myBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_geren"] forState:UIControlStateNormal];
-        [clientview.myBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_geren"] forState:UIControlStateSelected];
-        [clientview.myBtn addTarget:self action:@selector(myInfoShow:) forControlEvents:UIControlEventTouchUpInside];
-        
-        
-        [clientview.bangBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_paihang"] forState:UIControlStateNormal];
-        [clientview.bangBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_paihang"] forState:UIControlStateSelected];
-        [clientview.bangBtn addTarget:self action:@selector(bangInfoShow:) forControlEvents:UIControlEventTouchUpInside];
+            [clientview.myBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_geren"] forState:UIControlStateNormal];
+            [clientview.myBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_geren"] forState:UIControlStateSelected];
+            [clientview.myBtn addTarget:self action:@selector(myInfoShow:) forControlEvents:UIControlEventTouchUpInside];
             
+            
+            [clientview.bangBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_paihang"] forState:UIControlStateNormal];
+            [clientview.bangBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_paihang"] forState:UIControlStateSelected];
+            [clientview.bangBtn addTarget:self action:@selector(bangInfoShow:) forControlEvents:UIControlEventTouchUpInside];
             
             [clientview.FavorBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_soucang"] forState:UIControlStateNormal];
             [clientview.FavorBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_soucang"] forState:UIControlStateSelected];
@@ -254,17 +351,16 @@
             [clientview.PushBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_tuosong"] forState:UIControlStateNormal];
             [clientview.PushBtn setBackgroundImage:[UIImage imageNamed:@"daiyan_top_list_tuosong"] forState:UIControlStateSelected];
             [clientview.PushBtn addTarget:self action:@selector(pushInfoShow:) forControlEvents:UIControlEventTouchUpInside];
-        
-    }else
-    {
-        self.show = YES;
-    }
+        }else
+        {
+            self.show = YES;
+        }
         
     }
     else
     {
         
-
+        
         if (myMenu) {
             [myMenu removeFromSuperview];
             myMenu = nil;
@@ -276,28 +372,10 @@
 }
 -(void)mySearchbarClick
 {
-    /*
     CDBChangeUserInfoController *navi = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBChangeUserInfoController"];
     navi.title = @"个人资料";
     [self hiddenMenu];
-     */
-
-    [USER_DEFAULT setObject:@"" forKey:@"USERINFO_NICK"];
-    UIAlertView  * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"清除昵称成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-    [alert show];
-}
-
--(void)loginOut
-{
-    /*
-     CDBChangeUserInfoController *navi = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBChangeUserInfoController"];
-     navi.title = @"个人资料";
-     [self hiddenMenu];
-     */
-
-    [USER_DEFAULT setObject:@"" forKey:@"SESSION_ID"];
-    UIAlertView  * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"退出成功(未清除昵称)" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-    [alert show];
+    
 }
 
 - (IBAction)myInfoShow:(id)sender {
@@ -309,13 +387,44 @@
 }
 
 - (IBAction)bangInfoShow:(id)sender {
-    
-    CDBBangTableViewController *conss = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBBangTableViewController"];
+
+    CDBEndorseTableViewController *conss = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBEndorseTableViewController"];
     conss.title = @"排行榜";
+    //conss.friend_list = Endorse_list;
+    conss.isBang = YES;
     [self hiddenMenu];
     [self.navigationController pushViewController:conss animated:YES];
+
 }
 
+- (IBAction)FavorShow:(id)sender {
+     CDBEndorseTableViewController *navi = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBEndorseTableViewController"];
+     navi.title = @"我的收藏";
+     //navi.isFavor =YES;
+     navi.titlelab.hidden = YES;
+     navi.titleLabImage.hidden = YES;
+     
+     [self hiddenMenu];
+     [self.navigationController pushViewController:navi animated:YES];
+}
+
+- (IBAction)pushInfoShow:(id)sender {
+
+    [self hiddenMenu];
+
+    NSString* pushURLString = [NSString stringWithFormat:@"%@article.do?sessionid=%@",CDBestieNet,[[NSUserDefaults standardUserDefaults] objectForKey:@"SESSION_ID"]];
+    DZWebBrowser *webBrowser = [[DZWebBrowser alloc] initWebBrowserWithURL:[NSURL URLWithString:pushURLString]];
+    webBrowser.showProgress = YES;
+    webBrowser.allowOrder = NO;
+    webBrowser.allowtoolbar = YES;
+    UINavigationSample *webBrowserNC = [self.storyboard instantiateViewControllerWithIdentifier:@"UINavigationSample"];
+    [webBrowserNC pushViewController:webBrowser animated:NO];
+    
+    [self presentViewController:webBrowserNC animated:YES completion:NULL];
+    
+
+    
+}
 
 - (void)hiddenMenu
 {
@@ -324,7 +433,7 @@
         myMenu = nil;
         self.show = NO;
     }
-
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -338,7 +447,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
 #warning Potentially incomplete method implementation.
-    // Return the number of sections.
     return 1;
 }
 
@@ -347,8 +455,13 @@
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
     [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    if (friend_list) {
-        return [friend_list count];
+    if (tableView == mySearchDisplayController.searchResultsTableView) {
+        return [self.filteredPersons count];
+    }
+    else{
+        if (Endorse_list) {
+            return [Endorse_list count];
+        }
     }
     return 0;
     
@@ -356,193 +469,267 @@
 
 - (CGFloat)tableView:(__unused UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (isBang) {
+        return 90;
+    }
+    if (tableView == mySearchDisplayController.searchResultsTableView) {
+        return 44;
+    }
     return 120.0f;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    ACDBEndorseInfoController  * navi = [self.storyboard instantiateViewControllerWithIdentifier:@"ACDBEndorseInfoController"];
-    navi.userUid = [[[friend_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
-    CDBEndorseCell *cell =(CDBEndorseCell*) [self.tableView cellForRowAtIndexPath:indexPath];
-    navi.title = cell.userNick.text;
-    [self.navigationController pushViewController:navi animated:YES];
+    
+    if ([tableView isEqual:mySearchDisplayController.searchResultsTableView]){
+        
+    }else
+    {
+        mysearchBar.text=@"";
+        [mysearchBar resignFirstResponder];
+        ACDBEndorseInfoController  * navi = [self.storyboard instantiateViewControllerWithIdentifier:@"ACDBEndorseInfoController"];
+        if (isFavor) {
+            navi.userUid =   [[Endorse_list objectAtIndex:indexPath.row] longLongValue];
+        }
+        else{
+            navi.userUid = [[[Endorse_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
+        }
+        CDBEndorseCell *cell =(CDBEndorseCell*) [self.tableView cellForRowAtIndexPath:indexPath];
+        navi.title = cell.userNick.text;
+        if ([self compare:cell.celluid]) {
+            //navi.haveFavor = YES;
+        }
+        [self.navigationController pushViewController:navi animated:YES];
+    }
+}
+-(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [mysearchBar resignFirstResponder];
+
+    return indexPath;
 }
 
+
+-(void)getFavorArray
+{
+    NSMutableArray *tempArray =[[NSMutableArray alloc]init];
+    for (id obj in Endorse_list) {
+        if([friendUidArray containsObject:@([[obj objectForKey:@"uid"] longLongValue])])
+        {
+            if ([tempArray containsObject:@([[obj objectForKey:@"uid"] longLongValue])]) {
+                continue;
+            }
+            [tempArray addObject:@([[obj objectForKey:@"uid"] longLongValue])];
+        }
+        
+    }
+    Endorse_favorUidArray = tempArray;
+}
+
+-(BOOL)compare:(long long)endorserUid
+{
+    if([FriendSet containsObject:@(endorserUid)])
+    {
+        return YES;
+    }
+    return NO;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
-    
-    CDBEndorseCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CDBEndorseCell" forIndexPath:indexPath];
-    if (cell == nil) {
-        cell = [[CDBEndorseCell alloc] init];
-    }
-    else{
-        cell.userIcon.image=[UIImage imageNamed:@"left_view_avatar_avatar"];
-        cell.userNick.text=nil;
-        cell.userInfo.text=nil;
-        cell.userGoods.text=nil;
-        cell.userLevel.hidden=TRUE;
-    }
-    
-    //是否是已收藏界面里的（lewcok）
-    if (!isFavor) {
-        //代言人主页面（非收藏页面 显示收藏信息）  （lewcok）
-        if (1) {
-            
-            UIImageView *favorIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"daiyan_liebiao_yisoucang"]];
-            favorIcon.frame = CGRectMake(0,
-                                         0,
-                                         favorIcon.frame.size.width,
-                                         favorIcon.frame.size.height);
-            [cell.contentView addSubview:favorIcon];
+        
+        CDBEndorseCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CDBEndorseCell" forIndexPath:indexPath];
+        if (cell == nil) {
+            cell = [[CDBEndorseCell alloc] init];
         }
-    }
-    cell.celluid = [[[friend_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
-    // Configure the cell...
-    NSString* cell_uid = [[friend_list objectAtIndex:indexPath.row] objectForKey:@"uid"];
-    NSLog(@"cell_uid = %@",cell_uid);
-    NSDictionary * parames = @{@"uid":cell_uid};
-    
-    [[WebSocketManager instance] sendWithAction:@"user.info2" parameters:parames cdata:GenCdata(12) callback:^(WSRequest *request, NSDictionary *result)
-     {
-         if(0!=request.error_code)
-             return;
-         if ([[request.parm valueForKey:@"uid"] longLongValue]!=cell.celluid) {
-             return;
-         }
-         NSLog(@"user.info2 error = %@",request.error);
-         
-         [cell.userIcon.layer setCornerRadius:CGRectGetHeight([cell.userIcon bounds]) / 2];
-         cell.userIcon.layer.masksToBounds = YES;
-         cell.iconLayer.hidden =YES;
-         UserInfo2 *userInfo =[[UserInfo2 alloc]initWithJson:result];
-         cell.userNick.text = userInfo.user.nick;
-         //NSString *imageString = [NSString stringWithFormat:@"http://laixinle.qiniudn.com/FjJHS3LxIfYSlN2XSfnvdVv4qbNR\?imageView2/1/w/%i/h/%i",(int)cell.userIcon.frame.size.width*PIC_QUALITY,(int)cell.userIcon.frame.size.height*PIC_QUALITY];
-         if(userInfo.user.headpic)
+        else{
+            cell.userIcon.image=[UIImage imageNamed:@"left_view_avatar_avatar"];
+            cell.userNick.text=nil;
+            cell.userInfo.text=nil;
+            cell.userGoods.text=nil;
+            cell.userLevel.hidden=TRUE;
+            cell.favorIcon.hidden =TRUE;
+        }
+
+        
+        if (isFavor) {
+            cell.celluid = [[Endorse_list objectAtIndex:indexPath.row] longLongValue] ;
+        }
+        else {
+            cell.celluid = [[[Endorse_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
+        }
+        [cell.favorIcon setImage:[UIImage imageNamed:@"daiyan_liebiao_yisoucang"]];
+        if (!isFavor) {
+            if ([self compare:cell.celluid]) {
+                cell.favorIcon.hidden =NO;
+            }
+        }
+        
+        
+        NSDictionary * parames = @{@"uid":@(cell.celluid)};
+        
+        [[WebSocketManager instance] sendWithAction:@"user.info2" parameters:parames cdata:GenCdata(12) callback:^(WSRequest *request, NSDictionary *result)
          {
-          NSString *imageString = [NSString stringWithFormat:@"%@?imageView2/1/w/%i/h/%i",userInfo.user.headpic,(int)cell.userIcon.frame.size.width*PIC_QUALITY,(int)cell.userIcon.frame.size.height*PIC_QUALITY];
-         NSURL *imageURL = [NSURL URLWithString:imageString];
-         NSLog(@"%@",imageURL);
-         [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIView *view, id image) {
-             if(image)
+             if(request.error_code!=0)
              {
-                 ((UIImageView*)view).image=image;
+                 return;
              }
-         }];
-         }
-         //[cell.userIcon setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
-         
-         NSString *user_SEX;
-         NSString *user_JOB;
-         if (userInfo.user.sex == 1) {
-             user_SEX = @"男";
-         }
-         else
-         {
-             user_SEX =@"女";
-         }
-         
-         user_JOB = userInfo.user.job;
-         if (!user_JOB) {
-             user_JOB = @"保密";
-         }
-         
-
-         NSString *infoString = nil;
-         if(userInfo.user.birthday)
-         {
-             NSTimeInterval birth = userInfo.user.birthday;
-             NSLog(@"birth = %f",birth);
-
-             NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-             NSDate *now;
-             NSDateComponents *comps = [[NSDateComponents alloc] init];
-             NSInteger unitFlags =  NSYearCalendarUnit |
-             NSMonthCalendarUnit |
-             NSDayCalendarUnit |
-             NSWeekdayCalendarUnit |
-             NSHourCalendarUnit |
-             NSMinuteCalendarUnit |
-             NSSecondCalendarUnit;
-             now=[NSDate date];
-             comps = [calendar components:unitFlags fromDate:now];
-             
-             NSInteger year = [comps year];
-             
-             int age=year - birth;
-             
-             if (age<0) {
-                 age = abs(age);
+             if ([[request.parm valueForKey:@"uid"] longLongValue]!=cell.celluid) {
+                 return;
              }
-             NSLog(@"age = %d",age);
-             NSLog(@"birth = %ld",(long)birth);
-             infoString = [NSString stringWithFormat:@"%@ | %@ | %d岁",user_SEX,user_JOB,age];
-         }
-         else
-         {
-             infoString = [NSString stringWithFormat:@"%@ | %@ | 保密",user_SEX,user_JOB];
-         }
-
-         CGSize StringSize = [infoString
-                     sizeWithFont:[UIFont systemFontOfSize:15.0f]
-                          constrainedToSize:cell.userNick.frame.size
-                          lineBreakMode:cell.userNick.lineBreakMode];
-         cell.userNick.frame = CGRectMake(cell.userNick.frame.origin.x,
-                      cell.userNick.frame.origin.y,
-                      StringSize.width,
-                      StringSize.height);
-         cell.userInfo.text = infoString;
-         [cell.userNick sizeToFit];
-         [cell.userInfo sizeToFit];
-         cell.userLevel.userInteractionEnabled = NO;
-         int value = userInfo.endorsement.level;
-         if (value == 0) {
-             [cell.userLevel setBackgroundImage:[UIImage imageNamed:@"daiyan_liebiao_lingjiicon"] forState:UIControlStateNormal];
-          [cell.userLevel setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-         }
-         else
-         {
-             [cell.userLevel setBackgroundImage:[UIImage imageNamed:@"daiyan_liebiao_dengjiicon"] forState:UIControlStateNormal];
-             [cell.userLevel setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-         }
-         
-         CGRect frame = cell.userNick.frame;
-         cell.userLevel.frame =CGRectMake(frame.origin.x+frame.size.width+5, cell.userLevel.frame.origin.y, cell.userLevel.frame.size.width, cell.userLevel.frame.size.height);
-         [cell.userLevel setTitle:[NSString stringWithFormat:@"LV%d",value] forState:UIControlStateNormal];
-         NSLog(@"levelText = %@",[NSString stringWithFormat:@"LV%d",value]);
-         [cell.userLevel.titleLabel sizeToFit];
-         cell.userLevel.titleLabel.textAlignment = NSTextAlignmentCenter;
-         cell.userLevel.hidden=FALSE;
-         
-         if(userInfo.endors_list){
-             
-             NSString *cs=[[userInfo.endors_list[0] valueForKey:@"merchandise"]valueForKey:@"productname"];
-             int i;
-             for(i=1;i < [userInfo.endors_list count];i++)
+             NSLog(@"result = %@",result);
+             [cell.userIcon.layer setCornerRadius:CGRectGetHeight([cell.userIcon bounds]) / 2];
+             cell.userIcon.layer.masksToBounds = YES;
+             cell.iconLayer.hidden =YES;
+             UserInfo2 *userInfo =[[UserInfo2 alloc]initWithJson:result];
+             cell.userNick.text = userInfo.user.nick;
+             if(userInfo.user.headpic){
+                 NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",userInfo.user.headpic,(int)cell.userIcon.frame.size.width*PIC_QUALITY,(int)cell.userIcon.frame.size.height*PIC_QUALITY];
+                 NSURL *imageURL = [NSURL URLWithString:imageString];
+                 if (imageURL) {
+                     [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIView *view, id image) {
+                         if(image)
+                         {
+                             ((UIImageView*)view).image=image;
+                         }
+                     }];
+                 }else
+                 {
+                     [cell.userIcon setImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
+                 }
+             }
+             NSString *user_SEX;
+             NSString *user_JOB;
+             if (userInfo.user.sex == 1) {
+                 user_SEX = @"男";
+             }
+             else
              {
-                 NSDictionary *temp = userInfo.endors_list[i];
+                 user_SEX =@"女";
+             }
+             
+             user_JOB = userInfo.user.job;
+             if (!user_JOB) {
+                 user_JOB = @"保密";
+             }
+             NSString *infoString = nil;
+             if(userInfo.user.birthday)
+             {
+                 NSTimeInterval birth = userInfo.user.birthday;
+                 NSLog(@"birth = %f",birth);
                  
-                 cs =[NSString stringWithFormat:@"%@ | %@",cs,[[temp valueForKey:@"merchandise"]valueForKey:@"productname"]];
+            
+                 NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+                 NSDate *now;
+                 NSDateComponents *comps = [[NSDateComponents alloc] init];
+                 NSInteger unitFlags =  NSYearCalendarUnit |
+                 NSMonthCalendarUnit |
+                 NSDayCalendarUnit |
+                 NSWeekdayCalendarUnit |
+                 NSHourCalendarUnit |
+                 NSMinuteCalendarUnit |
+                 NSSecondCalendarUnit;
+                 now=[NSDate date];
+                 comps = [calendar components:unitFlags fromDate:now];
+                 
+                 NSInteger year = [comps year];
+                 
+                 int age=year - birth;
+                 
+                 if (age<0) {
+                     age = abs(age);
+                 }
+                 infoString = [NSString stringWithFormat:@"%@ | %@ ",user_SEX,user_JOB];
              }
-             cell.userGoods.text = cs;
-         }
+             else
+             {
+                 infoString = [NSString stringWithFormat:@"%@ | %@ ",user_SEX,user_JOB];
+             }
+             CGSize StringSize = [infoString
+                                  sizeWithFont:[UIFont systemFontOfSize:15.0f]
+                                  constrainedToSize:cell.userNick.frame.size
+                                  lineBreakMode:cell.userNick.lineBreakMode];
+             cell.userNick.frame = CGRectMake(cell.userNick.frame.origin.x,
+                                              cell.userNick.frame.origin.y,
+                                              StringSize.width,
+                                              StringSize.height);
+             cell.userInfo.text = infoString;
+             [cell.userNick sizeToFit];
+             [cell.userInfo sizeToFit];
+             cell.userLevel.userInteractionEnabled = NO;
+             NSArray *tagType = userInfo.endorsement.type;
+             NSString *tagString = nil;
+             for (id obj in tagType) {
+                 if (tagString == nil) {
+                     tagString = [NSString stringWithFormat:@"%@",obj];
+                 }
+                 else
+                 {
+                     tagString = [NSString stringWithFormat:@"%@|%@",tagString,obj];
+                 }
+             }
+             cell.userGoods.text = tagString;
+             int value = userInfo.endorsement.level;
+             if (value == 0) {
+                 [cell.userLevel setBackgroundImage:[UIImage imageNamed:@"daiyan_liebiao_lingjiicon"] forState:UIControlStateNormal];
+                 [cell.userLevel setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+             }
+             else
+             {
+                 [cell.userLevel setBackgroundImage:[UIImage imageNamed:@"daiyan_liebiao_dengjiicon"] forState:UIControlStateNormal];
+                 [cell.userLevel setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+             }
+             
+             CGRect frame = cell.userNick.frame;
+             cell.userLevel.frame =CGRectMake(frame.origin.x+frame.size.width+5, cell.userLevel.frame.origin.y, cell.userLevel.frame.size.width, cell.userLevel.frame.size.height);
+             [cell.userLevel setTitle:[NSString stringWithFormat:@"LV%d",value] forState:UIControlStateNormal];
+             NSLog(@"levelText = %@",[NSString stringWithFormat:@"LV%d",value]);
+             [cell.userLevel.titleLabel sizeToFit];
+             cell.userLevel.titleLabel.textAlignment = NSTextAlignmentCenter;
+             cell.userLevel.hidden=FALSE;
+                        [cell.dai_logo  setImage:[UIImage imageNamed:@"daiyan_liebiao_daiyanicon"]];
+             if (isBang) {
+                 cell.userInfo.text = [NSString stringWithFormat:@"我的积分:%lld",userInfo.endorsement.endorsement_point];
+                 [cell.userInfo sizeToFit];
+                 cell.userGoods.hidden =YES;
+                 cell.dai_logo.hidden = YES;
+             }
+             
+             
+         }timeout:UserInfo2_TimeOut];
+        return cell;
+        
+        
 
-     }timeout:UserInfo2_TimeOut];
-    return cell;
 }
+
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
+    [self hiddeErrorText];
     _isSearchBack =YES;
     NSString *searchTerm=[searchBar text];
     [self handleSearchForTerm:searchTerm];
     [searchBar resignFirstResponder];
     
 }
-
+-(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{//搜索条输入文字修改时触发
+    [self hiddeErrorText];
+    _isSearchBack =YES;
+     if ([self isPureInt:searchText]&&[searchText length]<5) {
+     return;
+     }
+    if([searchText length]==0)
+    {
+        [self initHomeData];
+        [self.tableView reloadData];
+        return;
+    }
+    NSLog(@"searchText = %@",searchText);
+    [self handleSearchForTerm:searchText];
+}
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
 {
     _isSearchBack =NO;
@@ -551,7 +738,6 @@
     [self hiddeErrorText];
     [self.tableView reloadData];
     [mysearchBar resignFirstResponder];
-    
 }
 
 - (BOOL)isPureInt:(NSString*)string{
@@ -559,6 +745,7 @@
     int val;
     return[scan scanInt:&val] && [scan isAtEnd];
 }
+
 
 - (BOOL)isPureFloat:(NSString*)string{
     NSScanner* scan = [NSScanner scannerWithString:string];
@@ -581,14 +768,12 @@
         if ([self.filteredPersons count]==0) {
             [self showErrorText:[NSString stringWithFormat:@"没有找到\"%@\"相关的结果",searchString]];
         }
-        friend_list =self.filteredPersons;
+        Endorse_list =self.filteredPersons;
         searchS = searchString;
         [self.tableView reloadData];
     }];
 }
 
--(void)showLoading
-{
-    [SVProgressHUD show];
-}
+
+
 @end
