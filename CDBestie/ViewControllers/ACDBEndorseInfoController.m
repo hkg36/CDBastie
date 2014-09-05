@@ -455,7 +455,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
-        if (indexPath.row == 3) {
+        if (indexPath.row == 4) {
             NSString *myTitle = self.title;
             CDBSelfPhotoViewController * viewss = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBSelfPhotoViewController"];
             viewss.title =[NSString stringWithFormat:@"%@的相册",myTitle];
