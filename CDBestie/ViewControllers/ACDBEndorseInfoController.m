@@ -242,7 +242,7 @@
                 
                 user_JOB = userInfo.user.job;
                 if (!user_JOB) {
-                    user_JOB = @"保密";
+                    user_JOB = @"";
                 }
                 
                 NSString *infoString = nil;
@@ -270,13 +270,24 @@
                     if (age<0) {
                         age = abs(age);
                     }
-                    NSLog(@"age = %d",age);
-                    NSLog(@"birth = %ld",(long)birth);
-                    infoString = [NSString stringWithFormat:@"%@ | %@ | %d岁",user_SEX,user_JOB,age];
+                    if ([user_JOB isEqualToString:@""]) {
+                        user_JOB = @"";
+                        infoString = [NSString stringWithFormat:@"%@",user_SEX];
+                    }
+                    else{
+                        infoString = [NSString stringWithFormat:@"%@ | %@ ",user_SEX,user_JOB];
+                    }
                 }
                 else
                 {
-                    infoString = [NSString stringWithFormat:@"%@ | %@ | 保密",user_SEX,user_JOB];
+                    if ([user_JOB isEqualToString:@""]) {
+                        user_JOB = @"";
+                        infoString = [NSString stringWithFormat:@"%@",user_SEX];
+                    }
+                    else{
+                        infoString = [NSString stringWithFormat:@"%@ | %@ ",user_SEX,user_JOB];
+                    }
+                    
                 }
                 CGSize StringSize = [infoString
                                      sizeWithFont:[UIFont systemFontOfSize:15.0f]

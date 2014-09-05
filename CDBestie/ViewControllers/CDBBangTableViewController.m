@@ -213,7 +213,7 @@
          
          user_JOB = userInfo.user.job;
          if (!user_JOB) {
-             user_JOB = @"保密";
+             user_JOB = @"";
          }
          
          NSTimeInterval birth = userInfo.user.birthday;
