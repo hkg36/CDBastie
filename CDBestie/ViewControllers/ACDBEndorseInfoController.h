@@ -22,4 +22,5 @@
 @property (weak, nonatomic) UILabel *goodsName;
 @property (weak, nonatomic) UILabel *goodsInfo;
 @property (nonatomic) long long userUid;
+@property (nonatomic)BOOL haveFavor;
 @end

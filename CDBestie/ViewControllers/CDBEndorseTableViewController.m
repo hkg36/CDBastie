@@ -502,7 +502,7 @@
         CDBEndorseCell *cell =(CDBEndorseCell*) [self.tableView cellForRowAtIndexPath:indexPath];
         navi.title = cell.userNick.text;
         if ([self compare:cell.celluid]) {
-            //navi.haveFavor = YES;
+            navi.haveFavor = YES;
         }
         [self.navigationController pushViewController:navi animated:YES];
         }
