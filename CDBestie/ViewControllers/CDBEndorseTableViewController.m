@@ -399,7 +399,8 @@
 
 - (IBAction)FavorShow:(id)sender {
      CDBEndorseTableViewController *navi = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBEndorseTableViewController"];
-     navi.title = @"排行榜";
+     navi.title = @"我的收藏";
+     //navi.isFavor =YES;
      navi.titlelab.hidden = YES;
      navi.titleLabImage.hidden = YES;
      
