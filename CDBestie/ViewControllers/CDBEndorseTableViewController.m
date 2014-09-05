@@ -495,12 +495,17 @@
         else{
             navi.userUid = [[[Endorse_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
         }
+        if (myUid == navi.userUid) {
+            [self myInfoShow:nil];
+        }
+        else{
         CDBEndorseCell *cell =(CDBEndorseCell*) [self.tableView cellForRowAtIndexPath:indexPath];
         navi.title = cell.userNick.text;
         if ([self compare:cell.celluid]) {
             //navi.haveFavor = YES;
         }
         [self.navigationController pushViewController:navi animated:YES];
+        }
     }
 }
 -(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
