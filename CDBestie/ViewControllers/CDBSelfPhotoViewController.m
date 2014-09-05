@@ -53,13 +53,6 @@
 - (void)viewDidLoad
 {
     _oneCount =1;
-    // title消息 切换
-    //[[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(webSocketdidFailWithError:) name:@"webSocketdidFailWithError" object:nil];
-    
-    //[[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(webSocketDidOpen:) name:@"webSocketDidOpen" object:nil];
-    
-    //[[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(webSocketdidreceingWithMsg:) name:@"webSocketdidreceingWithMsg" object:nil];
-    
     
     [super viewDidLoad];
     {
@@ -86,7 +79,7 @@
         [button sendMessageStyle];
         [button addTarget:self action:@selector(AddPhoto:) forControlEvents:UIControlEventTouchUpInside];
         [viewadd setTop:(APP_SCREEN_HEIGHT - 50)];
-        // self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"threadInfoButtonSelected"] style:UIBarButtonItemStyleDone target:self action:@selector(showinfoClick:)];
+
         
     }else{
         [scrollview setHeight:APP_SCREEN_HEIGHT ];
@@ -97,7 +90,7 @@
     
      if(self.privateUID == [USER_DEFAULT integerForKey:@"USERINFO_UID"])
      {
-         NSArray * arrayphoto = nil;//[[EGOCache globalCache] plistForKey:priKey];
+         NSArray * arrayphoto = nil;
          
          if (arrayphoto && arrayphoto.count > 0) {
              dataSource = [arrayphoto mutableCopy];
@@ -130,20 +123,7 @@
              //[self.view hideIndicatorViewBlueOrGary];
          }];
      }
-//#endif
-#if (0)
-    NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults]
-         [[WebSocketManager instance]sendWithAction:@"album.read" parameters:@{@"uid":@(self.privateUID),@"count":@"10000"} callback:^(WSRequest *request, NSDictionary *result) {
-        NSArray * medias = result[@"medias"];
-        NSLog(@"medias = %@",medias);
-        if (medias > 0) {
-            dataSource = [NSMutableArray arrayWithArray:medias];
-            [self initScrollview];
-        }else{
-            //[self showErrorText:@"没有照片"];
-        }
-    }];
-#endif
+
 }
 
 
@@ -165,81 +145,11 @@
         
     }
     self.title = @"我的相册";
-#if (0)
-    UIScrollView * scrollview = (UIScrollView *) [self.view subviewWithTag:1];
-    if (IS_4_INCH) {
-        [scrollview setTop:0];
-    }
-    
-    UIView * viewadd =  [self.view subviewWithTag:2];
-    if([self.privateUID == [USER_DEFAULT integerForKey:@"USERINFO_UID"])
-    {
-        [scrollview setHeight:(APP_SCREEN_HEIGHT - 50)];
-        UIButton * button = (UIButton *) [viewadd subviewWithTag:3];
-        [button sendMessageStyle];
-        [button addTarget:self action:@selector(AddPhoto:) forControlEvents:UIControlEventTouchUpInside];
-        [viewadd setTop:(APP_SCREEN_HEIGHT - 50)];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"threadInfoButtonSelected"] style:UIBarButtonItemStyleDone target:self action:@selector(showinfoClick:)];
-        
-    }else{
-        [scrollview setHeight:APP_SCREEN_HEIGHT ];
-        [viewadd setTop:APP_SCREEN_HEIGHT];
-        [self EchorightItem];
-        
-    }
-    
-    if([self.privateUID == [USER_DEFAULT integerForKey:@"USERINFO_UID"])
-    {
-        NSString * priKey = [NSString stringWithFormat:@"PrivatePhotoList_%@",self.privateUID];
-        NSArray * arrayphoto = nil;
-        if (arrayphoto && arrayphoto.count > 0) {
-            dataSource = [arrayphoto mutableCopy];
-            [self initScrollview];
-        }else{
-            [self.view showIndicatorViewLargeBlue];
-            
-            [[MLNetworkingManager sharedManager] sendWithAction:@"album.read" parameters:@{@"uid":self.privateUID,@"count":@"10000"} success:^(MLRequest *request, id responseObject) {
-                NSDictionary * result = responseObject[@"result"];
-                NSArray * medias = result[@"medias"];
-                if (medias > 0) {
-                    [[EGOCache globalCache] setPlist:[medias mutableCopy] forKey:priKey withTimeoutInterval:60*5];
-                    dataSource = [NSMutableArray arrayWithArray:medias];
-                    [self initScrollview];
-                }else{
-                    [self showErrorText:@"没有私密照片"];
-                }
-                [self.view hideIndicatorViewBlueOrGary];
-            } failure:^(MLRequest *request, NSError *error) {
-                [self showErrorText:@"网络加载失败,请检查网络设置"];
-                [self.view hideIndicatorViewBlueOrGary];
-            }];
-            
-            
-        }
-    }else{
-        [self.view showIndicatorViewLargeBlue];
-        
-        [[MLNetworkingManager sharedManager] sendWithAction:@"album.read" parameters:@{@"uid":self.privateUID,@"count":@"10000"} success:^(MLRequest *request, id responseObject) {
-            NSDictionary * result = responseObject[@"result"];
-            NSArray * medias = result[@"medias"];
-            if (medias > 0) {
-                dataSource = [NSMutableArray arrayWithArray:medias];
-                [self initScrollview];
-            }else{
-                [self showErrorText:@"没有私密照片"];
-            }
-            [self.view hideIndicatorViewBlueOrGary];
-        } failure:^(MLRequest *request, NSError *error) {
-            [self showErrorText:@"网络加载失败,请检查网络设置"];
-            [self.view hideIndicatorViewBlueOrGary];
-        }];
-    }
-#endif
 }
 
 -(IBAction)showinfoClick:(id)sender
 {
-    //
+    
 }
 
 -(void) EchorightItem
