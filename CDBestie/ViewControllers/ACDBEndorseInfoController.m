@@ -12,6 +12,7 @@
 #import "DbonusCell.h"
 #import "XbonusCell.h"
 #import "ablmCell.h"
+#import "FavorCell.h"
 #import "CDBAppDelegate.h"
 #import "CDBestieDefines.h"
 #import "tools.h"
@@ -19,11 +20,19 @@
 #import "SVProgressHUD.h"
 #import "DZWebBrowser.h"
 #import "UINavigationSample.h"
-#import "DataTools.h"
 #import "CDBSelfPhotoViewController.h"
+
+#import "UIImage+Resize.h"
+#import "IDMPhoto.h"
+#import "IDMPhotoBrowser.h"
+#import "DataTools.h"
+//#import "MJRefresh.h"
 #import "ImageDownloader.h"
-#import "FavorCell.h"
+//#import "ChatViewController.h"
+
+
 #define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
+
 //#import "AFHTTPRequestOperationManager.h"
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
 #define GOODS_WINE_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/wineNew.do?sessionid="
@@ -37,6 +46,7 @@
     NSMutableArray * AblmdataSource;
     NSArray * UrlArray;
     UISearchBar *mySearchBar;
+    NSString *headPic;
 }
 @end
 
@@ -53,7 +63,8 @@
 @synthesize  goodsIcon;
 @synthesize  goodsName;
 @synthesize  goodsInfo;
-@synthesize userUid;
+@synthesize  userUid;
+@synthesize haveFavor;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -336,12 +347,15 @@
                 {
                     cell.title.text = @"收藏她";
                 }
-                if (0) {
+                if (haveFavor) {
                     cell.store.on =YES;
                 }
+                else {
+                    cell.store.on = NO;
+                }
+                SLog(@"%hhd",cell.store.on);
+                [cell.store addTarget:self action:@selector(addFavorsegmentAction:) forControlEvents:UIControlEventValueChanged];
                 
-                //cell.Xbonus.textAlignment = NSTextAlignmentRight;
-                //[cell.Xbonus sizeToFit];
                 return cell;
             }
                 break;
@@ -441,7 +455,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
-        if (indexPath.row == 3) {
+        if (indexPath.row == 4) {
             NSString *myTitle = self.title;
             CDBSelfPhotoViewController * viewss = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBSelfPhotoViewController"];
             viewss.title =[NSString stringWithFormat:@"%@的相册",myTitle];
@@ -465,20 +479,54 @@
     }
 }
 
-#if (0)
-
-- (IBAction)seeUserIconClick:(id)sender {
-    if (self.Image_user.image) {
-        if ([[USER_DEFAULT stringForKey:KeyChain_Laixin_account_user_id] isEqualToString:self.UserInfo.uid]) {
-            [SJAvatarBrowser showImage:self.Image_user withURL:[USER_DEFAULT stringForKey:KeyChain_Laixin_account_user_headpic]];
-        }else{
-            [SJAvatarBrowser showImage:self.Image_user withURL:self.UserInfo.headpic];
-        }
+-(void)addFavorsegmentAction:sender
+{
+    [self performSelector:@selector(showLoading) withObject:nil afterDelay:.3];
+    SLog(@"[sender isOn] = %hhd",[sender isOn]);
+    if ([sender isOn]) {
+        NSDictionary * parames = @{@"uid":@(self.userUid)};
+        [[WebSocketManager instance]sendWithAction:@"user.add_friend" parameters:parames callback:^(WSRequest *request, NSDictionary *result) {
+            [SVProgressHUD dismiss];
+            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
+            NSLog(@"error_code = %d",request.error_code);
+            NSLog(@"error = %@",request.error);
+            if(request.error_code!=0)
+            {
+                [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
+                [SVProgressHUD dismiss];
+                [sender setOn:NO];
+                return;
+            }
+            
+        }];
+    }
+    else
+    {
+        NSDictionary * parames = @{@"uid":@(self.userUid)};
+        [[WebSocketManager instance]sendWithAction:@"user.del_friend" parameters:parames callback:^(WSRequest *request, NSDictionary *result) {
+            [SVProgressHUD dismiss];
+            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
+            NSLog(@"error_code = %d",request.error_code);
+            NSLog(@"error = %@",request.error);
+            if(request.error_code!=0)
+            {
+                [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
+                [SVProgressHUD dismiss];
+                [sender setOn:YES];
+                return;
+            }
+            
+        }];
     }
     
+    
+    
 }
-#endif
 
+-(void)showLoading
+{
+    [SVProgressHUD show];
+}
 
 
 @end

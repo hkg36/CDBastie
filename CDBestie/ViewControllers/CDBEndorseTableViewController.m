@@ -28,6 +28,8 @@
 #import "UIView+Additon.h"
 #import "XCJErrorView.h"
 #import <limits.h>
+#import "CDBFavorNaviController.h"
+#import "CDBFavorViewController.h"
 #define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
 
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
@@ -88,6 +90,7 @@
         [mysearchBar sizeToFit];
         self.tableView.tableHeaderView =mysearchBar;
         self.tableView.contentOffset = CGPointMake(0, CGRectGetHeight(mysearchBar.bounds));
+        [self addPic];
     }
     if (![self.title isEqual:@"排行榜"]) {
         CGSize navSize = CGSizeMake(15 , 12);
@@ -95,7 +98,7 @@
         ;
         UIBarButtonItem * menubar = [[UIBarButtonItem alloc] initWithImage:menuImage style:UIBarButtonItemStyleDone target:self action:@selector(menubarClick)];
         self.navigationItem.rightBarButtonItems = @[menubar];
-        [self addPic];
+        
         NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
         NSString *sessionid = [defaults objectForKey:@"SESSION_ID"];
         NSString *user_nick = [defaults objectForKey:@"USERINFO_NICK"];
@@ -398,14 +401,13 @@
 }
 
 - (IBAction)FavorShow:(id)sender {
-     CDBEndorseTableViewController *navi = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBEndorseTableViewController"];
-     navi.title = @"我的收藏";
-     //navi.isFavor =YES;
-     navi.titlelab.hidden = YES;
-     navi.titleLabImage.hidden = YES;
-     
-     [self hiddenMenu];
-     [self.navigationController pushViewController:navi animated:YES];
+    CDBFavorViewController *conss = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBFavorViewController"];
+    conss.title = @"我的收藏";
+    [self getFavorArray];
+    conss.favor_EndorseassignArray = Endorse_favorUidArray;
+    conss.hidesBottomBarWhenPushed = YES;
+    [self hiddenMenu];
+    [self.navigationController pushViewController:conss animated:YES];
 }
 
 - (IBAction)pushInfoShow:(id)sender {
@@ -495,12 +497,17 @@
         else{
             navi.userUid = [[[Endorse_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
         }
+        if (myUid == navi.userUid) {
+            [self myInfoShow:nil];
+        }
+        else{
         CDBEndorseCell *cell =(CDBEndorseCell*) [self.tableView cellForRowAtIndexPath:indexPath];
         navi.title = cell.userNick.text;
         if ([self compare:cell.celluid]) {
-            //navi.haveFavor = YES;
+            navi.haveFavor = YES;
         }
         [self.navigationController pushViewController:navi animated:YES];
+        }
     }
 }
 -(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -774,6 +781,52 @@
     }];
 }
 
+-(UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (isFavor) {
+        return UITableViewCellEditingStyleDelete;
+    }
+    return UITableViewCellEditingStyleNone;
+}
 
+-(NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return @"取消收藏";
+}
+
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{   long long celluid = 0;
+    if (isFavor) {
+        celluid = [[Endorse_list objectAtIndex:indexPath.row] longLongValue] ;
+    }
+    else {
+        celluid = [[[Endorse_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
+    }
+    {
+        NSDictionary * parames = @{@"uid":@(celluid)};
+        [[WebSocketManager instance]sendWithAction:@"user.del_friend" parameters:parames callback:^(WSRequest *request, NSDictionary *result) {
+            [SVProgressHUD dismiss];
+            [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
+            NSLog(@"error_code = %d",request.error_code);
+            NSLog(@"error = %@",request.error);
+            if(request.error_code!=0)
+            {
+                [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
+                [SVProgressHUD dismiss];
+                return;
+            }
+            if (editingStyle == UITableViewCellEditingStyleDelete)
+            {
+                NSMutableArray *tempArray =[[NSMutableArray alloc]initWithArray:Endorse_list];
+                [tempArray removeObjectAtIndex:[indexPath row]];
+                Endorse_list = tempArray;
+                [self.tableView deleteRowsAtIndexPaths:[NSMutableArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            
+        }];
+    }
+    
+    
+}
 
 @end
