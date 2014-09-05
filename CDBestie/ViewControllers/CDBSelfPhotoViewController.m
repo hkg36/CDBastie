@@ -215,21 +215,21 @@
                 [imageview addGestureRecognizer:longizer];
             }
             imageview.tag = idx;
-            [imageview setImageWithURL:[NSURL URLWithString:[tools getUrlByImageUrl:[obj objectForKey:@"picture" ] Size:160]] placeholderImage:[UIImage imageNamed:@"aio_ogactivity_default"]];
-            /*
-             if ([NSURL URLWithString:[tools getUrlByImageUrl:[obj objectForKey:@"picture" ] Size:160]]) {
-             [[ImageDownloader instanse] startDownload:imageview forUrl:[NSURL URLWithString:[tools getUrlByImageUrl:[obj objectForKey:@"picture" ] Size:160]] callback:^(UIImageView *view, UIImage *image) {
-             if(image)
-             {
-             view.image=image;
-             }
-             }];
-             }
-             else
-             {
-             [imageview setImage:[UIImage imageNamed:@"aio_ogactivity_default"]];
-             }
-             */
+            //[imageview setImageWithURL:[NSURL URLWithString:[tools getUrlByImageUrl:[obj objectForKey:@"picture" ] Size:160]] placeholderImage:[UIImage imageNamed:@"aio_ogactivity_default"]];
+            if ([obj objectForKey:@"picture" ]) {
+                NSURL *imageURL = [NSURL URLWithString:[tools getUrlByImageUrl:[obj objectForKey:@"picture" ] Size:160]];
+                if (imageURL) {
+                    [imageview setImage:[UIImage imageNamed:@"aio_ogactivity_default"]];
+                    [[ImageDownloader instanse] startDownload:imageview forUrl:imageURL callback:^(UIView *view, UIImage *image) {
+                        if(image)
+                        {
+                            ((UIImageView*)view).image=image;
+                            [scrollview addSubview:imageview];
+                        }
+                    }];
+                }
+            }
+
             [scrollview addSubview:imageview];
         }
     }];
