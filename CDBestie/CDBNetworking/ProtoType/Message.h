@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
-@interface Message : NSObject
+#import "DbObject.h"
+@interface Message : DbObject
 @property (nonatomic) long long msgid;
 @property (nonatomic) long long fromid;
 @property (nonatomic) long long toid;
