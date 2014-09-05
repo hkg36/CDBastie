@@ -18,13 +18,9 @@
 @end
 
 @implementation CDBAppDelegate
-{
-    sqlite3 *database;
-}
 
 @synthesize myUserInfo;
 @synthesize picQuality;
-@synthesize database;
 static NSString * const kCDBestieStoreName = @"CDBestie";
 
 #pragma mark - Application Lifecycle

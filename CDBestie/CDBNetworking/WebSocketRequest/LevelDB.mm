@@ -24,7 +24,7 @@ static Slice SliceFromObject(id object) {
 }
 
 static id ObjectFromSlice(Slice v) {
-    NSData *data = [NSData dataWithBytes:v.data() length:v.size()];
+    NSData *data = [NSData dataWithBytesNoCopy:(void*)v.data() length:v.size() freeWhenDone:NO];
     NSError *error = nil;
     return [MPMessagePackReader readData:data error:&error];
 }
