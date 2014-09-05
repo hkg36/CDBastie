@@ -115,10 +115,16 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                         </button>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="kge-OM-ZSu">
+                                            <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        </imageView>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
+                                    <outlet property="dai_logo" destination="Msd-nd-36A" id="s8q-4b-Udd"/>
+                                    <outlet property="favorIcon" destination="kge-OM-ZSu" id="oyE-qC-a44"/>
                                     <outlet property="iconLayer" destination="71a-1v-HSu" id="52g-1t-cyZ"/>
                                     <outlet property="userGoods" destination="bUJ-ud-LYz" id="L0r-Mp-GKC"/>
                                     <outlet property="userIcon" destination="Uxu-aF-twH" id="D30-ZX-1ZY"/>
@@ -740,7 +746,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IUj-lo-PQ6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1319" y="73"/>
+            <point key="canvasLocation" x="1319" y="17"/>
         </scene>
         <!--Change Birth View Controller - 生日-->
         <scene sceneID="WI3-Ih-CBx">

@@ -17,4 +17,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *userGoods;
 @property (weak, nonatomic) IBOutlet UIButton *userLevel;
 @property (nonatomic) long long celluid;
+@property (weak, nonatomic) IBOutlet UIImageView *dai_logo;
+@property (weak, nonatomic) IBOutlet UIImageView *favorIcon;
 @end
