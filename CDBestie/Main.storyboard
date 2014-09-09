@@ -1732,7 +1732,7 @@
                         <barButtonItem key="backBarButtonItem" title="返回" id="93J-6f-A5G"/>
                         <barButtonItem key="rightBarButtonItem" image="daiyangeren" style="done" id="HYo-hD-B2E">
                             <connections>
-                                <action selector="reportAction:" destination="8HH-KS-ria" id="ook-xG-FOE"/>
+                                <action selector="reportAction:" destination="8HH-KS-ria" id="Lr9-M7-gSo"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
