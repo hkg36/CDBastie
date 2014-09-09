@@ -59,6 +59,7 @@
 {
     [super viewWillAppear:animated];
 
+    /*
     NSUserDefaults * settings1 = [NSUserDefaults standardUserDefaults];
     NSString *key1 = [NSString stringWithFormat:@"is_first"];
     NSString *value = [settings1 objectForKey:key1];
@@ -95,7 +96,7 @@
         [setting setObject:[NSString stringWithFormat:@"false"] forKey:key];
         [setting synchronize];
     }
-    
+    */
     
 }
 

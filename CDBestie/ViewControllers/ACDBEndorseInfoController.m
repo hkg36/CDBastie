@@ -26,9 +26,9 @@
 #import "IDMPhoto.h"
 #import "IDMPhotoBrowser.h"
 #import "DataTools.h"
-//#import "MJRefresh.h"
+#import "MJRefresh.h"
 #import "ImageDownloader.h"
-//#import "ChatViewController.h"
+#import "ChatViewController.h"
 
 
 #define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
@@ -242,7 +242,7 @@
                 
                 user_JOB = userInfo.user.job;
                 if (!user_JOB) {
-                    user_JOB = @"保密";
+                    user_JOB = @"";
                 }
                 
                 NSString *infoString = nil;
@@ -270,13 +270,24 @@
                     if (age<0) {
                         age = abs(age);
                     }
-                    NSLog(@"age = %d",age);
-                    NSLog(@"birth = %ld",(long)birth);
-                    infoString = [NSString stringWithFormat:@"%@ | %@ | %d岁",user_SEX,user_JOB,age];
+                    if ([user_JOB isEqualToString:@""]) {
+                        user_JOB = @"";
+                        infoString = [NSString stringWithFormat:@"%@",user_SEX];
+                    }
+                    else{
+                        infoString = [NSString stringWithFormat:@"%@ | %@ ",user_SEX,user_JOB];
+                    }
                 }
                 else
                 {
-                    infoString = [NSString stringWithFormat:@"%@ | %@ | 保密",user_SEX,user_JOB];
+                    if ([user_JOB isEqualToString:@""]) {
+                        user_JOB = @"";
+                        infoString = [NSString stringWithFormat:@"%@",user_SEX];
+                    }
+                    else{
+                        infoString = [NSString stringWithFormat:@"%@ | %@ ",user_SEX,user_JOB];
+                    }
+                    
                 }
                 CGSize StringSize = [infoString
                                      sizeWithFont:[UIFont systemFontOfSize:15.0f]
@@ -449,12 +460,25 @@
     
 }
 
+-(void)sendMess
+{
+    NSString *myTitle = self.title;
+    ChatViewController * viewss = [self.storyboard instantiateViewControllerWithIdentifier:@"ChatViewController"];
+    viewss.title =[NSString stringWithFormat:@"%@",myTitle];
+    viewss.messUid = self.userUid;
+    viewss.messHeadPic = headPic;
+    [self.navigationController pushViewController:viewss animated:YES];
+}
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+           //[self sendMess];
+        }
         if (indexPath.row == 4) {
             NSString *myTitle = self.title;
             CDBSelfPhotoViewController * viewss = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBSelfPhotoViewController"];

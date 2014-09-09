@@ -90,15 +90,22 @@
         [mysearchBar sizeToFit];
         self.tableView.tableHeaderView =mysearchBar;
         self.tableView.contentOffset = CGPointMake(0, CGRectGetHeight(mysearchBar.bounds));
-        [self addPic];
-    }
-    if (![self.title isEqual:@"排行榜"]) {
+        //占坑专用 过后恢复
+        //[self addPic];
         CGSize navSize = CGSizeMake(15 , 12);
         UIImage *menuImage = [self scaleToSize:[UIImage imageNamed:@"daiyan_list"] size:navSize];
         ;
         UIBarButtonItem * menubar = [[UIBarButtonItem alloc] initWithImage:menuImage style:UIBarButtonItemStyleDone target:self action:@selector(menubarClick)];
         self.navigationItem.rightBarButtonItems = @[menubar];
         
+        //占坑专用 过后删除
+        ///*
+        UIImage *myInfoImage = [UIImage imageNamed:@"daiyangeren"];
+        UIBarButtonItem * myInfoBar = [[UIBarButtonItem alloc] initWithImage:myInfoImage style:UIBarButtonItemStyleDone target:self action:@selector(myInfoShow:)];
+        self.navigationItem.rightBarButtonItems = @[myInfoBar];
+        [titlelab removeFromSuperview];
+        self.title = @"代言人";
+        //*/
         NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
         NSString *sessionid = [defaults objectForKey:@"SESSION_ID"];
         NSString *user_nick = [defaults objectForKey:@"USERINFO_NICK"];
@@ -618,7 +625,7 @@
              
              user_JOB = userInfo.user.job;
              if (!user_JOB) {
-                 user_JOB = @"保密";
+                 user_JOB = @"";
              }
              NSString *infoString = nil;
              if(userInfo.user.birthday)
@@ -647,11 +654,24 @@
                  if (age<0) {
                      age = abs(age);
                  }
+                 if ([user_JOB isEqualToString:@""]) {
+                     user_JOB = @"";
+                     infoString = [NSString stringWithFormat:@"%@",user_SEX];
+                 }
+                 else{
                  infoString = [NSString stringWithFormat:@"%@ | %@ ",user_SEX,user_JOB];
+                 }
              }
              else
              {
-                 infoString = [NSString stringWithFormat:@"%@ | %@ ",user_SEX,user_JOB];
+                 if ([user_JOB isEqualToString:@""]) {
+                     user_JOB = @"";
+                     infoString = [NSString stringWithFormat:@"%@",user_SEX];
+                 }
+                 else{
+                     infoString = [NSString stringWithFormat:@"%@ | %@ ",user_SEX,user_JOB];
+                 }
+                 
              }
              CGSize StringSize = [infoString
                                   sizeWithFont:[UIFont systemFontOfSize:15.0f]

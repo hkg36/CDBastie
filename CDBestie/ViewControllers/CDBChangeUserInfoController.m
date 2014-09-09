@@ -117,7 +117,7 @@
             }
             else
             {
-                self.Label_sex.text = @"保密";
+                self.Label_sex.text = @"";
             }
 
             if (self.birth!=0)
@@ -157,7 +157,7 @@
             }
             else
             {
-                self.Label_age.text =@"保密";
+                self.Label_age.text =@"";
                 
             }
         
@@ -165,7 +165,7 @@
             self.Label_job.text =self.job;
         }
         else{
-            self.Label_job.text =@"保密";
+            self.Label_job.text =@"";
             [defaults setObject:self.Label_job.text forKey:@"USERINFO_JOB"];
         }
         
