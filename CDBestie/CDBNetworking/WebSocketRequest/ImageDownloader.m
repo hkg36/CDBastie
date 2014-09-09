@@ -79,6 +79,7 @@ ImageDownloader* one_instanse=nil;
 }
 -(void) startDownload:(UIView*)img forUrl:(NSURL*) url callback:(result_callback)callback
 {
+    [img.layer setValue:url forKey:@"download_image_work"];
     MemCache *buffimg=nil;
     @synchronized(self.imgbuffer){
         buffimg=[self.imgbuffer objectForKey:url];
@@ -88,7 +89,6 @@ ImageDownloader* one_instanse=nil;
         callback(img,buffimg.data);
         return;
     }
-    [img.layer setValue:url forKey:@"download_image_work"];
     [self performSelector:@selector(BackDownload:) onThread:self.workthread withObject:@{@"view":img,@"callback":callback} waitUntilDone:false];
 }
 -(void) BackDownload:(NSDictionary*)work
