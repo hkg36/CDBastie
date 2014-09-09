@@ -26,9 +26,9 @@
 #import "IDMPhoto.h"
 #import "IDMPhotoBrowser.h"
 #import "DataTools.h"
-//#import "MJRefresh.h"
+#import "MJRefresh.h"
 #import "ImageDownloader.h"
-//#import "ChatViewController.h"
+#import "ChatViewController.h"
 
 
 #define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
@@ -460,12 +460,25 @@
     
 }
 
+-(void)sendMess
+{
+    NSString *myTitle = self.title;
+    ChatViewController * viewss = [self.storyboard instantiateViewControllerWithIdentifier:@"ChatViewController"];
+    viewss.title =[NSString stringWithFormat:@"%@",myTitle];
+    viewss.messUid = self.userUid;
+    viewss.messHeadPic = headPic;
+    [self.navigationController pushViewController:viewss animated:YES];
+}
+
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            [self sendMess];
+        }
         if (indexPath.row == 4) {
             NSString *myTitle = self.title;
             CDBSelfPhotoViewController * viewss = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBSelfPhotoViewController"];
