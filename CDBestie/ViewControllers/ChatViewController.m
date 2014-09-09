@@ -67,6 +67,7 @@
 @property (weak, nonatomic) IBOutlet UITextView  *inputTextView;
 @property (weak, nonatomic) UIView               *keyboardView;
 @property (strong,nonatomic) NSMutableArray      *messageList;
+- (IBAction)reportAction:(id)sender;
 
 
 
@@ -392,6 +393,17 @@
 #pragma mark actionSheet delegate
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if (actionSheet.tag == 3) {
+        switch (buttonIndex) {
+            case 0:{
+                UIAlertView  * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"举报成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alert show];
+            }
+                break;
+            default:
+                break;
+        }
+    }
     if (actionSheet.tag == 2) {
         switch (buttonIndex) {
             case 0:{
@@ -1294,4 +1306,10 @@
 }
 
 
+- (IBAction)reportAction:(id)sender {
+    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"举报" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"立即举报" otherButtonTitles:nil,nil];
+    actionSheet.tag = 3;
+    [actionSheet showInView:self.view];
+}
 @end
