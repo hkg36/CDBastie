@@ -400,6 +400,11 @@
                 [alert show];
             }
                 break;
+            case 1:{
+                UIAlertView  * alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"举报成功" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                [alert show];
+            }
+                break;
             default:
                 break;
         }
@@ -1308,7 +1313,7 @@
 
 - (IBAction)reportAction:(id)sender {
     
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"举报" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"立即举报" otherButtonTitles:nil,nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"举报" delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:@"该用户发言包含违法违规内容" otherButtonTitles:@"该用户发言有骚扰嫌疑",nil];
     actionSheet.tag = 3;
     [actionSheet showInView:self.view];
 }

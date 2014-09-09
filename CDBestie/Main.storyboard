@@ -1730,7 +1730,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="1rg-v1-pxR">
                         <barButtonItem key="backBarButtonItem" title="返回" id="93J-6f-A5G"/>
-                        <barButtonItem key="rightBarButtonItem" image="daiyangeren" style="done" id="HYo-hD-B2E">
+                        <barButtonItem key="rightBarButtonItem" title="举报" style="done" id="HYo-hD-B2E">
                             <connections>
                                 <action selector="reportAction:" destination="8HH-KS-ria" id="Lr9-M7-gSo"/>
                             </connections>
@@ -1828,7 +1828,6 @@
         <image name="composerTextFieldBackground" width="21" height="30"/>
         <image name="daiyan_liebiao_daiyanicon" width="11" height="12"/>
         <image name="daiyan_liebiao_dengjiicon" width="30" height="15"/>
-        <image name="daiyangeren" width="20" height="21"/>
         <image name="fbc_TextEntryField_light_0_6_0_6" width="13" height="28"/>
         <image name="fbc_primarybutton_28_3_3_3_3_normal_ios7" width="11" height="32"/>
         <image name="fuwuxieyi" width="108" height="12"/>
