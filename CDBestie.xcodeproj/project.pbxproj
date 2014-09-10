@@ -8,12 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1702C12F199B56A300290CE0 /* ImageDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1702C12E199B56A300290CE0 /* ImageDownloader.m */; };
-		171495B719B87316009B93A1 /* cmp.c in Sources */ = {isa = PBXBuildFile; fileRef = 171495AA19B87316009B93A1 /* cmp.c */; };
-		171495B819B87316009B93A1 /* MPMessagePackReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 171495AE19B87316009B93A1 /* MPMessagePackReader.m */; };
-		171495B919B87316009B93A1 /* MPMessagePackWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 171495B019B87316009B93A1 /* MPMessagePackWriter.m */; };
-		171495BA19B87316009B93A1 /* MPOrderedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 171495B219B87316009B93A1 /* MPOrderedDictionary.m */; };
-		171495BB19B87316009B93A1 /* NSArray+MPMessagePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 171495B419B87316009B93A1 /* NSArray+MPMessagePack.m */; };
-		171495BC19B87316009B93A1 /* NSDictionary+MPMessagePack.m in Sources */ = {isa = PBXBuildFile; fileRef = 171495B619B87316009B93A1 /* NSDictionary+MPMessagePack.m */; };
+		1730B0CD19C01EF3005FA2B8 /* BSONSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 1730B0CB19C01EF3005FA2B8 /* BSONSerialization.m */; };
 		17387A46199323220049B1A2 /* Merchandise.m in Sources */ = {isa = PBXBuildFile; fileRef = 17387A45199323220049B1A2 /* Merchandise.m */; };
 		177D06E219A05FEA00E2A228 /* WebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 177D06E119A05FEA00E2A228 /* WebP.framework */; };
 		17C0850B19B6C86100094AC4 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 17C0850A19B6C86100094AC4 /* libsqlite3.dylib */; };
@@ -181,19 +176,9 @@
 /* Begin PBXFileReference section */
 		1702C12D199B56A300290CE0 /* ImageDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageDownloader.h; sourceTree = "<group>"; };
 		1702C12E199B56A300290CE0 /* ImageDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageDownloader.m; sourceTree = "<group>"; };
-		171495AA19B87316009B93A1 /* cmp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cmp.c; sourceTree = "<group>"; };
-		171495AB19B87316009B93A1 /* cmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cmp.h; sourceTree = "<group>"; };
-		171495AC19B87316009B93A1 /* MPMessagePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMessagePack.h; sourceTree = "<group>"; };
-		171495AD19B87316009B93A1 /* MPMessagePackReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMessagePackReader.h; sourceTree = "<group>"; };
-		171495AE19B87316009B93A1 /* MPMessagePackReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPMessagePackReader.m; sourceTree = "<group>"; };
-		171495AF19B87316009B93A1 /* MPMessagePackWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPMessagePackWriter.h; sourceTree = "<group>"; };
-		171495B019B87316009B93A1 /* MPMessagePackWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPMessagePackWriter.m; sourceTree = "<group>"; };
-		171495B119B87316009B93A1 /* MPOrderedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MPOrderedDictionary.h; sourceTree = "<group>"; };
-		171495B219B87316009B93A1 /* MPOrderedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MPOrderedDictionary.m; sourceTree = "<group>"; };
-		171495B319B87316009B93A1 /* NSArray+MPMessagePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+MPMessagePack.h"; sourceTree = "<group>"; };
-		171495B419B87316009B93A1 /* NSArray+MPMessagePack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+MPMessagePack.m"; sourceTree = "<group>"; };
-		171495B519B87316009B93A1 /* NSDictionary+MPMessagePack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+MPMessagePack.h"; sourceTree = "<group>"; };
-		171495B619B87316009B93A1 /* NSDictionary+MPMessagePack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+MPMessagePack.m"; sourceTree = "<group>"; };
+		1730B0CA19C01EF3005FA2B8 /* BSONSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSONSerialization.h; sourceTree = "<group>"; };
+		1730B0CB19C01EF3005FA2B8 /* BSONSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSONSerialization.m; sourceTree = "<group>"; };
+		1730B0CC19C01EF3005FA2B8 /* ObjectiveBSON-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ObjectiveBSON-Prefix.pch"; sourceTree = "<group>"; };
 		17387A44199323220049B1A2 /* Merchandise.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Merchandise.h; sourceTree = "<group>"; };
 		17387A45199323220049B1A2 /* Merchandise.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Merchandise.m; sourceTree = "<group>"; };
 		177D06E119A05FEA00E2A228 /* WebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebP.framework; path = CDBestie/CDBNetworking/WebP.framework; sourceTree = "<group>"; };
@@ -529,24 +514,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		171495A919B87316009B93A1 /* MPMessagePack */ = {
+		1730B0C919C01EF3005FA2B8 /* BSON */ = {
 			isa = PBXGroup;
 			children = (
-				171495AA19B87316009B93A1 /* cmp.c */,
-				171495AB19B87316009B93A1 /* cmp.h */,
-				171495AC19B87316009B93A1 /* MPMessagePack.h */,
-				171495AD19B87316009B93A1 /* MPMessagePackReader.h */,
-				171495AE19B87316009B93A1 /* MPMessagePackReader.m */,
-				171495AF19B87316009B93A1 /* MPMessagePackWriter.h */,
-				171495B019B87316009B93A1 /* MPMessagePackWriter.m */,
-				171495B119B87316009B93A1 /* MPOrderedDictionary.h */,
-				171495B219B87316009B93A1 /* MPOrderedDictionary.m */,
-				171495B319B87316009B93A1 /* NSArray+MPMessagePack.h */,
-				171495B419B87316009B93A1 /* NSArray+MPMessagePack.m */,
-				171495B519B87316009B93A1 /* NSDictionary+MPMessagePack.h */,
-				171495B619B87316009B93A1 /* NSDictionary+MPMessagePack.m */,
+				1730B0CA19C01EF3005FA2B8 /* BSONSerialization.h */,
+				1730B0CB19C01EF3005FA2B8 /* BSONSerialization.m */,
+				1730B0CC19C01EF3005FA2B8 /* ObjectiveBSON-Prefix.pch */,
 			);
-			path = MPMessagePack;
+			path = BSON;
 			sourceTree = "<group>";
 		};
 		5E70274C19BE995F00DC548E /* sendInfo */ = {
@@ -780,7 +755,7 @@
 		863E51101986135900753B80 /* CDBNetworking */ = {
 			isa = PBXGroup;
 			children = (
-				171495A919B87316009B93A1 /* MPMessagePack */,
+				1730B0C919C01EF3005FA2B8 /* BSON */,
 				86B7F750198F32EF00749659 /* ProtoType */,
 				86B7F727198F2F1100749659 /* WebSocketRequest */,
 				863E51601986182600753B80 /* Util */,
@@ -1314,7 +1289,6 @@
 				86A0C5B41991211B0091462B /* userInfoCell.m in Sources */,
 				86103FC5199D9BF100896884 /* UIImage+Alpha.m in Sources */,
 				86B3333F198FB3E3004D86BD /* CDBChangeBirthViewController.m in Sources */,
-				171495BA19B87316009B93A1 /* MPOrderedDictionary.m in Sources */,
 				86103FB7199D9BF100896884 /* DACircularProgressView.m in Sources */,
 				863E51471986172800753B80 /* AFHTTPRequestOperation.m in Sources */,
 				5EC45AF419AD886E001F4DA8 /* FMResultSet.m in Sources */,
@@ -1339,7 +1313,6 @@
 				5E70277219BE9B4B00DC548E /* MJRefreshFooterView.m in Sources */,
 				863E51551986172800753B80 /* UIProgressView+AFNetworking.m in Sources */,
 				86103FBA199D9BF100896884 /* DCIntrospect.m in Sources */,
-				171495B719B87316009B93A1 /* cmp.c in Sources */,
 				5ED17A6D19AAE7BE00D6521C /* UIViewController+Indicator.m in Sources */,
 				5E70275C19BE995F00DC548E /* UIView+Additon.m in Sources */,
 				5E70275719BE995F00DC548E /* FacialView.m in Sources */,
@@ -1381,9 +1354,6 @@
 				863E517A1986244000753B80 /* CDBLoginNaviController.m in Sources */,
 				8682D508198937EA00AD88EB /* CDBplusMenuView.m in Sources */,
 				863E514B1986172800753B80 /* AFSecurityPolicy.m in Sources */,
-				171495BC19B87316009B93A1 /* NSDictionary+MPMessagePack.m in Sources */,
-				171495B819B87316009B93A1 /* MPMessagePackReader.m in Sources */,
-				171495B919B87316009B93A1 /* MPMessagePackWriter.m in Sources */,
 				86481591198FDB39009D474F /* CDBEndorseCell.m in Sources */,
 				5EC45B1319AD886E001F4DA8 /* Validators.m in Sources */,
 				5E70271D19B6D0E100DC548E /* FavorCell.m in Sources */,
@@ -1414,9 +1384,9 @@
 				863E51501986172800753B80 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				864067F1198BCEDD0032E693 /* NJKWebViewProgressView.m in Sources */,
 				863E51631986182600753B80 /* DataHelper.m in Sources */,
+				1730B0CD19C01EF3005FA2B8 /* BSONSerialization.m in Sources */,
 				5EC45AF919AD886E001F4DA8 /* LoggerClient.m in Sources */,
 				863E51561986172800753B80 /* UIWebView+AFNetworking.m in Sources */,
-				171495BB19B87316009B93A1 /* NSArray+MPMessagePack.m in Sources */,
 				5E70275A19BE995F00DC548E /* CDBChatSendInfoView.m in Sources */,
 				5E70273919B98F0E00DC548E /* CDBFavorNaviController.m in Sources */,
 				864067F4198BCEDD0032E693 /* SDURLCache.m in Sources */,

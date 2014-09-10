@@ -140,7 +140,7 @@ WebSocketManager *one_instance=nil;
     self.last_recvtime=0;
     
     NSString *tmppath=NSTemporaryDirectory();
-    self.cmdCacheDb=[[LevelDB alloc] initWithPath:[NSString stringWithFormat:@"%@networkCacheDb-msgpack",tmppath]];
+    self.cmdCacheDb=[[LevelDB alloc] initWithPath:[NSString stringWithFormat:@"%@networkCacheDb-bson",tmppath]];
     
     self.timer=[NSTimer timerWithTimeInterval:5.0 target:self selector:@selector(handleTimer:) userInfo:nil repeats:TRUE];
     [[NSRunLoop SR_networkRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];

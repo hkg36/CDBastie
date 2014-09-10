@@ -9,7 +9,7 @@
 
 #import "leveldb/db.h"
 #import "leveldb/options.h"
-#import "../MPMessagePack/MPMessagePack.h"
+#import "../BSON/BSONSerialization.h"
 
 #define SliceFromString(_string_) (Slice((char *)[_string_ UTF8String], [_string_ lengthOfBytesUsingEncoding:NSUTF8StringEncoding]))
 #define StringFromSlice(_slice_) ([[NSString alloc] initWithBytes:_slice_.data() length:_slice_.size() encoding:NSUTF8StringEncoding])
@@ -17,16 +17,14 @@
 
 using namespace leveldb;
 
-static Slice SliceFromObject(id object) {
-    NSError *error = nil;
-    NSData *data = [MPMessagePackWriter writeObject:object error:&error];
+static Slice SliceFromObject(NSDictionary* object) {
+    NSData *data = [object BSONRepresentation];
     return Slice((const char *)[data bytes], (size_t)[data length]);
 }
 
 static id ObjectFromSlice(Slice v) {
     NSData *data = [NSData dataWithBytesNoCopy:(void*)v.data() length:v.size() freeWhenDone:NO];
-    NSError *error = nil;
-    return [MPMessagePackReader readData:data error:&error];
+    return [data BSONValue];
 }
 @interface LevelDB()
 {
