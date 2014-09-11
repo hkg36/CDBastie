@@ -94,21 +94,24 @@
         self.tableView.tableHeaderView =mysearchBar;
         self.tableView.contentOffset = CGPointMake(0, CGRectGetHeight(mysearchBar.bounds));
         //占坑专用 过后恢复
-        //[self addPic];
+        [self addPic];
+        /*
         CGSize navSize = CGSizeMake(15 , 12);
         UIImage *menuImage = [self scaleToSize:[UIImage imageNamed:@"daiyan_list"] size:navSize];
         ;
         UIBarButtonItem * menubar = [[UIBarButtonItem alloc] initWithImage:menuImage style:UIBarButtonItemStyleDone target:self action:@selector(menubarClick)];
         self.navigationItem.rightBarButtonItems = @[menubar];
-        
+        */
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"nav_menu"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] style:UIBarButtonItemStylePlain target:self action:@selector(presentMenuFromNav:)];
+        [self.webView removeFromSuperview];
         //占坑专用 过后删除
-        ///*
+        /*
         UIImage *myInfoImage = [UIImage imageNamed:@"daiyangeren"];
         UIBarButtonItem * myInfoBar = [[UIBarButtonItem alloc] initWithImage:myInfoImage style:UIBarButtonItemStyleDone target:self action:@selector(myInfoShow:)];
         self.navigationItem.rightBarButtonItems = @[myInfoBar];
         [titlelab removeFromSuperview];
         self.title = @"代言人";
-        //*/
+        */
         NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
         NSString *sessionid = [defaults objectForKey:@"SESSION_ID"];
         NSString *user_nick = [defaults objectForKey:@"USERINFO_NICK"];
@@ -852,4 +855,65 @@
     
 }
 
+
+
+#pragma mark dropmenu implementation
+
+- (NSArray *)menuItems
+{
+    if (!_menuItems)
+    {
+        _menuItems =
+        @[
+          [RWDropdownMenuItem itemWithText:@"个人" image:[UIImage imageNamed:@"gerenicon"] action:^{
+              [self myInfoShow:nil];
+          }],
+          [RWDropdownMenuItem itemWithText:@"排行榜" image:[UIImage imageNamed:@"paihangicon"] action:^{
+              [self bangInfoShow:nil];
+          }],
+          [RWDropdownMenuItem itemWithText:@"收藏" image:[UIImage imageNamed:@"shoucangicon"] action:^{
+              [self FavorShow:nil];
+          }],
+          [RWDropdownMenuItem itemWithText:@"每日推送" image:[UIImage imageNamed:@"tuisongicon"] action:^{
+              [self pushInfoShow:nil];
+          }]
+          ];
+    }
+    return _menuItems;
+}
+
+- (void)presentMenuFromNav:(id)sender
+{
+    RWDropdownMenuCellAlignment alignment = RWDropdownMenuCellAlignmentCenter;
+    if (sender == self.navigationItem.leftBarButtonItem)
+    {
+        alignment = RWDropdownMenuCellAlignmentLeft;
+    }
+    else
+    {
+        alignment = RWDropdownMenuCellAlignmentRight;
+    }
+    
+    [RWDropdownMenu presentFromViewController:self withItems:self.menuItems align:alignment style:self.menuStyle navBarImage:[sender image] completion:nil];
+}
+
+- (void)presentMenuInPopover:(id)sender
+{
+    [RWDropdownMenu presentInPopoverFromBarButtonItem:sender withItems:self.menuItems completion:nil];
+}
+
+- (void)presentStyleMenu:(id)sender
+{
+    NSArray *styleItems =
+    @[
+      [RWDropdownMenuItem itemWithText:@"Black Gradient" image:nil action:^{
+          self.menuStyle = RWDropdownMenuStyleBlackGradient;
+      }],
+      [RWDropdownMenuItem itemWithText:@"Translucent" image:nil action:^{
+          self.menuStyle = RWDropdownMenuStyleTranslucent;
+      }],
+      ];
+    
+    [RWDropdownMenu presentFromViewController:self withItems:styleItems align:RWDropdownMenuCellAlignmentCenter style:self.menuStyle navBarImage:nil completion:nil];
+}
 @end

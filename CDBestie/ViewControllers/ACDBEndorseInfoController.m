@@ -477,7 +477,7 @@
     
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-           //[self sendMess];
+           [self sendMess];
         }
         if (indexPath.row == 4) {
             NSString *myTitle = self.title;
