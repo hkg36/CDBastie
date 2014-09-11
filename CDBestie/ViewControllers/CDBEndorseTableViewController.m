@@ -30,6 +30,7 @@
 #import <limits.h>
 #import "CDBFavorNaviController.h"
 #import "CDBFavorViewController.h"
+#import "RWDropdownMenu.h"
 #define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
 
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
@@ -55,7 +56,9 @@
 @property(nonatomic, copy) NSMutableArray *filteredPersons;
 @property(nonatomic) BOOL isFiltered;
 @property(nonatomic) BOOL isSearchBack;
-
+@property (nonatomic, strong) NSArray *menuItems;
+@property (nonatomic, assign) RWDropdownMenuStyle menuStyle;
+@property (nonatomic, strong) UIWebView *webView;
 @end
 
 @implementation CDBEndorseTableViewController
