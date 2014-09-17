@@ -31,6 +31,8 @@
 #import "CDBFavorNaviController.h"
 #import "CDBFavorViewController.h"
 #import "RWDropdownMenu.h"
+#import "PrivacyViewController.h"
+
 #define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
 
 #define GOODS_HOTEL_NEW @"http://202.85.215.157:8888/LifeStyleCenter/uidIntercept/hotelNew.do?sessionid="
@@ -94,7 +96,7 @@
         self.tableView.tableHeaderView =mysearchBar;
         self.tableView.contentOffset = CGPointMake(0, CGRectGetHeight(mysearchBar.bounds));
         //占坑专用 过后恢复
-        [self addPic];
+        //[self addPic];
         /*
         CGSize navSize = CGSizeMake(15 , 12);
         UIImage *menuImage = [self scaleToSize:[UIImage imageNamed:@"daiyan_list"] size:navSize];
@@ -105,13 +107,13 @@
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@"nav_menu"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate] style:UIBarButtonItemStylePlain target:self action:@selector(presentMenuFromNav:)];
         [self.webView removeFromSuperview];
         //占坑专用 过后删除
-        /*
+        
         UIImage *myInfoImage = [UIImage imageNamed:@"daiyangeren"];
         UIBarButtonItem * myInfoBar = [[UIBarButtonItem alloc] initWithImage:myInfoImage style:UIBarButtonItemStyleDone target:self action:@selector(myInfoShow:)];
         self.navigationItem.rightBarButtonItems = @[myInfoBar];
         [titlelab removeFromSuperview];
         self.title = @"代言人";
-        */
+        
         NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
         NSString *sessionid = [defaults objectForKey:@"SESSION_ID"];
         NSString *user_nick = [defaults objectForKey:@"USERINFO_NICK"];
@@ -154,6 +156,17 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    NSUserDefaults * settings1 = [NSUserDefaults standardUserDefaults];
+    NSString *key1 = [NSString stringWithFormat:@"is_Agree"];
+    NSString *value = [settings1 objectForKey:key1];
+    if (!value)
+    {
+        PrivacyViewController * conss =  [self.storyboard instantiateViewControllerWithIdentifier:@"PrivacyViewController"];
+        [self presentViewController:conss animated:NO completion:nil];
+
+    }
+    
+    
     self.show = NO;
     self.tabBarController.tabBar.hidden=YES;
     [self.navigationController.toolbar removeFromSuperview];

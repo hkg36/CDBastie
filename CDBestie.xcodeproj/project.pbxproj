@@ -37,6 +37,7 @@
 		5E8B4AC519C19E830016D214 /* RWDropdownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8B4AC019C19E830016D214 /* RWDropdownMenu.m */; };
 		5E8B4AC619C19E830016D214 /* RWDropdownMenuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8B4AC219C19E830016D214 /* RWDropdownMenuCell.m */; };
 		5E8B4AC719C19E830016D214 /* RWDropdownMenuTransitionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E8B4AC419C19E830016D214 /* RWDropdownMenuTransitionController.m */; };
+		5EC0838C19C9698B00392408 /* PrivacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC0838B19C9698B00392408 /* PrivacyViewController.m */; };
 		5EC45A9319AC998C001F4DA8 /* daiyangeren@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5EC45A9219AC998C001F4DA8 /* daiyangeren@2x.png */; };
 		5EC45AEF19AD886E001F4DA8 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AA219AD886E001F4DA8 /* FMDatabase.m */; };
 		5EC45AF019AD886E001F4DA8 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AA419AD886E001F4DA8 /* FMDatabaseAdditions.m */; };
@@ -236,6 +237,8 @@
 		5E8B4AC219C19E830016D214 /* RWDropdownMenuCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RWDropdownMenuCell.m; sourceTree = "<group>"; };
 		5E8B4AC319C19E830016D214 /* RWDropdownMenuTransitionController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RWDropdownMenuTransitionController.h; sourceTree = "<group>"; };
 		5E8B4AC419C19E830016D214 /* RWDropdownMenuTransitionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RWDropdownMenuTransitionController.m; sourceTree = "<group>"; };
+		5EC0838A19C9698B00392408 /* PrivacyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivacyViewController.h; sourceTree = "<group>"; };
+		5EC0838B19C9698B00392408 /* PrivacyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivacyViewController.m; sourceTree = "<group>"; };
 		5EC45A9219AC998C001F4DA8 /* daiyangeren@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "daiyangeren@2x.png"; path = "Images.xcassets/daiyangeren.imageset/daiyangeren@2x.png"; sourceTree = "<group>"; };
 		5EC45AA119AD886E001F4DA8 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
 		5EC45AA219AD886E001F4DA8 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
@@ -880,6 +883,8 @@
 				863E51791986244000753B80 /* CDBMainLoginViewController.m */,
 				863E517C198624BB00753B80 /* CDBCompleteUserInfoViewController.h */,
 				863E517D198624BB00753B80 /* CDBCompleteUserInfoViewController.m */,
+				5EC0838A19C9698B00392408 /* PrivacyViewController.h */,
+				5EC0838B19C9698B00392408 /* PrivacyViewController.m */,
 			);
 			name = LoginView;
 			sourceTree = "<group>";
@@ -1380,6 +1385,7 @@
 				8682D508198937EA00AD88EB /* CDBplusMenuView.m in Sources */,
 				863E514B1986172800753B80 /* AFSecurityPolicy.m in Sources */,
 				86481591198FDB39009D474F /* CDBEndorseCell.m in Sources */,
+				5EC0838C19C9698B00392408 /* PrivacyViewController.m in Sources */,
 				5EC45B1319AD886E001F4DA8 /* Validators.m in Sources */,
 				5E70271D19B6D0E100DC548E /* FavorCell.m in Sources */,
 				863E51491986172800753B80 /* AFHTTPSessionManager.m in Sources */,
