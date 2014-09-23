@@ -380,12 +380,64 @@
             
         }
         else{
+            if (indexPath.section == 1) {
+                switch (indexPath.row) {
+                        
+                    case 0:
+                        // change signture
+                    {
+                        CDBChangeSignNaviController *conss = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBChangeSignNaviController"];
+                        [self presentViewController:conss animated:YES completion:^{
+                            
+                        }];
+                    }
+                        break;
+                        
+                    default:
+                        break;
+                }
+                
+            }
+            else{
+                if (indexPath.section == 2) {
+                    [self SeePrivateGalleryClick];
+                }
+                if (indexPath.section == 3) {
+                    switch (indexPath.row) {
+                            
+                        case 0:
+                        {
 
-            [self SeePrivateGalleryClick];
-
+                            /*
+                            CDBAddressTableViewController *conss = [self.storyboard instantiateViewControllerWithIdentifier:@"CDBAddressTableViewController"];
+                            conss.hidesBottomBarWhenPushed = YES;
+                            conss.title = @"收货地址列表";
+                            [self.navigationController pushViewController:conss animated:YES];
+                            */
+                        }
+                            break;
+                        case 1:
+                        {
+                            /*
+                            CKViewController *conss = [[CKViewController alloc] init];
+                            conss.hidesBottomBarWhenPushed = YES;
+                            conss.title = @"时间管理";
+                            [self.navigationController pushViewController:conss animated:YES];
+                            */
+                            /*
+                             CKCalendarView *conss = [[CKCalendarView alloc] init];
+                             conss.frame = CGRectMake(0,self.navigationController.navigationBar.frame.size.height+20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-44);
+                             [self.view addSubview:conss];
+                             */
+                        }
+                            break;
+                            
+                    }
+                }
+            }
         }
+
     }
-    
 }
 
 
