@@ -23,6 +23,8 @@
 #import "CDBChangeJobNaviController.h"
 #import "CDBSelfPhotoViewController.h"
 #import "ImageDownloader.h"
+#import "CKViewController.h"
+#import "CKCalendarView.h"
 #define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
 #define  RESET_PASSWD_CID  1
 
@@ -418,12 +420,12 @@
                             break;
                         case 1:
                         {
-                            /*
+                            
                             CKViewController *conss = [[CKViewController alloc] init];
                             conss.hidesBottomBarWhenPushed = YES;
                             conss.title = @"时间管理";
                             [self.navigationController pushViewController:conss animated:YES];
-                            */
+                            
                             /*
                              CKCalendarView *conss = [[CKCalendarView alloc] init];
                              conss.frame = CGRectMake(0,self.navigationController.navigationBar.frame.size.height+20, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-44);
