@@ -400,9 +400,22 @@
 - (void)setMonthShowing:(NSDate *)aMonthShowing {
     _monthShowing = aMonthShowing;
 
+
+    
+    
+    
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateFormat = @"MMMM YYYY";
     self.titleLabel.text = [dateFormatter stringFromDate:aMonthShowing];
+    SLog(@"%@",[dateFormatter stringFromDate:aMonthShowing]);
+    SLog(@"%@",self.titleLabel.text);
+    
+    
+    NSDateFormatter *dateFormatter1 = [[NSDateFormatter alloc] init];
+    [dateFormatter1 setDateFormat:@"MMMM yyyy"];
+    NSString *showtimeNew = [dateFormatter1 stringFromDate:aMonthShowing];
+    NSLog(@"%@",showtimeNew);
+    self.titleLabel.text = showtimeNew;
     [self setNeedsLayout];
 }
 
@@ -454,6 +467,8 @@
     {
         return;
     }
+    SLog(@"%@",self.monthShowing);
+    SLog(@"%@",[self firstDayOfMonthContainingDate:self.monthShowing]);
     self.monthShowing = [[self firstDayOfMonthContainingDate:self.monthShowing] dateByAddingTimeInterval:-100000];
 }
 
