@@ -8,6 +8,10 @@
       "idiom" : "universal",
       "scale" : "2x",
       "filename" : "followingview_guide_bg@2x.png"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {

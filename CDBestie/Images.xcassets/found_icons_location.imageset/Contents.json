@@ -8,6 +8,10 @@
       "idiom" : "universal",
       "scale" : "2x",
       "filename" : "found_icons_location@2x.png"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {
