@@ -63,6 +63,7 @@
 		5EC45B1219AD886E001F4DA8 /* SqlGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AE719AD886E001F4DA8 /* SqlGenerator.m */; };
 		5EC45B1319AD886E001F4DA8 /* Validators.m in Sources */ = {isa = PBXBuildFile; fileRef = 5EC45AE919AD886E001F4DA8 /* Validators.m */; };
 		5ECB07FA19E62EB100BCC4A4 /* CDBMainTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ECB07F919E62EB100BCC4A4 /* CDBMainTableViewController.m */; };
+		5ECB07FD19E6336B00BCC4A4 /* CDBMainCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ECB07FC19E6336B00BCC4A4 /* CDBMainCell.m */; };
 		5ED17A6D19AAE7BE00D6521C /* UIViewController+Indicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED17A6919AAE7BE00D6521C /* UIViewController+Indicator.m */; };
 		5ED17A6E19AAE7BE00D6521C /* XCJErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5ED17A6B19AAE7BE00D6521C /* XCJErrorView.m */; };
 		5ED17A6F19AAE7BE00D6521C /* XCJErrorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5ED17A6C19AAE7BE00D6521C /* XCJErrorView.xib */; };
@@ -292,6 +293,8 @@
 		5EC45AE919AD886E001F4DA8 /* Validators.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Validators.m; sourceTree = "<group>"; };
 		5ECB07F819E62EB100BCC4A4 /* CDBMainTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDBMainTableViewController.h; sourceTree = "<group>"; };
 		5ECB07F919E62EB100BCC4A4 /* CDBMainTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDBMainTableViewController.m; sourceTree = "<group>"; };
+		5ECB07FB19E6336B00BCC4A4 /* CDBMainCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CDBMainCell.h; sourceTree = "<group>"; };
+		5ECB07FC19E6336B00BCC4A4 /* CDBMainCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CDBMainCell.m; sourceTree = "<group>"; };
 		5ED17A6719AAE7BE00D6521C /* blocktypedef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = blocktypedef.h; path = ViewControllers/blocktypedef.h; sourceTree = "<group>"; };
 		5ED17A6819AAE7BE00D6521C /* UIViewController+Indicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Indicator.h"; path = "ViewControllers/UIViewController+Indicator.h"; sourceTree = "<group>"; };
 		5ED17A6919AAE7BE00D6521C /* UIViewController+Indicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Indicator.m"; path = "ViewControllers/UIViewController+Indicator.m"; sourceTree = "<group>"; };
@@ -1169,6 +1172,8 @@
 				86A0C5BB1991214F0091462B /* ablmCell.h */,
 				86A0C5AE19911BA10091462B /* GoodsCell.h */,
 				86A0C5AF19911BA10091462B /* GoodsCell.m */,
+				5ECB07FB19E6336B00BCC4A4 /* CDBMainCell.h */,
+				5ECB07FC19E6336B00BCC4A4 /* CDBMainCell.m */,
 			);
 			name = CELLS;
 			sourceTree = "<group>";
@@ -1395,6 +1400,7 @@
 				864067EF198BCEDD0032E693 /* DZWebBrowser.m in Sources */,
 				5E8B4AC619C19E830016D214 /* RWDropdownMenuCell.m in Sources */,
 				865610F319907B7300E2AC47 /* CDBBangCell.m in Sources */,
+				5ECB07FD19E6336B00BCC4A4 /* CDBMainCell.m in Sources */,
 				863E517B1986244000753B80 /* CDBMainLoginViewController.m in Sources */,
 				8653DBB31985F66600A8EE47 /* CDBAppDelegate.m in Sources */,
 				1702C12F199B56A300290CE0 /* ImageDownloader.m in Sources */,

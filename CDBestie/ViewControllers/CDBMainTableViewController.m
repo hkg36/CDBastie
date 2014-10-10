@@ -15,6 +15,7 @@
 #import "UINavigationSample.h"
 #import "CDBChangeUserInfoController.h"
 #import "CDBEndorseCell.h"
+#import "CDBMainCell.h"
 #import "CDBAppDelegate.h"
 #import "CDBestieDefines.h"
 #import "tools.h"
@@ -51,6 +52,9 @@
     NSMutableArray *navNick_list;
     NSString *searchS;
     NSSet *FriendSet;
+    
+    CGSize Picsize;
+    CGSize size;
 }
 @property (readwrite)  BOOL show;
 @property (nonatomic,weak) UIImageView *titleLabImage;
@@ -95,8 +99,8 @@
         mysearchBar.placeholder =@"搜索";
         mysearchBar.delegate = self;
         [mysearchBar sizeToFit];
-        self.tableView.tableHeaderView =mysearchBar;
-        self.tableView.contentOffset = CGPointMake(0, CGRectGetHeight(mysearchBar.bounds));
+        //self.tableView.tableHeaderView =mysearchBar;
+        //self.tableView.contentOffset = CGPointMake(0, CGRectGetHeight(mysearchBar.bounds));
         //占坑专用 过后恢复
         //[self addPic];
         /*
@@ -181,7 +185,8 @@
         }
         return;
     }
-    [self getFriendList];
+    //[self getFriendList];
+    [self initHomeData];
 }
 
 -(void)viewDidDisappear:(BOOL)animated
@@ -205,8 +210,11 @@
         return;
     }
     [self performSelector:@selector(showLoading) withObject:nil afterDelay:.3];
-    NSDictionary * parames = @{};
-    [[WebSocketManager instance]sendWithAction:@"endorsement.list_user" parameters:parames callback:^(WSRequest *request, NSDictionary *result){
+    //网络获取瀑布流图片信息（lewcok）
+    ///*
+    [[WebSocketManager instance]sendWithAction:@"album.endorsements" parameters:@{@"count":@"10000"} callback:^(WSRequest *request, NSDictionary *result) {
+        NSLog(@"error_code = %d",request.error_code);
+        NSLog(@"error = %@",request.error);
         if(request.error_code!=0)
         {
             [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
@@ -215,13 +223,17 @@
         }
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(showLoading) object:nil];
         [SVProgressHUD dismiss];
-        [self isChanged:result[@"users"]];
-        if (shouldReload||favorChange) {
-            Endorse_list = result[@"users"];
+        NSArray * medias = result[@"media"];
+        if (medias > 0) {
+            Endorse_list = [NSMutableArray arrayWithArray:medias];
             [self.tableView reloadData];
+        }else{
+            // [self showErrorText:@"没有私密照片"];
         }
-        
+        //[self.view hideIndicatorViewBlueOrGary];
     }];
+    //*/
+
 }
 
 
@@ -484,6 +496,9 @@
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
+    //[tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    //return 3;
+    ///*
     [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     if (tableView == mySearchDisplayController.searchResultsTableView) {
         return [self.filteredPersons count];
@@ -494,24 +509,51 @@
         }
     }
     return 0;
+    //*/
     
 }
 
 - (CGFloat)tableView:(__unused UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    //cell.Pic.frame.size.width
+    SLog(@"%@",Endorse_list);
+    if([Endorse_list count]!=0)
+    {
+    SLog(@"%@",[Endorse_list[indexPath.row] objectForKey:@"width"]);
+    SLog(@"%@",[Endorse_list[indexPath.row] objectForKey:@"height"]);
+    if (![[Endorse_list[indexPath.row] objectForKey:@"height"] isEqual:[NSNull null]]&&![[Endorse_list[indexPath.row] objectForKey:@"width"] isEqual:[NSNull null]]) {
+        CGFloat aFloat = 0;
+        aFloat = [UIScreen mainScreen].bounds.size.width/[[Endorse_list[indexPath.row] objectForKey:@"width"] integerValue];
+        SLog(@"%f",aFloat);
+        SLog(@"%f",[[Endorse_list[indexPath.row] objectForKey:@"height"] integerValue]*aFloat);
+        
+        Picsize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [[Endorse_list[indexPath.row] objectForKey:@"height"] integerValue]*aFloat);
+        
+    }
+    else
+    {
+        Picsize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width);
+    }
+    
     if (isBang) {
         return 90;
     }
     if (tableView == mySearchDisplayController.searchResultsTableView) {
         return 44;
     }
-    return 120.0f;
+    size.width = Picsize.width;
+    size.height = Picsize.height +56.0f;
+    return size.height;
+    }
+    else
+        return 0;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
+    /*
     if ([tableView isEqual:mySearchDisplayController.searchResultsTableView]){
         
     }else
@@ -537,6 +579,7 @@
             [self.navigationController pushViewController:navi animated:YES];
         }
     }
+     */
 }
 -(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -574,179 +617,67 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    CDBEndorseCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CDBEndorseCell" forIndexPath:indexPath];
+    CDBMainCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CDBMainCell" forIndexPath:indexPath];
     if (cell == nil) {
-        cell = [[CDBEndorseCell alloc] init];
+        cell = [[CDBMainCell alloc] init];
     }
     else{
+        [cell.Pic setImage:[UIImage imageNamed:@"shouye_yulantupian"]];
+        /*
         cell.userIcon.image=[UIImage imageNamed:@"left_view_avatar_avatar"];
         cell.userNick.text=nil;
         cell.userInfo.text=nil;
         cell.userGoods.text=nil;
         cell.userLevel.hidden=TRUE;
         cell.favorIcon.hidden =TRUE;
+         */
     }
     
     
-    if (isFavor) {
-        cell.celluid = [[Endorse_list objectAtIndex:indexPath.row] longLongValue] ;
+    ///*
+    //cell.Pic.frame.size.width
+    SLog(@"%@",[Endorse_list[indexPath.row] objectForKey:@"width"]);
+    SLog(@"%@",[Endorse_list[indexPath.row] objectForKey:@"height"]);
+    if (![[Endorse_list[indexPath.row] objectForKey:@"height"] isEqual:[NSNull null]]&&![[Endorse_list[indexPath.row] objectForKey:@"width"] isEqual:[NSNull null]]) {
+        CGFloat aFloat = 0;
+        aFloat = [UIScreen mainScreen].bounds.size.width/[[Endorse_list[indexPath.row] objectForKey:@"width"] integerValue];
+        SLog(@"%f",aFloat);
+        SLog(@"%f",[[Endorse_list[indexPath.row] objectForKey:@"height"] integerValue]*aFloat);
+        
+        Picsize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [[Endorse_list[indexPath.row] objectForKey:@"height"] integerValue]*aFloat);
+        
     }
-    else {
-        cell.celluid = [[[Endorse_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
+    else
+    {
+        Picsize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width);
     }
-    [cell.favorIcon setImage:[UIImage imageNamed:@"daiyan_liebiao_yisoucang"]];
-    if (!isFavor) {
-        if ([self compare:cell.celluid]) {
-            cell.favorIcon.hidden =NO;
+    // */
+    
+    
+    //通过url方式（lewcok）
+    ///*
+    NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[Endorse_list[indexPath.row] objectForKey:@"picture"],(int)Picsize.width*PIC_QUALITY,(int)Picsize.height*PIC_QUALITY];
+    cell.Pic.frame  = CGRectMake(0,0, [UIScreen mainScreen].bounds.size.width,Picsize.height);
+    NSURL *imageURL = [NSURL URLWithString:imageString];
+    //NSURL *imageURL = [NSURL URLWithString:[Endorse_list[indexPath.row] objectForKey:@"picture"]];
+    
+    //[cell.firPic setImageWithURL:imageURL];
+    [cell.Pic setImage:[UIImage imageNamed:@"shouye_yulantupian"]];
+    [[ImageDownloader instanse] startDownload:cell.Pic forUrl:imageURL callback:^(UIView *view, UIImage *image) {
+        if(image)
+        {
+            ((UIImageView*)view).image=image;
         }
-    }
+    }];
     
     
-    NSDictionary * parames = @{@"uid":@(cell.celluid)};
+    NSString *timelbl = [tools timeLabelTextOfTime:[[Endorse_list[indexPath.row] objectForKey:@"time"] longLongValue]];
     
-    [[WebSocketManager instance] sendWithAction:@"user.info2" parameters:parames cdata:GenCdata(12) callback:^(WSRequest *request, NSDictionary *result)
-     {
-         if(request.error_code!=0)
-         {
-             return;
-         }
-         if ([[request.parm valueForKey:@"uid"] longLongValue]!=cell.celluid) {
-             return;
-         }
-         NSLog(@"result = %@",result);
-         [cell.userIcon.layer setCornerRadius:CGRectGetHeight([cell.userIcon bounds]) / 2];
-         cell.userIcon.layer.masksToBounds = YES;
-         cell.iconLayer.hidden =YES;
-         UserInfo2 *userInfo =[[UserInfo2 alloc]initWithJson:result];
-         cell.userNick.text = userInfo.user.nick;
-         if(userInfo.user.headpic){
-             NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",userInfo.user.headpic,(int)cell.userIcon.frame.size.width*PIC_QUALITY,(int)cell.userIcon.frame.size.height*PIC_QUALITY];
-             NSURL *imageURL = [NSURL URLWithString:imageString];
-             if (imageURL) {
-                 [[ImageDownloader instanse] startDownload:cell.userIcon forUrl:imageURL callback:^(UIView *view, id image) {
-                     if(image)
-                     {
-                         ((UIImageView*)view).image=image;
-                     }
-                 }];
-             }else
-             {
-                 [cell.userIcon setImage:[UIImage imageNamed:@"left_view_avatar_avatar"]];
-             }
-         }
-         NSString *user_SEX;
-         NSString *user_JOB;
-         if (userInfo.user.sex == 1) {
-             user_SEX = @"男";
-         }
-         else
-         {
-             user_SEX =@"女";
-         }
-         
-         user_JOB = userInfo.user.job;
-         if (!user_JOB) {
-             user_JOB = @"";
-         }
-         NSString *infoString = nil;
-         if(userInfo.user.birthday)
-         {
-             NSTimeInterval birth = userInfo.user.birthday;
-             NSLog(@"birth = %f",birth);
-             
-             
-             NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-             NSDate *now;
-             NSDateComponents *comps = [[NSDateComponents alloc] init];
-             NSInteger unitFlags =  NSYearCalendarUnit |
-             NSMonthCalendarUnit |
-             NSDayCalendarUnit |
-             NSWeekdayCalendarUnit |
-             NSHourCalendarUnit |
-             NSMinuteCalendarUnit |
-             NSSecondCalendarUnit;
-             now=[NSDate date];
-             comps = [calendar components:unitFlags fromDate:now];
-             
-             NSInteger year = [comps year];
-             
-             int age=year - birth;
-             
-             if (age<0) {
-                 age = abs(age);
-             }
-             if ([user_JOB isEqualToString:@""]) {
-                 user_JOB = @"";
-                 infoString = [NSString stringWithFormat:@"%@",user_SEX];
-             }
-             else{
-                 infoString = [NSString stringWithFormat:@"%@ | %@ ",user_SEX,user_JOB];
-             }
-         }
-         else
-         {
-             if ([user_JOB isEqualToString:@""]) {
-                 user_JOB = @"";
-                 infoString = [NSString stringWithFormat:@"%@",user_SEX];
-             }
-             else{
-                 infoString = [NSString stringWithFormat:@"%@ | %@ ",user_SEX,user_JOB];
-             }
-             
-         }
-         CGSize StringSize = [infoString
-                              sizeWithFont:[UIFont systemFontOfSize:15.0f]
-                              constrainedToSize:cell.userNick.frame.size
-                              lineBreakMode:cell.userNick.lineBreakMode];
-         cell.userNick.frame = CGRectMake(cell.userNick.frame.origin.x,
-                                          cell.userNick.frame.origin.y,
-                                          StringSize.width,
-                                          StringSize.height);
-         cell.userInfo.text = infoString;
-         [cell.userNick sizeToFit];
-         [cell.userInfo sizeToFit];
-         cell.userLevel.userInteractionEnabled = NO;
-         NSArray *tagType = userInfo.endorsement.type;
-         NSString *tagString = nil;
-         for (id obj in tagType) {
-             if (tagString == nil) {
-                 tagString = [NSString stringWithFormat:@"%@",obj];
-             }
-             else
-             {
-                 tagString = [NSString stringWithFormat:@"%@|%@",tagString,obj];
-             }
-         }
-         cell.userGoods.text = tagString;
-         int value = userInfo.endorsement.level;
-         if (value == 0) {
-             [cell.userLevel setBackgroundImage:[UIImage imageNamed:@"daiyan_liebiao_lingjiicon"] forState:UIControlStateNormal];
-             [cell.userLevel setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-         }
-         else
-         {
-             [cell.userLevel setBackgroundImage:[UIImage imageNamed:@"daiyan_liebiao_dengjiicon"] forState:UIControlStateNormal];
-             [cell.userLevel setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-         }
-         
-         CGRect frame = cell.userNick.frame;
-         cell.userLevel.frame =CGRectMake(frame.origin.x+frame.size.width+5, cell.userLevel.frame.origin.y, cell.userLevel.frame.size.width, cell.userLevel.frame.size.height);
-         [cell.userLevel setTitle:[NSString stringWithFormat:@"LV%d",value] forState:UIControlStateNormal];
-         NSLog(@"levelText = %@",[NSString stringWithFormat:@"LV%d",value]);
-         [cell.userLevel.titleLabel sizeToFit];
-         cell.userLevel.titleLabel.textAlignment = NSTextAlignmentCenter;
-         cell.userLevel.hidden=FALSE;
-         [cell.dai_logo  setImage:[UIImage imageNamed:@"daiyan_liebiao_daiyanicon"]];
-         if (isBang) {
-             cell.userInfo.text = [NSString stringWithFormat:@"我的积分:%lld",userInfo.endorsement.endorsement_point];
-             [cell.userInfo sizeToFit];
-             cell.userGoods.hidden =YES;
-             cell.dai_logo.hidden = YES;
-         }
-         
-         
-     }timeout:UserInfo2_TimeOut];
-    return cell;
+    cell.contentlbl.text = [NSString stringWithFormat:@"发表于 %@",timelbl];
+    //cell.contentlbl.text = [Endorse_list[indexPath.row] objectForKey:@"text"];
+    //cell.arealbl.text = [Endorse_list[indexPath.row] objectForKey:@"text"];
+    
+        return cell;
     
     
     
