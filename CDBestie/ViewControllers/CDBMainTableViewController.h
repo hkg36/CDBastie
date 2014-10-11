@@ -15,4 +15,7 @@
 @property (nonatomic) BOOL isBang;
 @property (nonatomic,strong) NSMutableArray *Endorse_assignArray;
 
+@property (nonatomic,strong) NSMutableArray* picDataS;
+@property (nonatomic) NSInteger showCount;
+
 @end

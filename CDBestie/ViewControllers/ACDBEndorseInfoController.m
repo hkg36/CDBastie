@@ -92,6 +92,8 @@
          [self initAlbm];
          NSLog(@"result = %@",result);
          userInfo = [[UserInfo2 alloc]initWithJson:result];
+
+         self.title = userInfo.user.nick;
          [self.tableView reloadData];
      }timeout:UserInfo2_TimeOut];
 }

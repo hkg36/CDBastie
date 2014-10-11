@@ -35,6 +35,15 @@
 #import "CDBFavorViewController.h"
 #import "RWDropdownMenu.h"
 #import "PrivacyViewController.h"
+#import "MJRefresh.h"
+
+#import "UIImage+Resize.h"
+#import "IDMPhoto.h"
+#import "IDMPhotoBrowser.h"
+#import "DataTools.h"
+#import "MJRefresh.h"
+#import "ImageDownloader.h"
+#import "tools.h"
 
 #define PIC_QUALITY (((CDBAppDelegate*)[[UIApplication sharedApplication]delegate]).picQuality)
 
@@ -78,7 +87,7 @@
 @synthesize isBang;
 @synthesize shouldReload,favorChange;
 @synthesize Endorse_assignArray;
-
+@synthesize showCount;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -114,11 +123,21 @@
         [self.webView removeFromSuperview];
         //占坑专用 过后删除
         
+        
+        showCount = 10 ;
+        // 2.集成刷新控件
+        [self addHeader];
+        [self addFooter];
+        self.tableView.footerRefreshingText = [NSString stringWithFormat:@"%@正在帮你加载数据...",APP_NAME];
+        self.tableView.headerRefreshingText = [NSString stringWithFormat:@"%@正在帮你刷新...",APP_NAME];;
+
+        
+        
         UIImage *myInfoImage = [UIImage imageNamed:@"daiyangeren"];
         UIBarButtonItem * myInfoBar = [[UIBarButtonItem alloc] initWithImage:myInfoImage style:UIBarButtonItemStyleDone target:self action:@selector(myInfoShow:)];
         self.navigationItem.rightBarButtonItems = @[myInfoBar];
         [titlelab removeFromSuperview];
-        self.title = @"代言人";
+        self.title = @"照片墙";
         
         NSUserDefaults *defaults =[NSUserDefaults standardUserDefaults];
         NSString *sessionid = [defaults objectForKey:@"SESSION_ID"];
@@ -225,6 +244,7 @@
         [SVProgressHUD dismiss];
         NSArray * medias = result[@"media"];
         if (medias > 0) {
+            self.picDataS = [NSMutableArray arrayWithArray:medias];
             Endorse_list = [NSMutableArray arrayWithArray:medias];
             [self.tableView reloadData];
         }else{
@@ -504,8 +524,9 @@
         return [self.filteredPersons count];
     }
     else{
-        if (Endorse_list) {
-            return [Endorse_list count];
+        if (self.picDataS.count>0) {
+            //return self.imagesArr.count;
+            return showCount;
         }
     }
     return 0;
@@ -553,33 +574,23 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    /*
-    if ([tableView isEqual:mySearchDisplayController.searchResultsTableView]){
-        
-    }else
-    {
-        mysearchBar.text=@"";
-        [mysearchBar resignFirstResponder];
+    ///*
+
         ACDBEndorseInfoController  * navi = [self.storyboard instantiateViewControllerWithIdentifier:@"ACDBEndorseInfoController"];
-        if (isFavor) {
-            navi.userUid =   [[Endorse_list objectAtIndex:indexPath.row] longLongValue];
-        }
-        else{
-            navi.userUid = [[[Endorse_list objectAtIndex:indexPath.row] objectForKey:@"uid"] longLongValue];
-        }
+            navi.userUid = [[Endorse_list[indexPath.row] objectForKey:@"uid"] longLongValue];
         if (myUid == navi.userUid) {
             [self myInfoShow:nil];
         }
         else{
-            CDBEndorseCell *cell =(CDBEndorseCell*) [self.tableView cellForRowAtIndexPath:indexPath];
-            navi.title = cell.userNick.text;
-            if ([self compare:cell.celluid]) {
-                navi.haveFavor = YES;
-            }
+            //CDBMainCell *cell =(CDBMainCell*) [self.tableView cellForRowAtIndexPath:indexPath];
+            //avi.title = cell.userNick;
+            //if ([self compare:cell.celluid]) {
+            //    navi.haveFavor = YES;
+            //}
             [self.navigationController pushViewController:navi animated:YES];
         }
-    }
-     */
+
+     //*/
 }
 -(NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -651,22 +662,21 @@
     {
         Picsize = CGSizeMake([UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.width);
     }
-    // */
-    
-    
-    //通过url方式（lewcok）
-    ///*
+
     NSString *imageString = [NSString stringWithFormat:@"%@\?imageView2/1/w/%i/h/%i",[Endorse_list[indexPath.row] objectForKey:@"picture"],(int)Picsize.width*PIC_QUALITY,(int)Picsize.height*PIC_QUALITY];
     cell.Pic.frame  = CGRectMake(0,0, [UIScreen mainScreen].bounds.size.width,Picsize.height);
     NSURL *imageURL = [NSURL URLWithString:imageString];
-    //NSURL *imageURL = [NSURL URLWithString:[Endorse_list[indexPath.row] objectForKey:@"picture"]];
-    
-    //[cell.firPic setImageWithURL:imageURL];
+
     [cell.Pic setImage:[UIImage imageNamed:@"shouye_yulantupian"]];
     [[ImageDownloader instanse] startDownload:cell.Pic forUrl:imageURL callback:^(UIView *view, UIImage *image) {
         if(image)
         {
             ((UIImageView*)view).image=image;
+            
+            cell.Pic.userInteractionEnabled = YES;
+            UITapGestureRecognizer * ges = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(SeeBigImageClick:)];
+            [cell.Pic addGestureRecognizer:ges];
+            cell.imageCellUrl = [Endorse_list[indexPath.row] objectForKey:@"picture"];
         }
     }];
     
@@ -674,9 +684,24 @@
     NSString *timelbl = [tools timeLabelTextOfTime:[[Endorse_list[indexPath.row] objectForKey:@"time"] longLongValue]];
     
     cell.contentlbl.text = [NSString stringWithFormat:@"发表于 %@",timelbl];
-    //cell.contentlbl.text = [Endorse_list[indexPath.row] objectForKey:@"text"];
-    //cell.arealbl.text = [Endorse_list[indexPath.row] objectForKey:@"text"];
+
+    NSDictionary * parames = @{@"uid":@([[Endorse_list[indexPath.row] objectForKey:@"uid"] longLongValue])};
     
+    [[WebSocketManager instance] sendWithAction:@"user.info2" parameters:parames cdata:GenCdata(12) callback:^(WSRequest *request, NSDictionary *result)
+     {
+         if(request.error_code!=0)
+         {
+             return;
+         }
+         if ([[request.parm valueForKey:@"uid"] longLongValue]!=[[Endorse_list[indexPath.row] objectForKey:@"uid"] longLongValue]) {
+             return;
+         }
+         NSLog(@"result = %@",result);
+         
+         UserInfo2 *userInfo =[[UserInfo2 alloc]initWithJson:result];
+         cell.contentlbl.text = [NSString stringWithFormat:@"%@ 发表于 %@",userInfo.user.nick,timelbl];
+         //cell.userNick = userInfo.user.nick;
+     }timeout:UserInfo2_TimeOut];
         return cell;
     
     
@@ -694,7 +719,7 @@
     
 }
 -(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
-{//搜索条输入文字修改时触发
+{
     [self hiddeErrorText];
     _isSearchBack =YES;
     if ([self isPureInt:searchText]&&[searchText length]<5) {
@@ -862,4 +887,91 @@
     
     [RWDropdownMenu presentFromViewController:self withItems:styleItems align:RWDropdownMenuCellAlignmentCenter style:self.menuStyle navBarImage:nil completion:nil];
 }
+
+
+#pragma mark refresh + loadMore
+-(void)refreshPicArray
+{
+
+    [[WebSocketManager instance]sendWithAction:@"album.endorsements" parameters:@{@"count":@"10000"} callback:^(WSRequest *request, NSDictionary *result) {
+        NSLog(@"error_code = %d",request.error_code);
+        NSLog(@"error = %@",request.error);
+        if(request.error_code!=0)
+        {
+            
+            return;
+        }
+        NSArray * medias = result[@"media"];
+        if (medias > 0) {
+            self.picDataS = [NSMutableArray arrayWithArray:medias];
+            Endorse_list = [NSMutableArray arrayWithArray:medias];
+        }else{
+            // [self showErrorText:@"没有私密照片"];
+        }
+        //[self.view hideIndicatorViewBlueOrGary];
+    }];
+
+    
+}
+
+- (void)addHeader
+{
+    __unsafe_unretained typeof(self) vc = self;
+    [self.tableView addHeaderWithCallback:^{
+        [vc refreshPicArray];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [vc.tableView reloadData];
+            [vc.tableView headerEndRefreshing];
+        });
+    }];
+
+}
+
+- (void)addFooter
+{
+    __unsafe_unretained typeof(self) vc = self;
+    [self.tableView addFooterWithCallback:^{
+        if (vc.showCount>vc.picDataS.count) {
+            [vc.tableView setFooterHidden:YES];
+            return ;
+        }
+        
+        vc.showCount = vc.showCount+10;
+        
+        if (vc.showCount>vc.picDataS.count) {
+            vc.showCount = vc.picDataS.count;
+            [vc.tableView setFooterHidden:YES];
+        }
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [vc.tableView reloadData];
+            [vc.tableView footerEndRefreshing];
+        });
+    }];
+}
+
+-(void) SeeBigImageClick:(id) sender
+{
+    
+    NSLog(@"touch big");
+    UITapGestureRecognizer * ges = sender;
+    UIImageView *buttonSender = (UIImageView *)ges.view;
+    CDBMainCell * cell = (CDBMainCell *)buttonSender.superview.superview.superview;
+    NSLog(@"%@",buttonSender.superview.superview.superview);
+    {
+     IDMPhoto * photo = [IDMPhoto photoWithURL:[NSURL URLWithString:cell.imageCellUrl]];
+     IDMPhotoBrowser *browser = [[IDMPhotoBrowser alloc] initWithPhotos:@[photo] animatedFromView:buttonSender];
+     browser.displayActionButton = NO;
+     browser.displayArrowButton = YES;
+     browser.displayCounterLabel = YES;
+     if (buttonSender.image) {
+     browser.scaleImage = buttonSender.image;
+     }
+     
+     [self presentViewController:browser animated:YES completion:nil];
+     }
+    
+}
+
+
+
 @end

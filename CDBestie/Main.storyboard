@@ -1950,17 +1950,6 @@ b)在使用川妹妹网络服务进行网上交易时，您不可避免的要向
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="火车北站 ｜ 1分钟前" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="AoH-jL-2EF">
-                                            <rect key="frame" x="20" y="184" width="287" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="zhuce_dizhi" id="qL1-84-EVF">
-                                            <rect key="frame" x="2" y="184" width="14" height="18"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
-                                        </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EPr-ZJ-zBq">
                                             <rect key="frame" x="2" y="202" width="310" height="36"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
@@ -1978,8 +1967,6 @@ b)在使用川妹妹网络服务进行网上交易时，您不可避免的要向
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="Pic" destination="oVs-Ap-PWJ" id="vzh-Dl-2rH"/>
-                                    <outlet property="areaPic" destination="qL1-84-EVF" id="eaC-PK-FYb"/>
-                                    <outlet property="arealbl" destination="AoH-jL-2EF" id="0y4-Wj-wZL"/>
                                     <outlet property="contentlbl" destination="EPr-ZJ-zBq" id="rsh-QH-A9l"/>
                                 </connections>
                             </tableViewCell>
@@ -2032,7 +2019,6 @@ b)在使用川妹妹网络服务进行网上交易时，您不可避免的要向
         <image name="userinfo_icon_female_os7" width="18" height="18"/>
         <image name="userinfo_icon_male_os7" width="18" height="18"/>
         <image name="xiangqingye_sixintisi" width="24" height="17"/>
-        <image name="zhuce_dizhi" width="10" height="13"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

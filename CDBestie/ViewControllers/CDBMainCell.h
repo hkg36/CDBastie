@@ -13,5 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *areaPic;
 @property (weak, nonatomic) IBOutlet UILabel *arealbl;
 @property (weak, nonatomic) IBOutlet UILabel *contentlbl;
-
+@property (weak, nonatomic) NSString *imageCellUrl;
+@property (weak, nonatomic) NSString *userNick;
 @end
